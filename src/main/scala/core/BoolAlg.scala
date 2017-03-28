@@ -1,86 +1,90 @@
 package core
 
-import scala.annotation.switch
-import scala.collection.JavaConverters._
 
 /**
   * Created by Mitch on 3/17/2017.
   */
 import Expression._
+import core.Signal.Signal
+
 class Expression(val logic: Array[Token]) {
 
+  def main(args: Array[String]): Unit = {
+    println("did")
+  }
+
   //is there a better way of doing this?
-  lazy val num_inputs:  Int = {
+  lazy val num_inputs: Int = {
     val inputs: Array[Token] = for {
       token <- logic
-      if (0x10 to 0x1F) contains token
+      if is_num(token)
     } yield token - 15
-    inputs.fold(0)(_ max _)
+    inputs.fold((0))(_ max _)
   }
 
   lazy val num_outputs: Int =
     logic.map((t: Token) => token_outputs(t) - token_inputs(t)).sum
 
   def apply(ins: Signal): Signal =
-    logic.foldLeft(List.empty[Token])(step_func(ins))
+    logic.foldLeft(Signal.empty(0))(step_func(ins))
+
+  def ++(that: Expression): Expression = new Expression(this.logic ++ that.logic)
+
+  override def toString: String = {
+    def f(str: String, token: Token): String = token match {
+      case F => str ++ " F"
+      case T => str ++ " T"
+      case N => "(" ++ str ++ " NOT )"
+      case O => "(" ++ str ++ " OR )"
+      case A => "(" ++ str ++ " AND )"
+      case X => "(" ++ str ++ " XOR )"
+      case 0x10 => str ++ " 0"
+      case 0x11 => str ++ " 1"
+      case 0x12 => str ++ " 2"
+      case 0x13 => str ++ " 3"
+    }
+    logic.foldLeft("")(f)
+  }
 }
+
 
 object Expression {
   type Token = Int
-  type Stack  = List[Token]
-  type Signal = List[Token]
+  type Stack = List[Token]
 
-  val F: Token = 0x0
-  val T: Token = 0x1
-  val N: Token = 0x2
-  val O: Token = 0x3
-  val A: Token = 0x4
+  val F: Token = 0x00
+  val T: Token = 0x01
+  val I: Token = 0x02
+  val N: Token = 0x03
+  val O: Token = 0x04
+  val A: Token = 0x05
+  val X: Token = 0x06
 
-  def empty(capacity: Int): Signal = List.fill(capacity)(F)
-
-  private def step_func(ins: List[Token]): (Stack, Token) => Stack = {
+  def step_func(ins: Signal): (Stack, Token) => Stack =
     (stack: Stack, token: Token) => token match {
-      case T => T :: stack
       case F => F :: stack
-      case N => not (stack.head) :: stack.tail
-      case O => or  (stack take 2) :: stack drop 2
-      case A => and (stack take 2) :: stack drop 2
-      case 0x10 => ins(0) :: stack
-      case 0x11 => ins(1) :: stack
-      case 0x12 => ins(2) :: stack
-      case 0x13 => ins(3) :: stack
+      case T => T :: stack
+      case I => stack.head :: stack.tail
+      case N => (stack.head ^ 1) :: stack.tail
+      case O => (stack(0) | stack(1)) :: stack drop 2
+      case A => (stack(0) & stack(1)) :: stack drop 2
+      case X => (stack(0) ^ stack(1)) :: stack drop 2
+      case 0x10 | 0x11 | 0x12 | 0x13 => ins(token - 0x10) :: stack
     }
-  }
 
-  private def token_inputs(token: Token): Int = token match {
-    case T | F => 0
-    case 0 | 1 | 2 | 3 => 0
-    case N => 1
-    case O | A => 2
-  }
+  private val input_map: Array[Int] = Array(
+    0, 0, 1, 1, 2, 2, 2, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0
+  )
+  private def token_inputs(token: Token): Int = input_map(token)
 
   private def token_outputs(token: Token): Int = 1
 
-  private val bools = F :: T :: Nil
-  private def not(t: Token): Token = {
-    require(bools contains t)
-    t ^ 1
-  }
-
-  private def or(t: List[Token]): Token = {
-    require(bools contains t(0))
-    require(bools contains t(1))
-    t(0) | t(1)
-  }
-
-  private def and(t: List[Token]): Token = {
-    require(bools contains t(0))
-    require(bools contains t(1))
-    t(0) & t(1)
-  }
+  def is_num(t: Token):  Boolean = (0xFFFFFFF0 & t) == 0x10 //the 5th bit is on, all higher bits are off
+  def is_bool(t: Token): Boolean = (0xFFFFFFFE & t) == 0 //bits 2 through 32 are off
 }
-
-
 
 
 

@@ -1,9 +1,7 @@
 package core
 
-import javafx.beans.InvalidationListener
-
 import core.MetaCircuit.{Edge, ID}
-import core.Expression.{Signal, empty}
+import core.Signal.Signal
 
 import scala.collection.mutable.HashMap
 
@@ -17,8 +15,8 @@ class Function extends Evaluable with MetaCircuit {
 
   val num_inputs:  Array[Int] = Array.fill(4)(0)
   val num_outputs: Array[Int] = Array.fill(4)(0)
-  val last_inputs:  Array[Signal] = Array.fill(4)(empty(0))
-  val last_outputs: Array[Signal] = Array.fill(4)(empty(0))
+  val last_inputs:  Array[Signal] = Array.fill(4)(Signal.empty(0))
+  val last_outputs: Array[Signal] = Array.fill(4)(Signal.empty(0))
 
   def set_inputs(ins: Array[Signal]): Unit = ???
   def calc_outputs(): Unit = ???

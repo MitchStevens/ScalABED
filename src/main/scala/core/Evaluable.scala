@@ -1,8 +1,6 @@
 package core
 
-import javafx.beans.Observable
-
-import core.Expression.Signal
+import core.Signal.Signal
 
 /**
   * Created by Mitch on 3/18/2017.
@@ -19,3 +17,9 @@ trait Evaluable extends Circuit {
   def calc_outputs(): Unit
 
 }
+
+sealed class EvaluableAction
+  case class Evaluate() extends EvaluableAction {}
+  case class SetInputs(ins: Array[Signal]) extends EvaluableAction {
+    assert(ins.length == 4)
+  }
