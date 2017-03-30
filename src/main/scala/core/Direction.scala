@@ -36,5 +36,4 @@ object Direction {
     case 2 => Coord(0, 1)
     case 3 => Coord(-1, 0)
   }
-
 }

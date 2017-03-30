@@ -61,16 +61,16 @@ object Expression {
   val X: Token = 0x06
 
   def step_func(ins: Signal): (Stack, Token) => Stack =
-    (stack: Stack, token: Token) => token match {
-      case F => F :: stack
-      case T => T :: stack
-      case I => stack.head :: stack.tail
-      case N => (stack.head ^ 1) :: stack.tail
-      case O => (stack(0) | stack(1)) :: stack drop 2
-      case A => (stack(0) & stack(1)) :: stack drop 2
-      case X => (stack(0) ^ stack(1)) :: stack drop 2
-      case 0x10 | 0x11 | 0x12 | 0x13 => ins(token - 0x10) :: stack
-    }
+  (stack: Stack, token: Token) => token match {
+    case F => F :: stack
+    case T => T :: stack
+    case I => stack.head :: stack.tail
+    case N => (stack.head ^ 1) :: stack.tail
+    case O => (stack(0) | stack(1)) :: (stack drop 2)
+    case A => (stack(0) & stack(1)) :: (stack drop 2)
+    case X => (stack(0) ^ stack(1)) :: (stack drop 2)
+    case 0x10 | 0x11 | 0x12 | 0x13 => ins(token - 0x10) :: stack
+  }
 
   private val input_map: Array[Int] = Array(
     0, 0, 1, 1, 2, 2, 2, 0,
