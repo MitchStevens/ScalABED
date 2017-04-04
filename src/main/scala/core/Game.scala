@@ -1,7 +1,5 @@
 package core
 
-import javafx.beans.InvalidationListener
-
 import scala.collection.mutable.HashMap
 
 /**
@@ -11,7 +9,7 @@ import scala.collection.mutable.HashMap
 class Game extends MetaCircuit {
   import MetaCircuit._
 
-  val n: Int = 0
+  val n = 0
   val circuits: HashMap[Coord, Evaluable] = HashMap.empty
   val nodes: HashMap[ID, Evaluable] = HashMap.empty
   val edges: HashMap[Edge, Edge] = HashMap.empty

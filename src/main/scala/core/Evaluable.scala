@@ -24,5 +24,8 @@ trait Evaluable extends Circuit {
   def calc_outputs(): Future[Array[Signal]]
 }
 
-case object Evaluate
-case class SetInput(d: Direction, signal: Signal)
+object Evaluable {
+  case object Evaluate
+  case class GetOutput(d: Direction)
+  case class SetInput(d: Direction, signal: Signal)
+}

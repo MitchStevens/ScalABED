@@ -1,6 +1,6 @@
 package core
 
-import akka.actor.Props
+import akka.actor.{ActorRef, Props}
 import core.Signal.Signal
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -8,7 +8,7 @@ import ExecutionContext.Implicits.global
 /**
   * Created by Mitch on 3/20/2017.
   */
-class Mapping(val num_inputs: Array[Int], val logic: Array[Expression]) extends Evaluable {
+class Mapping private (val num_inputs: Array[Int], val logic: Array[Expression]) extends Evaluable {
   require(logic.length == 4)
 
   val num_outputs: Array[Int] = logic map (_.num_outputs)
@@ -31,17 +31,34 @@ class Mapping(val num_inputs: Array[Int], val logic: Array[Expression]) extends 
     last_outputs
   }
 
+  import Evaluable._
   override def receive = {
     case Evaluate => calc_outputs()
   }
 
-  def props(): Props[] ={
-
+  override def reply = {
+    case GetOutput(d) => last_outputs(d)
   }
 }
 
 
 object Mapping {
+  import Circuit._
 
+  def inst(num_inputs: Array[Int], logic: Array[Expression]): ActorRef = {
+    val props = Props(classOf[Mapping], num_inputs, logic)
+    actor_system.actorOf(props)
+  }
 
 }
+
+
+
+
+
+
+
+
+
+
+//

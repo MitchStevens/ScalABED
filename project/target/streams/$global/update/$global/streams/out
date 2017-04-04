@@ -1,4 +1,4 @@
-[info] Updating {file:/C:/Users/mitch/IdeaProjects/ABED/project/}abed-build...
+[info] Updating {file:/home/mitch/IdeaProjects/ABED/project/}abed-build...
 [debug] :: resolving dependencies :: default#abed-build;0.1-SNAPSHOT
 [debug] 	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool]
 [debug] 	validate = true
@@ -6074,19 +6074,19 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#template-resolver;0.1!template-resolver.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#jline;2.10.6!jline.jar
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.4!jansi.jar
-[debug] :: resolution report :: resolve 2662ms :: artifacts dl 52ms
-[debug] 	report for default#abed-build;0.1-SNAPSHOT compile produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-compile.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT runtime produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-runtime.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT test produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-test.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT provided produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-provided.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT optional produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-optional.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT compile-internal produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-compile-internal.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT runtime-internal produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-runtime-internal.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT test-internal produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-test-internal.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT plugin produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-plugin.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT sources produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-sources.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT docs produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-docs.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT pom produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-pom.xml
-[debug] 	report for default#abed-build;0.1-SNAPSHOT scala-tool produced in C:\Users\mitch\IdeaProjects\ABED\project\target\resolution-cache\reports\default-abed-build-scala-tool.xml
-[debug] 	resolve done (2662ms resolve - 52ms download)
+[debug] :: resolution report :: resolve 1828ms :: artifacts dl 49ms
+[debug] 	report for default#abed-build;0.1-SNAPSHOT compile produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-compile.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT runtime produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-runtime.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT test produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-test.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT provided produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-provided.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT optional produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-optional.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT compile-internal produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-compile-internal.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT runtime-internal produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-runtime-internal.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT test-internal produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-test-internal.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT plugin produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-plugin.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT sources produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-sources.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT docs produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-docs.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT pom produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-pom.xml
+[debug] 	report for default#abed-build;0.1-SNAPSHOT scala-tool produced in /home/mitch/IdeaProjects/ABED/project/target/resolution-cache/reports/default-abed-build-scala-tool.xml
+[debug] 	resolve done (1828ms resolve - 49ms download)
 [info] Done updating.
