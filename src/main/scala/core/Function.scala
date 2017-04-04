@@ -4,6 +4,7 @@ import core.MetaCircuit.{Edge, ID}
 import core.Signal.Signal
 
 import scala.collection.mutable.HashMap
+import scala.concurrent.Future
 
 
 /**
@@ -18,8 +19,8 @@ class Function extends Evaluable with MetaCircuit {
   val last_inputs:  Array[Signal] = Array.fill(4)(Signal.empty(0))
   val last_outputs: Array[Signal] = Array.fill(4)(Signal.empty(0))
 
-  def set_inputs(ins: Array[Signal]): Unit = ???
-  def calc_outputs(): Unit = ???
+  override def set_input(dir: Direction, signal: Signal): Boolean = ???
+  override def calc_outputs(): Future[Array[Signal]] = ???
 
   override def add(kv: (ID, Evaluable)): Boolean = ???
   override def connect(to: Edge, from: Edge): Boolean = ???

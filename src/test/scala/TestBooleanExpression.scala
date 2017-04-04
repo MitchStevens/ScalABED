@@ -5,12 +5,12 @@ import core.Expression
 import org.scalatest.FlatSpec
 
 import core.Expression._
-class ExpressionSpecs extends FlatSpec{
-  import ExpressionSpecs._
+class TestExpression extends FlatSpec{
+  import TestExpression._
 
   "A Token" must "initialise without error" in {
-    val e1 = new Expression(Array(0))
-    val e2 = new Expression(Array(1))
+    val e1 = new Expression(0::Nil)
+    val e2 = new Expression(1::Nil)
   }
 
   it must "have a method is_num that returns true for a number of the form 0x1_ and false otherwise" in {
@@ -86,7 +86,7 @@ class ExpressionSpecs extends FlatSpec{
   }
 }
 
-object ExpressionSpecs {
+object TestExpression {
 
   val ins = F :: T :: F :: T :: Nil
   val exp_true:   Array[Expression] = to_exp_list ("t,f~,t~~,tt~|,11&,10~&,tt|,tf|,ft|,tt|")
@@ -105,12 +105,13 @@ object ExpressionSpecs {
       case '|' => O
       case '&' => A
       case 'x' => X
+      case '_' => Z
       case '0' => 0x10
       case '1' => 0x11
       case '2' => 0x12
       case '3' => 0x13
     }
-    new Expression(str.toCharArray map token_map)
+    new Expression(str.toCharArray map token_map toList)
   }
 
 

@@ -26,6 +26,8 @@ trait MetaCircuit extends Circuit {
 
   def connect(to: Edge, from: Edge): Boolean
   def disconnect(to: Edge, from: Edge): Boolean
+
+  //def evaluate(id: ID): Boolean
 }
 
 object MetaCircuit {

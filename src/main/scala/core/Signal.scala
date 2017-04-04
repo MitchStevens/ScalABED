@@ -8,6 +8,8 @@ import core.Expression._
 object Signal {
   type Signal = List[Token]
 
+  def apply(tokens: Token*): Signal = tokens toList
+
   implicit def toString(signal: Signal): String = {
     val m = Array("F", "T")
     if (signal.length > 0){
