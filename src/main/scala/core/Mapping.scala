@@ -25,7 +25,7 @@ class Mapping private (val num_inputs: Array[Int], val logic: Array[Expression])
 
   import ExecutionContext.Implicits.global
   override def calc_outputs(): Future[Array[Signal]] = Future {
-    val flat_inputs: Signal = last_inputs.flatten.toList;
+    val flat_inputs: Signal = last_inputs.flatten.toList
     for (d <- 0 to 3)
       last_outputs(d) = logic(d)(flat_inputs)
     last_outputs
@@ -34,16 +34,14 @@ class Mapping private (val num_inputs: Array[Int], val logic: Array[Expression])
   import Evaluable._
   override def receive = {
     case Evaluate => calc_outputs()
-  }
-
-  override def reply = {
-    case GetOutput(d) => last_outputs(d)
+    case GetOutput(d) =>
+      last_outputs(d)
   }
 }
 
 
 object Mapping {
-  import Circuit._
+  import ConcurrencyContext._
 
   def inst(num_inputs: Array[Int], logic: Array[Expression]): ActorRef = {
     val props = Props(classOf[Mapping], num_inputs, logic)

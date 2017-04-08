@@ -8,6 +8,3 @@ import akka.actor.{Actor, ActorSystem}
 trait Circuit extends Actor {
 
 }
-object Circuit {
-  val actor_system = ActorSystem("system")
-}
