@@ -1,5 +1,7 @@
 package core
 
+import core.data.Coord
+
 import scala.collection.mutable.HashMap
 
 /**
@@ -26,8 +28,4 @@ class Game extends MetaCircuit {
 
   def next_open(): Option[Coord] =
     Coord.over_square(n) find (circuits.contains)
-
-  override def receive = {
-    case "eval" => {}
-  }
 }

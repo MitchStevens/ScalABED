@@ -1,5 +1,6 @@
 [debug] Other repositories:
 [debug] Default repositories:
+[debug] no default cache defined: set to C:\Users\mitch\.ivy2\cache
 [debug] Using inline dependencies specified in Scala.
 [debug] :: resolving dependencies :: default#abed$sbt_2.10;1.0
 [debug] 	confs: [default]
@@ -1774,9 +1775,9 @@
 [debug] 	[NOT REQUIRED] org.scala-sbt#test-interface;1.0!test-interface.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#apply-macro;0.13.13!apply-macro.jar
 [debug] 	[NOT REQUIRED] org.scala-sbt#template-resolver;0.1!template-resolver.jar
-[debug] :: resolution report :: resolve 3415ms :: artifacts dl 61ms
+[debug] :: resolution report :: resolve 4257ms :: artifacts dl 60ms
 [debug] 	report for default#abed$sbt_2.10;1.0 default produced in C:\Users\mitch\IdeaProjects\ABED\target\resolution-cache\reports\default-abed$sbt_2.10-default.xml
-[debug] 	resolve done (3415ms resolve - 61ms download)
+[debug] 	resolve done (4257ms resolve - 60ms download)
 [debug] Using inline dependencies specified in Scala.
 [debug] :: resolving dependencies :: default#abed$sources_2.10;1.0
 [debug] 	confs: [default]
@@ -2470,6 +2471,6 @@
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.10.6!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-sbt#interface;0.13.13!interface.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-sbt#logging;0.13.13!logging.jar(src)
-[debug] :: resolution report :: resolve 489ms :: artifacts dl 64ms
+[debug] :: resolution report :: resolve 940ms :: artifacts dl 80ms
 [debug] 	report for default#abed$sources_2.10;1.0 default produced in C:\Users\mitch\IdeaProjects\ABED\target\resolution-cache\reports\default-abed$sources_2.10-default.xml
-[debug] 	resolve done (489ms resolve - 64ms download)
+[debug] 	resolve done (940ms resolve - 80ms download)

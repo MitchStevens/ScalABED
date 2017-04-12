@@ -1,6 +1,7 @@
 package core
 
-import core.Signal.Signal
+import core.data.Direction
+import core.data.Signal.Signal
 
 import scala.concurrent.Future
 
@@ -21,11 +22,14 @@ trait Evaluable extends Circuit {
       yield set_input(Direction(i), signals(i))
   } reduce (_ && _)
 
-  def calc_outputs(): Future[Array[Signal]]
+  def calc_outputs(): Unit
 }
 
 object Evaluable {
   case object Evaluate
-  case class GetOutput(d: Direction)
+  case object GetInputs
+  case object GetOutputs
+
   case class SetInput(d: Direction, signal: Signal)
+  case class SetInputs(signals: Array[Signal])
 }

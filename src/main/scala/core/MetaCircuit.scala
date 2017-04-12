@@ -1,6 +1,8 @@
 package core
 
-import scala.collection.mutable.{HashMap}
+import core.data.Direction
+
+import scala.collection.mutable.HashMap
 
 /**
   * Created by Mitch on 3/20/2017.

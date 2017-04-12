@@ -5,7 +5,10 @@ package core
   * Created by Mitch on 3/17/2017.
   */
 import Expression._
-import core.Signal.Signal
+import core.data.Signal
+import core.data.Signal.Signal
+
+import scala.annotation.switch
 
 class Expression(val logic: List[Token]) {
 
@@ -59,7 +62,7 @@ object Expression {
   val Z: Token = 0x07
 
   def step_func(ins: Signal): (Stack, Token) => Stack =
-  (stack: Stack, token: Token) => token match {
+  (stack: Stack, token: Token) => (token: @switch) match {
     case F => F :: stack
     case T => T :: stack
     case I => stack.head :: stack.tail
@@ -69,6 +72,7 @@ object Expression {
     case X => (stack(0) ^ stack(1)) :: (stack drop 2)
     case Z => stack
     case 0x10 | 0x11 | 0x12 | 0x13 => ins(token - 0x10) :: stack
+    case _ => throw new Error("Got unexpected token: $token.")
   }
 
   private val input_map: Array[Int] = Array(
