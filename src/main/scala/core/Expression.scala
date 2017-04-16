@@ -12,8 +12,7 @@ import scala.annotation.switch
 
 class Expression(val logic: List[Token]) {
 
-  //is there a better way of doing this?
-  lazy val num_inputs: Int = {
+  val num_inputs: Int = {
     val inputs = for {
       token <- logic
       if is_num(token)
@@ -21,11 +20,12 @@ class Expression(val logic: List[Token]) {
     inputs.fold((0))(_ max _)
   }
 
-  lazy val num_outputs: Int =
+  val num_outputs: Int =
     logic.map((t: Token) => token_outputs(t) - token_inputs(t)).sum
 
-  def apply(ins: Signal): Signal =
-    logic.foldLeft(Signal.empty(0))(step_func(ins))
+  def apply(ins: Signal): Signal = {
+    println(ins)
+    logic.foldLeft(Signal.empty(0))(step_func(ins))}
 
   def ++(that: Expression): Expression = new Expression(this.logic ++ that.logic)
 
@@ -83,7 +83,7 @@ object Expression {
   )
   private def token_inputs(token: Token): Int = input_map(token)
 
-  private def token_outputs(token: Token): Int = 1
+  private def token_outputs(token: Token): Int = if (token == Z) 0 else 1
 
   def is_num(t: Token):  Boolean = (0xFFFFFFF0 & t) == 0x10 //the 5th bit is on, all higher bits are off
   def is_bool(t: Token): Boolean = (0xFFFFFFFE & t) == 0 //bits 2 through 32 are off

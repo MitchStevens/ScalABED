@@ -14,28 +14,25 @@ class TestMapping extends FlatSpec {
   import scala.concurrent.duration._
   import concurrent.ExecutionContext.Implicits.global
 
-  implicit val timeout = Timeout(5 seconds)
+  implicit val timeout = Timeout(50 millis)
 
 
   "A Mapping" must "initialise without error" in {
-    val m1 = create_mapping("0;0;0;0", "_;_;_;_")
+    val m1: Mapping = create_mapping("0;0;0;0", "_;_;_;_")
   }
+
   it must "model a bus correctly" in {
-    val bus = create_mapping("0;0;0;1", "_;0;_;_");
-    val future = bus ? GetOutputs
-    future onComplete {
-      case _ => println("finished")
-    }
+    val bus: Mapping = create_mapping("0;0;0;1", "_;0;_;_");
+    println(bus.num_inputs)
 
   }
-
 
 }
 
 object TestMapping {
   import TestExpression._
 
-  def create_mapping(ins: Int, outs: Int): ActorRef = {
+  def create_mapping(ins: String, outs: String): Mapping = {
     val num_ins: Array[Int] = ins.split(";") map (_.head.asDigit)
     val exp_array: Array[Expression] = outs.split(";") map to_exp
     new Mapping(num_ins, exp_array)

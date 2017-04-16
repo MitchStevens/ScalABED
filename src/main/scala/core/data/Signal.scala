@@ -22,7 +22,7 @@ object Signal {
 
   def empty(n: Int): Signal = List.fill(F)(n)
 
-  def signals_of_length(n: Int): Seq[Signal] =
+  def all_of_length(n: Int): Seq[Signal] =
     (0 until 1 << n) map int2Signal
 
   def int2Signal(n: Int): Signal =
