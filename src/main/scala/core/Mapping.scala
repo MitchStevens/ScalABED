@@ -4,13 +4,12 @@ import Mapping._
 import akka.actor.ActorRef
 import akka.pattern.ask
 import core.Port.PortType
-
-import core.data.{Direction, Signal}
-import core.data.Signal.Signal
 import core.Port.PortType._
 import core.ConcurrencyContext._
+import core.direction.Direction
+import core.signal.Signal
 
-import scala.concurrent.{Await}
+import scala.concurrent.Await
 import scala.concurrent.duration._
 /**
   * Created by Mitch on 3/20/2017.
@@ -23,7 +22,9 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
   val num_outputs: Array[Int] = logic map (_.num_outputs)
   val last_inputs:  Array[Signal] = num_inputs  map Signal.empty
   val last_outputs: Array[Signal] = num_outputs map Signal.empty
+  println(last_inputs)
   val ports: Array[ActorRef] = create_ports(num_inputs, num_outputs)
+  println(this.repr.mkString("\n"))
   calc_outputs()
 
   override def set_input(d: Direction, signal: Signal): Boolean = {
@@ -69,8 +70,6 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
 object Mapping {
 
   def create_ports(ins: Array[Int], outs: Array[Int]): Array[ActorRef] = {
-    println(ins.mkString(", "))
-    println(outs.mkString(", "))
     for (i <- 0 to 3 toArray)
       yield Port.create(ins(i), outs(i))
   }

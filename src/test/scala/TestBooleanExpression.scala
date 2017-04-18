@@ -4,7 +4,7 @@
 import core.Expression
 import org.scalatest.FlatSpec
 import core.Expression._
-import core.data.Signal
+import core.implicits.Signal
 class TestExpression extends FlatSpec{
   import TestExpression._
 

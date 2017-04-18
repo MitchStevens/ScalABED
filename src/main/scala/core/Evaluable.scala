@@ -1,9 +1,7 @@
 package core
 
-import core.data.Direction
-import core.data.Signal.Signal
-
-import scala.concurrent.Future
+import core.Direction
+import core.Signal
 
 /**
   * Created by Mitch on 3/18/2017.

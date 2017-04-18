@@ -2,12 +2,9 @@ package core
 
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.ask
-
 import core.ConcurrencyContext._
 import core.Port._
 import core.Port.PortType.PortType
-import core.data.Signal
-import core.data.Signal.Signal
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
@@ -49,6 +46,8 @@ class Port(port_type: PortType, capacity: Int) extends Actor {
     case SetValues(signal: Signal) =>
       this.signal = signal
   }
+
+  override def toString: String = s"Port: $port_type -> $capacity"
 }
 
 object Port {

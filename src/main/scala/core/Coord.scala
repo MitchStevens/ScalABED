@@ -1,18 +1,20 @@
+package core
+
+import core.Direction._
+
 /**
-  * Created by Mitch on 3/18/2017.
+  * Created by Mitch on 4/18/2017.
   */
+class Coord (val coord: (Int, Int)) {
+  val x = coord._1
+  val y = coord._2
 
-package core.data
-
-class Coord private(val x: Int, val y: Int) {
-
-
-  def +(that: Coord): Coord = new Coord(x+that.x, y+that.y)
-  def -(that: Coord): Coord = new Coord(x-that.x, y-that.y)
+  def +(that: Coord): Coord = Coord(x+that.x, y+that.y)
+  def -(that: Coord): Coord = Coord(x-that.x, y-that.y)
 
   type OrthoVector = (Direction, Int)
   def trail(list: List[OrthoVector]): List[Coord] = list match {
-    case (d, 0) :: rest => trail(rest)
+    case (_, 0) :: rest => trail(rest)
     case (d, n) :: rest => this :: ((this + d) trail ((d, n-1) :: rest))
     case Nil            => this :: Nil
   }
@@ -22,12 +24,9 @@ class Coord private(val x: Int, val y: Int) {
 }
 
 object Coord {
-  import Direction._
-
   val ORIGIN: Coord = new Coord(0, 0)
-
-  def apply(x: Int, y: Int)  = new Coord(x, y)
-  def apply(pos: (Int, Int)) = new Coord(pos._1, pos._2)
+  def apply(x: Int, y: Int)  = new Coord((x, y))
+  def apply(pos: (Int, Int)) = new Coord(pos)
 
   def over_side(n: Int, d: Direction): Seq[Coord] =
     over_corner(n)(d) trail ((d, n - 1) :: Nil)
