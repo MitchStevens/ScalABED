@@ -7,6 +7,7 @@ package core
 
 import core.Token._
 import Expression._
+import core.Signal.Signal
 
 import scala.annotation.switch
 
@@ -50,16 +51,3 @@ object Expression {
       case _ => throw new Error("Got unexpected token: $token.")
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

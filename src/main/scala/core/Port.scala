@@ -5,6 +5,7 @@ import akka.pattern.ask
 import core.ConcurrencyContext._
 import core.Port._
 import core.Port.PortType.PortType
+import core.Signal.Signal
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
@@ -38,13 +39,14 @@ class Port(port_type: PortType, capacity: Int) extends Actor {
   override def receive = {
     case Capacity => sender ! capacity
     case PortType => sender ! port_type
+    case GetSignal => sender ! signal
     case SetSpouse(actor) =>
       connect(actor)
     case Transmit =>
       if (port_type == PortType.OUT)
-        spouse foreach (_.self ! SetValues(this.signal))
-    case SetValues(signal: Signal) =>
-      this.signal = signal
+        spouse foreach (_.self ! SetSignal(this.signal))
+    case SetSignal(signal: Signal) =>
+        this.signal = signal
   }
 
   override def toString: String = s"Port: $port_type -> $capacity"
@@ -59,8 +61,9 @@ object Port {
 
   case object Capacity
   case object Transmit
+  case object GetSignal
   case class SetSpouse(actor: Actor)
-  case class SetValues(signal: Signal)
+  case class SetSignal(signal: Signal)
 
   private def inst(port_type: PortType, capacity: Int): ActorRef = {
     val props = Props(classOf[Port], port_type, capacity)

@@ -1,14 +1,12 @@
 package core
 
-import core.Coord
-
 /**
   * Created by Mitch on 4/18/2017.
   */
 class Direction private(val n:Int) {
 
-  override def +(x: Direction): Direction = Direction(n+x)
-  override def -(x: Direction): Direction = Direction(n-x)
+  def +(x: Direction): Direction = Direction(n+x)
+  def -(x: Direction): Direction = Direction(n-x)
 
   override def equals(obj: scala.Any): Boolean =
     if (!obj.isInstanceOf[Direction])

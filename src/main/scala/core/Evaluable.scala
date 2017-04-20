@@ -1,7 +1,6 @@
 package core
 
-import core.Direction
-import core.Signal
+import core.Signal.Signal
 
 /**
   * Created by Mitch on 3/18/2017.

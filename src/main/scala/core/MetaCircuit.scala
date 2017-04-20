@@ -1,7 +1,5 @@
 package core
 
-import core.implicits.Direction
-
 import scala.collection.mutable.HashMap
 
 /**

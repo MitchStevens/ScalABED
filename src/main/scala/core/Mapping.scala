@@ -2,12 +2,12 @@ package core
 
 import Mapping._
 import akka.actor.ActorRef
+import akka.actor.Status.Success
 import akka.pattern.ask
-import core.Port.PortType
+import core.Port.{GetSignal, PortType, SetSignal}
 import core.Port.PortType._
 import core.ConcurrencyContext._
-import core.direction.Direction
-import core.signal.Signal
+import core.Signal.Signal
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -22,22 +22,33 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
   val num_outputs: Array[Int] = logic map (_.num_outputs)
   val last_inputs:  Array[Signal] = num_inputs  map Signal.empty
   val last_outputs: Array[Signal] = num_outputs map Signal.empty
-  println(last_inputs)
   val ports: Array[ActorRef] = create_ports(num_inputs, num_outputs)
-  println(this.repr.mkString("\n"))
   calc_outputs()
 
+  def request_inputs {
+    for {
+      i <- 0 to 3
+      if()
+    }
+      for (i <- 0 to 3) {
+        yield Await.result(ports(i) ? GetSignal)
+      }
+      future.onComplete({
+        case Success(signal) => last_inputs()
+      })
+    }
+  }
+
+
   override def set_input(d: Direction, signal: Signal): Boolean = {
-    val same_length = num_inputs(d) == signal.length
-    require(same_length)
-    last_inputs(d) = signal
-    same_length
+    ports(d) ! SetSignal(signal)
   }
 
   override def calc_outputs() {
     val flat_inputs: Signal = last_inputs.flatten.toList
     for (d <- 0 to 3)
       last_outputs(d) = logic(d)(flat_inputs)
+      ports(d) ! SetSignal(last_outputs(d))
   }
 
   def repr: Array[String] = {

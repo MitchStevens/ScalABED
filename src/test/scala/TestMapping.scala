@@ -1,7 +1,6 @@
-import akka.actor.ActorRef
-import akka.pattern.ask
 import akka.util.Timeout
-import core.{Expression, Mapping}
+import core.{Direction, Expression, Mapping, Signal}
+import core.Token._
 import org.scalatest.FlatSpec
 
 
@@ -19,12 +18,80 @@ class TestMapping extends FlatSpec {
 
   "A Mapping" must "initialise without error" in {
     val m1: Mapping = create_mapping("0;0;0;0", "_;_;_;_")
+    for(n <- m1.num_inputs)
+      assert(n == 0)
+    for(n <- m1.num_outputs)
+      assert(n == 0)
   }
 
   it must "model a bus correctly" in {
     val bus: Mapping = create_mapping("0;0;0;1", "_;0;_;_");
-    println(bus.num_inputs)
+    val expected_inputs  = Array(0, 0, 0, 1)
+    val expected_outputs = Array(0, 1, 0, 0)
+    val expected_last_ins  = Array(Signal.empty(0), Signal.empty(0), Signal.empty(0), Signal.empty(1))
+    val expected_last_outs = Array(Signal.empty(0), Signal.empty(1), Signal.empty(0), Signal.empty(0))
 
+    for (i <- 0 to 3) {
+      assert(bus.num_inputs(i)   == expected_inputs(i))
+      assert(bus.num_outputs(i)  == expected_outputs(i))
+      assert(bus.last_inputs(i)  == expected_last_ins(i))
+      assert(bus.last_outputs(i) == expected_last_outs(i))
+    }
+
+    assert(bus.last_inputs.flatten.toList  == F :: Nil)
+    assert(bus.last_outputs.flatten.toList == F :: Nil)
+    bus.set_input(Direction.LEFT, Signal(T))
+    bus.calc_outputs()
+    assert(bus.last_inputs.flatten.toList  == T :: Nil)
+    assert(bus.last_outputs.flatten.toList == T :: Nil)
+  }
+
+  it must "model a not correctly" in {
+    val not: Mapping = create_mapping("0;0;0;1", "_;0~;_;_")
+    val expected_inputs  = Array(0, 0, 0, 1)
+    val expected_outputs = Array(0, 1, 0, 0)
+
+    for (i <- 0 to 3){
+      assert(not.num_inputs(i)   == expected_inputs(i))
+      assert(not.num_outputs(i)  == expected_outputs(i))
+    }
+
+    assert(not.last_inputs.flatten.toList  == F :: Nil)
+    assert(not.last_outputs.flatten.toList == T :: Nil)
+    not.set_input(Direction.LEFT, Signal(T))
+    not.calc_outputs()
+    assert(not.last_inputs.flatten.toList  == T :: Nil)
+    assert(not.last_outputs.flatten.toList == F :: Nil)
+  }
+
+  it must "model an or correctly" in {
+    val or: Mapping = create_mapping("1;0;0;1", "_;01|;_;_")
+    val expected_inputs  = Array(1, 0, 0, 1)
+    val expected_outputs = Array(0, 1, 0, 0)
+
+    for (i <- 0 to 3){
+      assert(or.num_inputs(i)   == expected_inputs(i))
+      assert(or.num_outputs(i)  == expected_outputs(i))
+    }
+
+    assert(or.last_inputs.flatten.toList  == F :: F :: Nil)
+    assert(or.last_outputs.flatten.toList == F :: Nil)
+
+    or.set_input(Direction.LEFT, Signal(T))
+    or.calc_outputs()
+    assert(or.last_inputs.flatten.toList  == F :: T :: Nil)
+    assert(or.last_outputs.flatten.toList == T :: Nil)
+
+    or.set_input(Direction.UP, Signal(T))
+    or.calc_outputs()
+    assert(or.last_inputs.flatten.toList  == T :: T :: Nil)
+    assert(or.last_outputs.flatten.toList == T :: Nil)
+
+  }
+
+  it must "model a half adder correctly" in {
+    val adder: Mapping = create_mapping("1;0;0;1", "_")
+    assert()
   }
 
 }
@@ -35,6 +102,7 @@ object TestMapping {
   def create_mapping(ins: String, outs: String): Mapping = {
     val num_ins: Array[Int] = ins.split(";") map (_.head.asDigit)
     val exp_array: Array[Expression] = outs.split(";") map to_exp
+    println(s"new Mapping(${num_ins.mkString(",")}, ${exp_array.mkString(", ")})")
     new Mapping(num_ins, exp_array)
   }
 
