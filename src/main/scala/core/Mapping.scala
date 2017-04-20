@@ -26,21 +26,16 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
   calc_outputs()
 
   def request_inputs {
-    for {
-      i <- 0 to 3
-      if()
-    }
-      for (i <- 0 to 3) {
-        yield Await.result(ports(i) ? GetSignal)
-      }
-      future.onComplete({
-        case Success(signal) => last_inputs()
-      })
-    }
+    for (i <- 0 to 3)
+      last_inputs(i) = Await.result(ports(i) ? GetSignal, 50 millis).asInstanceOf[Signal]
   }
 
+  def send_outputs {
+    for(i <- 0 to 3)
+      ports(i) ! SetSignal(last_outputs(i))
+  }
 
-  override def set_input(d: Direction, signal: Signal): Boolean = {
+  def set_input(d: Direction, signal: Signal): Boolean = {
     ports(d) ! SetSignal(signal)
   }
 

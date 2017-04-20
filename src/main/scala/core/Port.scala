@@ -45,8 +45,11 @@ class Port(port_type: PortType, capacity: Int) extends Actor {
     case Transmit =>
       if (port_type == PortType.OUT)
         spouse foreach (_.self ! SetSignal(this.signal))
-    case SetSignal(signal: Signal) =>
+    case SetSignal(signal) =>
+      if(port_type == PortType.OUT){
         this.signal = signal
+        self ! Transmit
+      }
   }
 
   override def toString: String = s"Port: $port_type -> $capacity"
