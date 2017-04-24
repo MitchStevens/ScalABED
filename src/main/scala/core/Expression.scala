@@ -5,9 +5,10 @@ package core
   * Created by Mitch on 3/17/2017.
   */
 
-import core.Token._
+import core.types.Token._
 import Expression._
-import core.Signal.Signal
+import core.types.Signal
+import core.types.Signal.Signal
 
 import scala.annotation.switch
 

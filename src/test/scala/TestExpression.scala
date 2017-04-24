@@ -3,11 +3,11 @@
   * Created by Mitch on 30/01/2017.
   */
 import org.scalatest.FlatSpec
-import core.{Expression, Signal}
+import core.Expression
 import core.Expression._
-import core.Token._
-
+import core.types.Token._
 import TestExpression._
+import core.types.Signal
 
 class TestExpression extends FlatSpec{
 
@@ -122,7 +122,7 @@ object TestExpression {
       case '~' => N
       case '|' => O
       case '&' => A
-      case 'x' => X
+      case '^' => X
       case '_' => Z
       case '0' => 0x10
       case '1' => 0x11

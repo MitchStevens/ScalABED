@@ -1,6 +1,8 @@
 import akka.util.Timeout
-import core.{Direction, Expression, Mapping, Signal}
-import core.Token._
+import core.types.{Direction, Signal}
+import core.{Expression, Mapping}
+import core.types.Token._
+import core.ConcurrencyContext._
 import org.scalatest.FlatSpec
 
 
@@ -10,11 +12,9 @@ import org.scalatest.FlatSpec
 class TestMapping extends FlatSpec {
   import TestMapping._
   import core.Evaluable._
+  import core.types.Direction._
   import scala.concurrent.duration._
   import concurrent.ExecutionContext.Implicits.global
-
-  implicit val timeout = Timeout(50 millis)
-
 
   "A Mapping" must "initialise without error" in {
     val m1: Mapping = create_mapping("0;0;0;0", "_;_;_;_")
@@ -90,8 +90,7 @@ class TestMapping extends FlatSpec {
   }
 
   it must "model a half adder correctly" in {
-    val adder: Mapping = create_mapping("1;0;0;1", "_")
-    assert()
+    val adder: Mapping = create_mapping("1;0;0;1", "_;01^;01&;_")
   }
 
 }

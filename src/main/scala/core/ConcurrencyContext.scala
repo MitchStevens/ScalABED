@@ -9,5 +9,7 @@ import scala.concurrent.duration._
   */
 object ConcurrencyContext {
   implicit val actor_system = ActorSystem("system")
-  implicit val timeout = Timeout(1 seconds)
+
+  val future_wait: FiniteDuration = 1000 millis
+  implicit val timeout = Timeout(future_wait)
 }
