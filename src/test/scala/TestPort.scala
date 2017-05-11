@@ -93,7 +93,6 @@ class TestPort extends FlatSpec{
     port_out ! DisconnectFrom(port_in)
     Thread.sleep(2)
 
-
     assert(Await.result(port_in ? GetInput, future_wait) == Signal(F, F, F, F))
     assert(Await.result(port_out ? GetOutput, future_wait) == Signal(T, T, T, F))
   }

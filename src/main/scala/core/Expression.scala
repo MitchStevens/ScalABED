@@ -51,4 +51,21 @@ object Expression {
       case 0x10 | 0x11 | 0x12 | 0x13 => ins(token - 0x10) :: stack
       case _ => throw new Error("Got unexpected token: $token.")
     }
+
+  def to_exp(str: String): Expression = {
+    def token_map(c: Char): Token = c match {
+      case 'F' => F
+      case 'T' => T
+      case '~' => N
+      case '|' => O
+      case '&' => A
+      case '^' => X
+      case '_' => Z
+      case '0' => 0x10
+      case '1' => 0x11
+      case '2' => 0x12
+      case '3' => 0x13
+    }
+    new Expression(str.toCharArray map token_map toList)
+  }
 }

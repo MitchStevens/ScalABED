@@ -54,7 +54,18 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
 
 
 object Mapping {
+  import Expression._
 
+  val BUS: Mapping = create_mapping("0,0,0,1", "_,0,_,_")
+  val NOT: Mapping = create_mapping("0,0,0,1", "_,0~,_,_")
+  val OR:  Mapping = create_mapping("1,0,0,1", "_,01|,_,_")
+  val AND: Mapping = create_mapping("1,0,0,1", "_,01&,_,_")
+
+  def create_mapping(ins: String, outs: String): Mapping = {
+    val num_ins: Array[Int] = ins.split(",") map (_.head.asDigit)
+    val exp_array: Array[Expression] = outs.split(",") map to_exp
+    new Mapping(num_ins, exp_array)
+  }
 }
 
 

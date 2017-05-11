@@ -10,10 +10,10 @@ import org.scalatest.FlatSpec
   * Created by Mitch on 3/30/2017.
   */
 class TestMapping extends FlatSpec {
-  import TestMapping._
+  import Mapping._
 
   "A Mapping" must "initialise without error" in {
-    val m1: Mapping = create_mapping("0;0;0;0", "_;_;_;_")
+    val m1: Mapping = create_mapping("0,0,0,0", "_,_,_,_")
     for(n <- m1.num_inputs)
       assert(n == 0)
     for(n <- m1.num_outputs)
@@ -21,7 +21,7 @@ class TestMapping extends FlatSpec {
   }
 
   it must "model a bus correctly" in {
-    val bus: Mapping = create_mapping("0;0;0;1", "_;0;_;_");
+    val bus: Mapping = create_mapping("0,0,0,1", "_,0,_,_");
     val expected_inputs  = Array(0, 0, 0, 1)
     val expected_outputs = Array(0, 1, 0, 0)
     val expected_last_ins  = Array(Signal.empty(0), Signal.empty(0), Signal.empty(0), Signal.empty(1))
@@ -43,7 +43,7 @@ class TestMapping extends FlatSpec {
   }
 
   it must "model a not correctly" in {
-    val not: Mapping = create_mapping("0;0;0;1", "_;0~;_;_")
+    val not: Mapping = create_mapping("0,0,0,1", "_,0~,_,_")
     val expected_inputs  = Array(0, 0, 0, 1)
     val expected_outputs = Array(0, 1, 0, 0)
 
@@ -61,7 +61,7 @@ class TestMapping extends FlatSpec {
   }
 
   it must "model an or correctly" in {
-    val or: Mapping = create_mapping("1;0;0;1", "_;01|;_;_")
+    val or: Mapping = create_mapping("1,0,0,1", "_,01|,_,_")
     val expected_inputs  = Array(1, 0, 0, 1)
     val expected_outputs = Array(0, 1, 0, 0)
 
@@ -86,19 +86,11 @@ class TestMapping extends FlatSpec {
   }
 
   it must "model a half adder correctly" in {
-    val adder: Mapping = create_mapping("1;0;0;1", "_;01^;01&;_")
+    val adder: Mapping = create_mapping("1,0,0,1", "_,01^,01&,_")
   }
 
 }
 
 object TestMapping {
-  import TestExpression._
-
-  def create_mapping(ins: String, outs: String): Mapping = {
-    val num_ins: Array[Int] = ins.split(";") map (_.head.asDigit)
-    val exp_array: Array[Expression] = outs.split(";") map to_exp
-    println(s"new Mapping(${num_ins.mkString(",")}, ${exp_array.mkString(", ")})")
-    new Mapping(num_ins, exp_array)
-  }
 
 }

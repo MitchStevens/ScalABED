@@ -32,7 +32,7 @@ trait MesaCircuit extends Circuit {
   def connect(from: Edge, to: Edge): Boolean
   def disconnect(from: Edge, to: Edge): Boolean
 
-  //def evaluate(id: ID): Boolean
+  def size: Int = nodes.size
 }
 
 object MesaCircuit {

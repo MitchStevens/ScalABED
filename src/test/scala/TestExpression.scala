@@ -105,32 +105,11 @@ class TestExpression extends FlatSpec{
 object TestExpression {
 
   val ins = F :: T :: F :: T :: Nil
-  val exp_true:   Array[Expression] = to_exp_list ("T,F~,T~~,TT~|,1,11&,10~&,TT|,TF|,FT|,TT|")
-  val exp_false:  Array[Expression] = to_exp_list ("F,T~,F~~,FT&,01&,0,0F|,FT&,FF&")
+  val exp_true:   Array[Expression] = "T,F~,T~~,TT~|,1,11&,10~&,TT|,TF|,FT|,TT|".split(",") map to_exp
+  val exp_false:  Array[Expression] = "F,T~,F~~,FT&,01&,0,0F|,FT&,FF&".split(",") map to_exp
   val exp_single: Array[Expression] = exp_true ++ exp_false
-  val exp_other:  Array[Expression] = to_exp_list ("T,F,TTFT,0,1,0121,0~,01|,TTTTT|||&")
+  val exp_other:  Array[Expression] = "T,F,TTFT,0,1,0121,0~,01|,TTTTT|||&".split(",") map to_exp
   val exp_all:    Array[Expression] = exp_true ++ exp_false ++ exp_other
 
-  val eval_zero_inputs = to_exp_list("T,F,TTT,F,F~,TFTF&")
-
-  def to_exp_list(str: String): Array[Expression] = str split "," map to_exp
-
-  def to_exp(str: String): Expression = {
-    def token_map(c: Char): Token = c match {
-      case 'F' => F
-      case 'T' => T
-      case '~' => N
-      case '|' => O
-      case '&' => A
-      case '^' => X
-      case '_' => Z
-      case '0' => 0x10
-      case '1' => 0x11
-      case '2' => 0x12
-      case '3' => 0x13
-    }
-    new Expression(str.toCharArray map token_map toList)
-  }
-
-
+  val eval_zero_inputs: Array[Expression] = "T,F,TTT,F,F~,TFTF&".split(",") map to_exp
 }
