@@ -11,10 +11,6 @@ import org.scalatest.FlatSpec
   */
 class TestMapping extends FlatSpec {
   import TestMapping._
-  import core.Evaluable._
-  import core.types.Direction._
-  import scala.concurrent.duration._
-  import concurrent.ExecutionContext.Implicits.global
 
   "A Mapping" must "initialise without error" in {
     val m1: Mapping = create_mapping("0;0;0;0", "_;_;_;_")

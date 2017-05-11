@@ -31,7 +31,7 @@ class Port(port_type: PortType, capacity: Int) extends Actor {
   def connection_precondition(port: ActorRef): Future[Boolean] = {
     def capacity_condition(other_capacity: Any): Boolean = {this.capacity == other_capacity}
     def port_type_condition(other_type: Any): Boolean = this.port_type match {
-      case PortType.IN  => other_type == PortType.OUT
+      case PortType.IN  => false
       case PortType.OUT => other_type == PortType.IN
       case PortType.UNUSED => false
     }
@@ -52,6 +52,7 @@ class Port(port_type: PortType, capacity: Int) extends Actor {
     if (has_connection){
       port ! RemoveSpouse
       this.remove_spouse()
+      set_input(Signal.empty(capacity))
     }
     has_connection
   }

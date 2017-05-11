@@ -8,6 +8,8 @@ class Direction private(val n:Int) {
   def +(x: Direction): Direction = Direction(n+x)
   def -(x: Direction): Direction = Direction(n-x)
 
+  override def toString: String = List("UP", "RIGHT", "DOWN", "LEFT")(n)
+
   override def equals(obj: scala.Any): Boolean =
     if (!obj.isInstanceOf[Direction])
       false
@@ -23,7 +25,7 @@ object Direction {
   val DOWN  = new Direction(2)
   val LEFT  = new Direction(3)
 
-  def apply(n: Int) = new Direction(n%3)
+  def apply(n: Int) = new Direction(n&3)
 
   val values: List[Direction] =
     List(UP, RIGHT, DOWN, LEFT)
