@@ -1,5 +1,5 @@
+import core.circuit.{Function, Input, Mapping, Output}
 import org.scalatest.FlatSpec
-import core.{Function, Mapping}
 
 /**
   * Created by Mitch on 5/12/2017.
@@ -21,8 +21,8 @@ class TestFunction extends FlatSpec {
 
   it must "simulate the simplest circuit" in {
     val f: Function = new Function()
-    f add ("input" -> Mapping.BUS)
-    f add ("output" -> Mapping.)
+    f add ("input"  -> new Input(1))
+    f add ("output" -> new Output(1))
   }
 
 }

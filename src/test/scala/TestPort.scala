@@ -1,14 +1,11 @@
 import akka.actor.ActorRef
 import akka.pattern.ask
-import core.Port._
-import core.{Mapping, Port}
 import core.ConcurrencyContext._
+import core.circuit.Port
+import core.circuit.Port.PortType
 import core.types.Token._
 import core.types.Signal
-import core.types.Signal.Signal
 import org.scalatest.FlatSpec
-
-import scala.concurrent.{Await, Future}
 
 /**
   * Created by Mitch on 4/23/2017.
@@ -16,85 +13,75 @@ import scala.concurrent.{Await, Future}
 class TestPort extends FlatSpec{
 
   "A Port" must "initialise without error" in {
-    val port: ActorRef = Port.inst(PortType.UNUSED, 0)
+    val port: Port = new Port(PortType.UNUSED, 0)
   }
 
   it must "return the correct capacity" in {
     for (i <- 1 to 8){
-      val port: ActorRef = Port.inst(PortType.IN, i)
-      assert(Await.result(port ? Capacity, future_wait) == i)
+      val port: Port = new Port(PortType.IN, i)
+      assert(port.capacity == i)
     }
   }
 
   it must "return the correct PortType" in {
-    val port_in:     ActorRef = Port.inst(PortType.IN, 1)
-    val port_out:    ActorRef = Port.inst(PortType.OUT, 1)
-    val port_unused: ActorRef = Port.inst(PortType.UNUSED, 0)
-    assert(Await.result(port_in ? PortType,     future_wait) == PortType.IN)
-    assert(Await.result(port_out ? PortType,    future_wait) == PortType.OUT)
-    assert(Await.result(port_unused ? PortType, future_wait) == PortType.UNUSED)
+    val port_in:     Port = new Port(PortType.IN, 1)
+    val port_out:    Port = new Port(PortType.OUT, 1)
+    val port_unused: Port = new Port(PortType.UNUSED, 0)
+    assert(port_in.port_type     == PortType.IN)
+    assert(port_out.port_type    == PortType.OUT)
+    assert(port_unused.port_type == PortType.UNUSED)
   }
 
   it must "get the input in a timely manner" in {
     val signal_length: Int = 8
-    val port_out: ActorRef = Port.inst(PortType.OUT, signal_length)
+    val port_out: Port = new Port(PortType.OUT, signal_length)
     for (signal <- Signal.all_of_length(signal_length)){
-      port_out ! SetOutput(signal)
-      val future = port_out ? GetOutput
-      assert(Await.result(future, future_wait) == signal)
+      port_out.set_output(signal)
+      assert(port_out.get_output == signal)
     }
   }
 
   it must "connect to port of the same capacity and opposing port types" in {
     for (i <- 1 to 8) {
-      val port_in:  ActorRef = Port.inst(PortType.IN, i)
-      val port_out: ActorRef = Port.inst(PortType.OUT, i)
-      val connection_status = port_out ? ConnectTo(port_in)
-      assert(Await.result(connection_status, future_wait) == true)
+      val port_in:  Port = new Port(PortType.IN, i)
+      val port_out: Port = new Port(PortType.OUT, i)
+     assert(port_out.connect_to(port_in) == true)
     }
   }
 
   it must "not allow connections to buses that do not pass connection criteria" in {
-    val port0: ActorRef = Port.inst(PortType.IN, 1)
-    val port1: ActorRef = Port.inst(PortType.OUT, 2)
-    val port2: ActorRef = Port.inst(PortType.UNUSED, 0)
+    val port0: Port = new Port(PortType.IN, 1)
+    val port1: Port = new Port(PortType.OUT, 2)
+    val port2: Port = new Port(PortType.UNUSED, 0)
     val ports = List(port0, port1, port2)
     for {
       p1 <- ports
       p2 <- ports
-    } {
-      val connection_status = p1 ? ConnectTo(p2)
-      assert(Await.result(connection_status, future_wait) == false)
-    }
+    } assert(p1.connect_to(p2) == false)
 
   }
 
   it must "provide full connection, transmitting, disconnection functionality" in {
-    val port_in:  ActorRef = Port.inst(PortType.IN, 4)
-    val port_out: ActorRef = Port.inst(PortType.OUT, 4)
+    val port_in:  Port = new Port(PortType.IN, 4)
+    val port_out: Port = new Port(PortType.OUT, 4)
 
-    assert(Await.result(port_in ? GetInput, future_wait) == Signal(F, F, F, F))
-    assert(Await.result(port_out ? GetOutput, future_wait) == Signal(F, F, F, F))
+    assert(port_in.get_input   == Signal(F, F, F, F))
+    assert(port_out.get_output == Signal(F, F, F, F))
 
-    port_out ! ConnectTo(port_in)
-    Thread.sleep(2)
+    port_out connect_to port_in
 
-    val port_in_spouse  = Await.result(port_in  ? GetSpouse, future_wait).asInstanceOf[Option[ActorRef]]
-    val port_out_spouse = Await.result(port_out ? GetSpouse, future_wait).asInstanceOf[Option[ActorRef]]
-    assert(port_in_spouse.isDefined)
-    assert(port_out_spouse.isDefined)
+    assert(port_in.get_spouse.isDefined)
+    assert(port_out.get_spouse.isDefined)
 
-    port_out ? SetOutput(Signal(T, T, T, F))
-    Thread.sleep(2) //Need to sleep for the
+    port_out.set_output(Signal(T, T, T, F))
 
-    assert(Await.result(port_in ? GetInput, future_wait) == Signal(T, T, T, F))
-    assert(Await.result(port_out ? GetOutput, future_wait) == Signal(T, T, T, F))
+    assert(port_in.get_input   == Signal(T, T, T, F))
+    assert(port_out.get_output == Signal(T, T, T, F))
 
-    port_out ! DisconnectFrom(port_in)
-    Thread.sleep(2)
+    port_out disconnect_from port_in
 
-    assert(Await.result(port_in ? GetInput, future_wait) == Signal(F, F, F, F))
-    assert(Await.result(port_out ? GetOutput, future_wait) == Signal(T, T, T, F))
+    assert(port_in.get_input   == Signal(F, F, F, F))
+    assert(port_out.get_output == Signal(T, T, T, F))
   }
 
 }

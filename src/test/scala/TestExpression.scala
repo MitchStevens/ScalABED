@@ -3,11 +3,10 @@
   * Created by Mitch on 30/01/2017.
   */
 import org.scalatest.FlatSpec
-import core.Expression
-import core.Expression._
+import core.types.Expression._
 import core.types.Token._
 import TestExpression._
-import core.types.Signal
+import core.types.{Expression, Signal}
 
 class TestExpression extends FlatSpec{
 
@@ -60,20 +59,20 @@ class TestExpression extends FlatSpec{
 
   it must "calculate basic boolean algebra functions" in {
     //Not function
-    assert( to_exp("T~")(ins).head == F, ". T~ should have eval'ed to F")
-    assert( to_exp("F~")(ins).head == T, ". F~ should have eval'ed to T")
+    assert( new Expression("T~")(ins).head == F, ". T~ should have eval'ed to F")
+    assert( new Expression("F~")(ins).head == T, ". F~ should have eval'ed to T")
 
     //Or function
-    assert( to_exp("TT|")(ins).head == T, ". TT| should have eval'ed to T")
-    assert( to_exp("TF|")(ins).head == T, ". TF| should have eval'ed to T")
-    assert( to_exp("FT|")(ins).head == T, ". FT| should have eval'ed to T")
-    assert( to_exp("FF|")(ins).head == F, ". FF| should have eval'ed to F")
+    assert( new Expression("TT|")(ins).head == T, ". TT| should have eval'ed to T")
+    assert( new Expression("TF|")(ins).head == T, ". TF| should have eval'ed to T")
+    assert( new Expression("FT|")(ins).head == T, ". FT| should have eval'ed to T")
+    assert( new Expression("FF|")(ins).head == F, ". FF| should have eval'ed to F")
 
     //And function
-    assert( to_exp("TT&")(ins).head == T, ". TT& should have eval'ed to T")
-    assert( to_exp("TF&")(ins).head == F, ". TF& should have eval'ed to F")
-    assert( to_exp("FT&")(ins).head == F, ". FT& should have eval'ed to F")
-    assert( to_exp("FF&")(ins).head == F, ". FF& should have eval'ed to F")
+    assert( new Expression("TT&")(ins).head == T, ". TT& should have eval'ed to T")
+    assert( new Expression("TF&")(ins).head == F, ". TF& should have eval'ed to F")
+    assert( new Expression("FT&")(ins).head == F, ". FT& should have eval'ed to F")
+    assert( new Expression("FF&")(ins).head == F, ". FF& should have eval'ed to F")
   }
 
   it must "calculate the 'and' function correctly" in {
@@ -82,7 +81,7 @@ class TestExpression extends FlatSpec{
       exp2 <- exp_single
     } {
       val t1: Token = exp1(ins)(0) & exp2(ins)(0)
-      val t2: Token = (exp1 ++ exp2 ++ to_exp("&")) (ins)(0)
+      val t2: Token = (exp1 ++ exp2 ++ new Expression("&")) (ins)(0)
       assert(t1 == t2, exp1.toString ++ ". " ++ exp2.toString)
     }
   }
@@ -105,11 +104,11 @@ class TestExpression extends FlatSpec{
 object TestExpression {
 
   val ins = F :: T :: F :: T :: Nil
-  val exp_true:   Array[Expression] = "T,F~,T~~,TT~|,1,11&,10~&,TT|,TF|,FT|,TT|".split(",") map to_exp
-  val exp_false:  Array[Expression] = "F,T~,F~~,FT&,01&,0,0F|,FT&,FF&".split(",") map to_exp
+  val exp_true:   Array[Expression] = "T,F~,T~~,TT~|,1,11&,10~&,TT|,TF|,FT|,TT|".split(",") map (new Expression(_))
+  val exp_false:  Array[Expression] = "F,T~,F~~,FT&,01&,0,0F|,FT&,FF&".split(",") map (new Expression(_))
   val exp_single: Array[Expression] = exp_true ++ exp_false
-  val exp_other:  Array[Expression] = "T,F,TTFT,0,1,0121,0~,01|,TTTTT|||&".split(",") map to_exp
+  val exp_other:  Array[Expression] = "T,F,TTFT,0,1,0121,0~,01|,TTTTT|||&".split(",") map (new Expression(_))
   val exp_all:    Array[Expression] = exp_true ++ exp_false ++ exp_other
 
-  val eval_zero_inputs: Array[Expression] = "T,F,TTT,F,F~,TFTF&".split(",") map to_exp
+  val eval_zero_inputs: Array[Expression] = "T,F,TTT,F,F~,TFTF&".split(",") map (new Expression(_))
 }
