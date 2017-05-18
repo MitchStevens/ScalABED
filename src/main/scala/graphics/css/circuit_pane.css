@@ -1,0 +1,24 @@
+#circuit_pane {
+    -fx-alignment: center;
+    -fx-grid-lines-visible: true;
+    -fx-background-color: red;
+}
+
+#circuit_pane .square {
+    -fx-background-color: navajowhite;
+    -fx-border-width: 1px;
+    -fx-border-color: green;
+    -fx-border-style: dashed;
+}
+
+#circuit_pane .square:edge {
+    background-color: aquamarine;
+}
+
+#circuit_pane .square:corner {
+    background: black;
+}
+
+#circuit_pane .chevron {
+    -fx-background-color: beige;
+}

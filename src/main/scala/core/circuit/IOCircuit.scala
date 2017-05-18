@@ -7,6 +7,7 @@ import core.types.Signal.Signal
   */
 trait IOCircuit {
 
+  val port: Port
   def values: Signal
 
 }

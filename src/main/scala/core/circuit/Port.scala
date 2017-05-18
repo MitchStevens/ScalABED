@@ -14,23 +14,12 @@ class Port(val port_type: PortType, val capacity: Int) {
   def connect_to(port: Port): Boolean = {
     if (this eq port) return false
 
-    val cond = connection_precondition(port)
+    val cond = connection_precondition(this, port)
     if (cond){
       this.spouse = Some(port)
       port.set_spouse(this)
     }
     cond
-  }
-
-  def connection_precondition(port: Port): Boolean = {
-    def capacity_condition(other_capacity: Any): Boolean = {this.capacity == other_capacity}
-    def port_type_condition(other_type: Any): Boolean = this.port_type match {
-      case PortType.IN  => false
-      case PortType.OUT => other_type == PortType.IN
-      case PortType.UNUSED => false
-    }
-
-    capacity_condition(port.capacity) && port_type_condition(port.port_type)
   }
 
   def disconnect_from(port: Port): Boolean = {
@@ -47,7 +36,9 @@ class Port(val port_type: PortType, val capacity: Int) {
   }
 
   def get_spouse: Option[Port] = this.spouse
-  def set_spouse(spouse: Port) = {this.spouse = Some(spouse)}
+  def set_spouse(spouse: Port): Unit =
+    this.spouse = Some(spouse)
+
   def remove_spouse() {
     this.spouse = None
     if (is_input)
@@ -79,6 +70,13 @@ class Port(val port_type: PortType, val capacity: Int) {
   def is_output: Boolean = {port_type == PortType.OUT}
 
   override def toString: String = s"Port: $port_type -> $capacity"
+
+  override def equals(obj: Any): Boolean =
+    obj match {
+      case that: Port =>
+        (that.capacity == this.capacity) && (that.port_type == this.port_type)
+      case _ => false
+    }
 }
 
 object Port {
@@ -96,5 +94,13 @@ object Port {
     else if (ins == 0 && outs == 0)
       new Port(PortType.UNUSED, 0)
     else throw new Error(s"Couldn't create a port with $ins inputs and $outs outputs.")
+  }
+
+  private def connection_precondition(p1: Port, p2: Port): Boolean = {
+    val capacity_condition: Boolean = {p1.capacity == p2.capacity}
+    val port_type_condition: Boolean =
+      p1.port_type == PortType.OUT && p2.port_type == PortType.IN
+
+    capacity_condition && port_type_condition
   }
 }

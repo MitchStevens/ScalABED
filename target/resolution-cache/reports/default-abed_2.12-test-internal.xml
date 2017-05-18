@@ -7,7 +7,7 @@
 		revision="1.0"
 		conf="test-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20170406222234"/>
+		date="20170516230401"/>
 	<dependencies>
 		<module organisation="org.scalatest" name="scalatest_2.12">
 			<revision name="3.0.1" status="release" pubdate="20161110165252" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="6">
@@ -123,6 +123,13 @@
 					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5272325" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-lang\scala-library\jars\scala-library-2.12.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.1/scala-library-2.12.1.jar"/>
 					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalafx" name="scalafx_2.12">
+			<revision name="8.0.92-R10" error="not found" downloaded="false" searched="false" conf="default(compile)" position="-1">
+				<caller organisation="default" name="abed_2.12" conf="test, compile, provided, test-internal, runtime, optional" rev="8.0.92-R10" rev-constraint-default="8.0.92-R10" rev-constraint-dynamic="8.0.92-R10" callerrev="1.0"/>
+				<artifacts>
 				</artifacts>
 			</revision>
 		</module>

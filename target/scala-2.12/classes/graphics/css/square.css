@@ -1,0 +1,20 @@
+.square {
+    -fx-background-color: navajowhite;
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-border-style: dashed;
+}
+
+.square:edge {
+    background-color: aquamarine;
+}
+
+.square:corner {
+    background: black;
+}
+
+.chevron {
+    background-color: beige;
+    height: 100%;
+    width: 100%;
+}

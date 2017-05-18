@@ -28,6 +28,5 @@ object Signal {
   def int2Signal(size: Int)(n: Int): Signal =
     for (i <- 0 until size toList)
       yield (n >> i) & 0x1
-
 }
 

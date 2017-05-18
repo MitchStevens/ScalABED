@@ -5,6 +5,7 @@ import akka.pattern.ask
 import core.ConcurrencyContext._
 import core.circuit.Port.PortType
 import core.circuit.Port.PortType.PortType
+import core.types.Edge.Edge
 import core.types.Signal.Signal
 
 import scala.concurrent.{Await, Future}
@@ -21,11 +22,21 @@ trait Evaluable extends Circuit {
   val last_outputs: Array[Signal]
   val ports:        Array[Port]
 
-  def request_inputs: Unit
+  //get all the new inputs in
+  def request_inputs(): Unit
 
-  def send_outputs: Unit
+  //do something with the new inputs
+  def calc_outputs(): Unit
 
-  def calc_outputs: Unit
+  //return new outputs to the ports
+  def send_outputs(): Unit
+
+  //do all the above operations at once
+  def evaluate(): Unit = {
+    this.request_inputs()
+    this.calc_outputs()
+    this.send_outputs()
+  }
 
   def repr: Array[String] = {
     val arrows: Array[Array[String]] = Array(
@@ -47,6 +58,7 @@ trait Evaluable extends Circuit {
       s"  ${sym(2)}  "
     )
   }
+
 }
 
 object Evaluable {

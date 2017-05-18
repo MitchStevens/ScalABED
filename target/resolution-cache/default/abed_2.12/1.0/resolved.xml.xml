@@ -4,7 +4,7 @@
 		module="abed_2.12"
 		revision="1.0"
 		status="integration"
-		publication="20170406222234"
+		publication="20170516230401"
 	>
 		<description>
 		ABED
@@ -37,5 +37,6 @@
 		<dependency org="org.scalactic" name="scalactic_2.12" rev="3.0.1" conf="compile->default(compile)"/>
 		<dependency org="org.scalatest" name="scalatest_2.12" rev="3.0.1" conf="test->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-actor_2.12" rev="2.4.17" conf="compile->default(compile)"/>
+		<dependency org="org.scalafx" name="scalafx_2.12" rev="8.0.92-R10" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>

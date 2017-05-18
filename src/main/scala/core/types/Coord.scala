@@ -2,6 +2,8 @@ package core.types
 
 import core.types.Direction._
 
+import scala.math.abs
+
 /**
   * Created by Mitch on 4/18/2017.
   */
@@ -12,6 +14,22 @@ class Coord (val coord: (Int, Int)) {
   def +(that: Coord): Coord = Coord(x+that.x, y+that.y)
   def -(that: Coord): Coord = Coord(x-that.x, y-that.y)
 
+  def within(n: Int): Boolean = x < n && y < n
+
+  /*
+  * A square of size n has indexes from (0, 0) to (n-1, n-1). If this coord were placed somewhere on the square, would
+  * it rest on one of the edges.
+  *
+  * if(coord is in middle of square somewhere) return 0
+  * else if(coord is on an edge) return 1
+  * else if(coord is on the corner) return 2
+  *
+  * */
+  def on_side(size: Int): Int = {
+    def f(z: Int) = if (z == 0 || z == size-1) 1 else 0
+    f(x) + f(y)
+  }
+
   type OrthoVector = (Direction, Int)
   def trail(list: List[OrthoVector]): List[Coord] = list match {
     case (_, 0) :: rest => trail(rest)
@@ -21,6 +39,10 @@ class Coord (val coord: (Int, Int)) {
 
   def trail(vector: OrthoVector): List[Coord] =
     List.iterate(this, vector._2)(_ + vector._1)
+
+  // gets taxicab distance
+  def taxi_dist(that: Coord): Int =
+    abs(this.x - that.x) + abs(this.y - that.y)
 }
 
 object Coord {
@@ -42,4 +64,6 @@ object Coord {
 
   def over_corner(n:Int): List[Coord] =
     (0,0)::(0,n-1)::(n-1,n-1)::(n-1,0)::Nil map (Coord(_))
+
+  implicit def tuple2Coord(tuple: (Int, Int)): Coord = new Coord(tuple)
 }
