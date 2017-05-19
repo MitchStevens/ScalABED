@@ -28,11 +28,11 @@ class Square(pos: Coord) extends Region with Resizable {
 
   this.setId("square")
   square.getStyleClass.add("square")
-  square.widthProperty bind this.widthProperty
-  square.heightProperty bind this.heightProperty
+  square.setX(100)
+  square.setY(100)
   chevron.getStyleClass.add("chevron")
-  chevron.prefHeight(300)
-  chevron.prefWidth(300)
+  chevron.prefHeight(100)
+  chevron.prefWidth(100)
   this.getChildren.addAll(square, chevron)
 
   /*

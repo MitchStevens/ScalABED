@@ -41,20 +41,25 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
   override def send_outputs(): Unit = {
     for(i <- 0 to 3)
       ports(i) set_output last_outputs(i)
-    println(s"sent $last_outputs")
   }
 
+  override def get_info(): String = {
+    "Mapping\n" ++
+      s"\tPorts:\n" ++
+      Evaluable.repr_ports(ports)
+  }
 }
-
 
 object Mapping {
   import Expression._
 
-  val BUS:    Mapping = new Mapping("0,0,0,1", "_,0,_,_")
-  val NOT:    Mapping = new Mapping("0,0,0,1", "_,0~,_,_")
-  val SUPER:  Mapping = new Mapping("0,0,0,1", "0,0,0,_")
-  val OR:     Mapping = new Mapping("1,0,0,1", "_,01|,_,_")
-  val AND:    Mapping = new Mapping("1,0,0,1", "_,01&,_,_")
+
+
+  def BUS:    Mapping = new Mapping("0,0,0,1", "_,0,_,_")
+  def NOT:    Mapping = new Mapping("0,0,0,1", "_,0~,_,_")
+  def SUPER:  Mapping = new Mapping("0,0,0,1", "0,0,0,_")
+  def OR:     Mapping = new Mapping("1,0,0,1", "_,01|,_,_")
+  def AND:    Mapping = new Mapping("1,0,0,1", "_,01&,_,_")
 
   private def logic(outs: String) =
     for(exp <- outs.split(","))

@@ -5,4 +5,6 @@ package core.circuit
   */
 trait Circuit {
 
+  def get_info(): String
+
 }

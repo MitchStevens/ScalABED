@@ -30,7 +30,6 @@ class Function extends Evaluable {
   val eval_loop: Future[Unit] =
     Future {
       while(true) {
-        //println(s"evls: $evaluation_list")
         if (evaluation_list.nonEmpty) {
           val id: ID = evaluation_list.dequeue()
           nodes(id).evaluate()
@@ -54,6 +53,7 @@ class Function extends Evaluable {
       if (sides(i).isDefined){
         sides(i).get.port set_input last_inputs(i)
         evaluation_list += side_names(i)
+        println("set the damn input")
       }
     }
   }
@@ -85,9 +85,11 @@ class Function extends Evaluable {
       nodes(id) match {
         case input: Input  =>
           this.num_inputs(dir)  = input.capacity
+          this.last_inputs(dir) = Signal.empty(input.capacity)
           this.ports(dir) = new Port(PortType.IN, input.capacity)
         case output: Output =>
-          this.num_outputs(dir) = output.capacity
+          this.num_outputs(dir)  = output.capacity
+          this.last_outputs(dir) = Signal.empty(output.capacity)
           this.ports(dir) = new Port(PortType.OUT, output.capacity)
       }
       this.sides(dir)      = Some(nodes(id).asInstanceOf[IOCircuit])
@@ -160,6 +162,14 @@ class Function extends Evaluable {
 
   protected def adj(id: ID): Iterable[ID] = {
     edges.filterKeys(_.id == id).values.map(_.id)
+  }
+
+  override def get_info(): String = {
+    "Function:\n" ++
+    "\tPorts:\n" ++
+    Evaluable.repr_ports(ports) ++
+    "\n\tEvaluables:\n" ++
+    nodes.values.map(_.get_info).mkString("\n")
   }
 
 }

@@ -62,8 +62,6 @@ class TestSignal extends FlatSpec {
       val signal = Signal.int2Signal(length)(r.nextInt())
       assert(signal.length == length, s"$signal should have been of length $length.")
     }
-
-    println(Signal.int2Signal(8)(13))
   }
 
   it must "create empty signals correctly" in {

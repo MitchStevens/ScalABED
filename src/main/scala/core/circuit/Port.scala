@@ -69,7 +69,7 @@ class Port(val port_type: PortType, val capacity: Int) {
   def is_input:  Boolean = {port_type == PortType.IN}
   def is_output: Boolean = {port_type == PortType.OUT}
 
-  override def toString: String = s"Port: $port_type -> $capacity"
+  override def toString: String = s"Port ${port_type.toString.padTo(6, ' ')} with capacity $capacity. Current value: $signal"
 
   override def equals(obj: Any): Boolean =
     obj match {

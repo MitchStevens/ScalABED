@@ -8,6 +8,8 @@ object Signal {
   implicit class SignalMethods(signal: Signal) {
     for(token <- signal)
       require(token.is_bool)
+
+    override def toString: String = "(" ++ signal.mkString(", ") ++ ")"
   }
 
   def apply(tokens: Token*): Signal = {
