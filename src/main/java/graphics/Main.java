@@ -7,9 +7,14 @@ package graphics;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class Main extends Application {
     public final static double 	SIDE_BAR_WIDTH  = 300.0;
@@ -20,9 +25,7 @@ public class Main extends Application {
     public final static DoubleProperty BOARD_HEIGHT = new SimpleDoubleProperty(768);
     public final static DoubleProperty BOARD_WIDTH	= new SimpleDoubleProperty(1024);
 
-    public final static String	VERSION = "1.0";
-
-    private static final Main instance = new Main();
+    public final static String	VERSION = "0.3";
 
     public Group root;
     private Scene scene;
@@ -37,16 +40,36 @@ public class Main extends Application {
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMinWidth(MIN_WIDTH);
         stage.show();
+        title_pane_test();
     }
 
-    public static Main instance() {
-        return instance;
+    private void title_pane_test() {
+        try {
+            URL url = getClass().getResource("fxml/TitlePane.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            TitlePane title_pane = new TitlePane();
+            loader.setController(title_pane);
+            root.getChildren().add(loader.load());
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void circuit_pane_test() {
+        try {
+            URL url = getClass().getResource("fxml/CircuitPane.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            CircuitPane circuit_pane = new CircuitPane();
+            loader.setController(circuit_pane);
+            root.getChildren().add(loader.load());
+            circuit_pane.set_num_tiles(10);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
-    private Main(){}
 
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane fx:id="title_pane" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/titlepane.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="32.0" layoutY="29.0">
+         <children>
+            <Label id="title" text="Digital Sage" />
+            <Label styleClass="a" text="Play" />
+            <Label styleClass="a" text="Sandbox" />
+            <Label styleClass="a" text="Exit" />
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+   <padding>
+      <Insets top="10.0" />
+   </padding>
+</AnchorPane>

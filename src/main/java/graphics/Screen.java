@@ -1,12 +1,15 @@
 package graphics;
 
-import javafx.scene.layout.Region;
-
 /**
  * Created by Mitch on 5/19/2017.
  */
-public interface Screen {
+public abstract class Screen extends Resizeable {
+    Screen(){
+        size_change_bindings();
+    }
 
-    void size_change_listeners();
-
+    protected void size_change_bindings(){
+        this.prefWidthProperty().bind(Main.BOARD_WIDTH);
+        this.prefHeightProperty().bind(Main.BOARD_HEIGHT);
+    }
 }
