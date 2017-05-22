@@ -58,7 +58,7 @@ class TestMapping extends FlatSpec {
   }
 
   it must "model an or correctly" in {
-    val or: Mapping = new Mapping("1,0,0,1", "_,01|,_,_")
+    val or: Mapping = new Mapping("1,0,0,1", "_,01+,_,_")
     val expected_inputs  = Array(1, 0, 0, 1)
     val expected_outputs = Array(0, 1, 0, 0)
 
@@ -83,7 +83,26 @@ class TestMapping extends FlatSpec {
   }
 
   it must "model a half adder correctly" in {
-    val adder: Mapping = new Mapping("1,0,0,1", "_,01^,01&,_")
+    val adder: Mapping = new Mapping("1,0,0,1", "_,01^,01*,_")
+  }
+
+  it must "model two input versions of one input gates" in {
+    val bus2: Mapping = new Mapping("0,0,0,2", "_,10,_,_")
+    for (signal <- Signal.all_of_length(2)) {
+      bus2.ports(Direction.LEFT) set_input signal
+      bus2.evaluate()
+      assert(bus2.ports(Direction.RIGHT).get_output == signal)
+    }
+
+    val and2: Mapping = new Mapping("2,0,0,2", "_,31*02*,_,_")
+    for (in1 <- Signal.all_of_length(2))
+      for (in2 <- Signal.all_of_length(2)) {
+        and2.ports(Direction.UP) set_input in1
+        and2.ports(Direction.LEFT) set_input in2
+        and2.evaluate()
+        val expected_output = Signal(in1(0) & in2(0), in1(1) & in2(1))
+        assert(and2.ports(Direction.RIGHT).get_output == expected_output)
+      }
   }
 
 }

@@ -47,8 +47,6 @@ public class Main extends Application {
         try {
             URL url = getClass().getResource("fxml/TitlePane.fxml");
             FXMLLoader loader = new FXMLLoader(url);
-            TitlePane title_pane = new TitlePane();
-            loader.setController(title_pane);
             root.getChildren().add(loader.load());
         } catch (IOException e){
             e.printStackTrace();

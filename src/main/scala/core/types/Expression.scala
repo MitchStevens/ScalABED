@@ -45,8 +45,8 @@ object Expression {
     case 'F' => F
     case 'T' => T
     case '~' => N
-    case '|' => O
-    case '&' => A
+    case '+' => O
+    case '*' => A
     case '^' => X
     case '_' => Z
     case '0' => 0x10

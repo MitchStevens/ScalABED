@@ -1,9 +1,11 @@
 package graphics;
 
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +16,19 @@ import java.util.ResourceBundle;
 public class TitlePane implements Initializable {
 
     @FXML
-    private AnchorPane title_pane;
+    private StackPane title_pane;
+
+    @FXML protected void play_clicked() {
+        System.out.println("play");
+    }
+
+    @FXML protected void sandbox_clicked() {
+        System.out.println("s");
+    }
+
+    @FXML protected void exit_clicked() {
+        System.out.println("exit");
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

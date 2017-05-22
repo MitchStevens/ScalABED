@@ -48,18 +48,14 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
       s"\tPorts:\n" ++
       Evaluable.repr_ports(ports)
   }
+
+  override def clone: Mapping = {
+    new Mapping(num_inputs, logic)
+  }
 }
 
 object Mapping {
   import Expression._
-
-
-
-  def BUS:    Mapping = new Mapping("0,0,0,1", "_,0,_,_")
-  def NOT:    Mapping = new Mapping("0,0,0,1", "_,0~,_,_")
-  def SUPER:  Mapping = new Mapping("0,0,0,1", "0,0,0,_")
-  def OR:     Mapping = new Mapping("1,0,0,1", "_,01|,_,_")
-  def AND:    Mapping = new Mapping("1,0,0,1", "_,01&,_,_")
 
   private def logic(outs: String) =
     for(exp <- outs.split(","))
