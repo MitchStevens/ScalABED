@@ -41,12 +41,16 @@ class Function extends Evaluable {
 
   def size: Int = nodes.size
 
-  /*
-  * 1. Gets the input values from the ports.
-  * 2. Transmits this to all the sides that are also inputs
-  *   2a. Set the inputs
-  *   2b. Add these inputs to the evaluation queue
-  * */
+  /**
+    * <ol>
+    *   <li>Gets the input values from the ports.</li>
+    *   <li>Transmits this to all the sides that are also inputs.</li>
+    *   <ul>
+    *     <li>Set the inputs.</li>
+    *     <li>Add these inputs to the evaluation queue<li>
+    *   <ul>
+    * </ol>
+    */
   override def request_inputs(): Unit = {
     for (i <- 0 to 3){
       last_inputs(i) = ports(i).get_input
@@ -58,15 +62,14 @@ class Function extends Evaluable {
     }
   }
 
-  /*
-  * Function is constantly evaluating, does nothing
-  * */
-  override def calc_outputs(): Unit = {
-  }
+  /**
+    * Function is constantly evaluating, does nothing
+    * */
+  override def calc_outputs(): Unit = {}
 
-  /*
-  * First get the information out of the sides that are outputs, then transmit this information to the ports.
-  * */
+  /**
+    * First get the information out of the sides that are outputs, then transmit this information to the ports.
+    */
   override def send_outputs(): Unit = {
     for (i <- 0 to 3)
       if (sides(i).isDefined) {
@@ -75,6 +78,11 @@ class Function extends Evaluable {
       }
   }
 
+  /**
+    * @param dir
+    * @param id
+    * @return
+    * */
   def set_side(dir: Direction, id: ID) {
     def side_pred(evaluable: Evaluable): Boolean =
       evaluable.isInstanceOf[IOCircuit] && !sides.contains(Some(evaluable))
@@ -98,6 +106,10 @@ class Function extends Evaluable {
 
   }
 
+  /**
+    * @param dir The direction
+    * @return Unit
+    */
   def remove_side(dir: Direction): Unit = {
     this.sides(dir)         = None
     this.side_names(dir)    = ""
@@ -132,8 +144,24 @@ class Function extends Evaluable {
     }
     return cond
   }
+  def connect(edge_pair: (Edge, Edge)): Boolean = connect(edge_pair._1, edge_pair._2)
 
-  def disconnect(from: Edge, to: Edge): Boolean = {
+  /**
+    *
+    * */
+  def connect_all(edge_pairs: List[(Edge, Edge)]): Boolean =
+    edge_pairs
+      .map(this.connect)
+      .forall(identity)
+
+  /** Attempt to disconnect a pair of edges. If this these edges are disconnected successfully, the ID of `to` will be
+    * automatically added to the evaluation queue.
+    *
+    * @param from: The edge
+    * @param to:
+    * @return A Boolean showing the status of the disconnection
+    */
+  def disconnect(from: Edge, to: Edge): Unit = {
     val disconnection_status: Option[Boolean] =
       for {
         port_out <- get_port(from)
@@ -142,8 +170,16 @@ class Function extends Evaluable {
     val cond = disconnection_status.getOrElse(false)
     if(cond)
       evaluation_list += to.id
-    return cond
   }
+  def disconnect(edge_pair: (Edge, Edge)): Unit = disconnect(edge_pair._1, edge_pair._2)
+
+  /** If the evaluable `id` exists, disconnect from every adjacent evaluable.
+    *
+    * @param  id: the ID of the evaluable
+    * @return Unit
+    */
+  def disconnect_all(id: ID): Unit =
+    adj_edges(id) foreach disconnect
 
   def add(kv: (ID, Evaluable)): Boolean ={
     val cond = !(nodes contains kv._1)
@@ -152,24 +188,51 @@ class Function extends Evaluable {
     cond
   }
 
-  def remove(id: ID): Option[Evaluable] =
-    nodes.remove(id)
+  def remove(id: ID): Option[Evaluable] = {
+    val eval = nodes.remove(id)
+    if (eval.isDefined)
+      adj_edges(id) foreach this.disconnect
+    eval
+  }
 
+  /** Attempts to find a port for a given
+    *
+    * @param edge
+    * @return A port if one can be found, otherwise None
+    * */
   protected def get_port(edge: Edge): Option[Port] = {
     val circuit: Option[Evaluable] = nodes get edge.id
     circuit.map(_.ports(edge.dir))
   }
 
-  protected def adj(id: ID): Iterable[ID] = {
+  /** Returns a list of ID's for evaluables that this the specified evaluable outputs to. Note that this function will
+    * not return ID's for evaluables that input into `id`.
+    *
+    * @param id The ID for the given evaluable in `nodes`
+    * @return A list of ID's
+    * */
+  protected def adj(id: ID): Iterable[ID] =
     edges.filterKeys(_.id == id).values.map(_.id)
-  }
 
-  override def get_info(): String = {
-    "Function:\n" ++
-    "\tPorts:\n" ++
-    Evaluable.repr_ports(ports) ++
-    "\n\tEvaluables:\n" ++
+  /** Gets all the connected pairs of edges for a given evaluable. If the `id` given is not contained inside `nodes`,
+    * return an empty list.
+    *
+    * @param id The ID for the given evaluable in `nodes`
+    * @return A list of edge pairs
+    * */
+  protected def adj_edges(id: ID): Iterator[(Edge, Edge)] =
+    edges
+      .filter((e: (Edge, Edge)) => (e._1.id == id) || (e._2.id == id))
+      .iterator
+
+  /**
+    * @return a String
+    * */
+  override def get_info(): String = Array(
+    "Function:",
+    "\tPorts:",
+    Evaluable.repr_ports(ports),
+    "\tEvaluables:",
     nodes.values.map(_.get_info).mkString("\n")
-  }
-
+  ).mkString("\n")
 }

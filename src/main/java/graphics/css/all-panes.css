@@ -1,0 +1,15 @@
+@font-face {
+    src: url("../font/theleagueof-sorts-mill-goudy-0607289/OFLGoudyStMTT.ttf");
+}
+
+#pane-root {
+    -fx-font-family: "OFL Sorts Mill Goudy TT";
+
+    -fx-border-image-source: url("../img/victorian_border.png");
+    -fx-border-image-width: 50px;
+    -fx-border-image-repeat: repeat;
+    -fx-border-image-slice: 250px;
+
+    -fx-background-color: wheat;
+    -fx-spacing: 40;
+}

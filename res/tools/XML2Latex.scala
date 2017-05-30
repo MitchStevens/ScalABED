@@ -44,11 +44,15 @@ object XML2Latex {
   def io_parse(xml: NodeSeq, min_size: String): String = {
     val ins  = (xml \ "input") .map("("+ _.text +")").mkString(" ")
     val outs = (xml \ "output").map("("+ _.text +")").mkString(" ")
-
-    "\\begin{tabular}{ccc}\n" ++
+    "\\begin{center}" ++
+    "\\begin{tabular}{||c|c|c||}\n" ++
+    "\\hline" ++
     "\tMin Size & Accepts & Returns \\\\\n" ++
+    "\\hline\\hline" ++
     s"\t$min_size & $ins & $outs \\\\\n" ++
-    "\\end{tabular}\n"
+    "\\hline" ++
+    "\\end{tabular}\n" ++
+    "\\end{center}"
   }
 
   def tests_parse(xml: NodeSeq): String = {

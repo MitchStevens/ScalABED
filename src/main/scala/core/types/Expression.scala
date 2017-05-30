@@ -33,9 +33,8 @@ class Expression(val logic: List[Token]) {
   def ++(that: Expression): Expression = new Expression(this.logic ++ that.logic)
 
   override def toString: String =
-    logic.map(_.toString).mkString(" ")
+    "(" ++ logic.map(_.str).mkString(" ") ++ ")"
 }
-
 
 object Expression {
 

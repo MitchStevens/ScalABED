@@ -2,7 +2,10 @@
 
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="circuit_pane" stylesheets="@../css/circuitpane.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-    <children>
-    </children>
+<?import java.net.URL?>
+<GridPane fx:id="root_pane" fx:controller="graphics.CircuitPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+    <stylesheets>
+        <URL value="@../css/all-panes.css" />
+        <URL value="@../css/circuit-pane.css"/>
+    </stylesheets>
 </GridPane>

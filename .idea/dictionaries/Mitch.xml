@@ -2,6 +2,7 @@
   <dictionary name="Mitch">
     <words>
       <w>coord</w>
+      <w>evaluables</w>
     </words>
   </dictionary>
 </component>

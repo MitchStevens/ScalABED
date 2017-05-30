@@ -1,4 +1,4 @@
-#!/bin/bash/
+#!/bin/bash
 scalac XML2Latex.scala
 cat "../xml/levels.xml" | scala XML2Latex > levels.tex
 latex levels.tex

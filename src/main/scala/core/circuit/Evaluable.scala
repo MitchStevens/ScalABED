@@ -1,7 +1,6 @@
 package core.circuit
 
-import akka.actor.ActorRef
-import akka.pattern.ask
+
 import core.ConcurrencyContext._
 import core.circuit.Port.PortType
 import core.circuit.Port.PortType.PortType

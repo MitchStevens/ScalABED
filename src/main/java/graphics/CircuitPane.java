@@ -32,12 +32,12 @@ public class CircuitPane implements Initializable {
     public static DoubleProperty  TILE_SIZE = new SimpleDoubleProperty(10);
     public static IntegerProperty NUM_TILES = new SimpleIntegerProperty(MIN_TILES);
 
-    @FXML private GridPane circuit_pane;
+    @FXML private GridPane root_pane;
 
     public void set_num_tiles(int n){
         NUM_TILES.set(n);
 
-        circuit_pane.getChildren().removeAll(squares.values());
+        root_pane.getChildren().removeAll(squares.values());
         squares.clear();
 
         for(int i = 0; i < n; i++)
@@ -45,15 +45,16 @@ public class CircuitPane implements Initializable {
                 Coord pos = Coord.apply(j, i);
                 Square square = new Square(pos);
                 squares.put(pos, square);
-                circuit_pane.add(square, i, j);
+                root_pane.add(square, i, j);
             }
-
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        circuit_pane.prefWidthProperty().bind(Main.BOARD_WIDTH);
-        circuit_pane.prefHeightProperty().bind(Main.BOARD_HEIGHT);
+        root_pane.prefWidthProperty().bind(Main.BOARD_WIDTH);
+        root_pane.prefHeightProperty().bind(Main.BOARD_HEIGHT);
         TILE_SIZE.bind(Bindings.min(Main.BOARD_WIDTH, Main.BOARD_HEIGHT).divide(NUM_TILES));
+
+        set_num_tiles(6);
     }
 }

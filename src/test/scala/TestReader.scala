@@ -7,7 +7,6 @@ import org.scalatest.FlatSpec
 class TestReader extends FlatSpec {
 
   "The Reader" must "read in levels correctly" in {
-    assert(Reader.LEVEL_SETS.nonEmpty)
     assert(Reader.LEVELS.nonEmpty)
   }
 

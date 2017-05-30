@@ -1,13 +1,8 @@
 package core.circuit
 
-import akka.actor.ActorRef
-import akka.pattern.ask
-import core.ConcurrencyContext._
 import core.types.Signal.Signal
 import core.types.{Direction, Expression, Signal}
-import core.circuit.Port._
 
-import scala.concurrent.{Await, Future}
 /**
   * Created by Mitch on 3/20/2017.
   */

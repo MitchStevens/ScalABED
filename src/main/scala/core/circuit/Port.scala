@@ -50,7 +50,7 @@ class Port(val port_type: PortType, val capacity: Int) {
     else Signal.empty(0)
   }
 
-  def set_input(signal: Signal) = {
+  def set_input(signal: Signal): Unit = {
     if(is_input)
       this.signal = signal
   }
@@ -59,7 +59,7 @@ class Port(val port_type: PortType, val capacity: Int) {
     if (is_output) signal
     else Signal.empty(0)
 
-  def set_output(signal: Signal) = {
+  def set_output(signal: Signal): Unit = {
     if (is_output){
       this.signal = signal
       spouse foreach (_.set_input(signal))
@@ -85,6 +85,7 @@ object Port {
     val IN, OUT, UNUSED = Value
   }
 
+  def create(i: Int, o: Int): Port = create((i, o))
   def create(io: (Int, Int)): Port = {
     val (ins, outs) = io
     if (ins >  0 && outs == 0)
@@ -98,7 +99,11 @@ object Port {
 
   private def connection_precondition(p1: Port, p2: Port): Boolean = {
     val capacity_condition: Boolean = {p1.capacity == p2.capacity}
-    val port_type_condition: Boolean =
+    val port_type_condition: Boolean = p1 match {
+      case PortType.IN     => p2.port_type == PortType.OUT
+      case PortType.OUT    => p2.port_type == PortType.IN
+      case PortType.UNUSED => false
+    }
       p1.port_type == PortType.OUT && p2.port_type == PortType.IN
 
     capacity_condition && port_type_condition

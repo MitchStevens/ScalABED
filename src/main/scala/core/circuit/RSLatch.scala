@@ -2,7 +2,7 @@ package core.circuit
 
 /**
   * Created by Mitch on 5/21/2017.
-  */
+  *
 class RSLatch extends Mapping {
 
   var R: Boolean = false;
@@ -17,3 +17,4 @@ class RSLatch extends Mapping {
   }
 
 }
+*/

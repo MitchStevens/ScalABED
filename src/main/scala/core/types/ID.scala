@@ -10,7 +10,7 @@ object ID {
 
   type ID = String
   def generate(): ID = {
-    r.alphanumeric.take(16).mkString("")
+    r.alphanumeric.take(32).mkString("")
   }
 
 }

@@ -1,6 +1,3 @@
-import akka.actor.ActorRef
-import akka.pattern.ask
-import core.ConcurrencyContext._
 import core.circuit.Port
 import core.circuit.Port.PortType
 import core.types.Token._

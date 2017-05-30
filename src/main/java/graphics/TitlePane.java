@@ -19,15 +19,15 @@ public class TitlePane implements Initializable {
     private StackPane title_pane;
 
     @FXML protected void play_clicked() {
-        System.out.println("play");
+        Main.set_screen("LevelSelectPane");
     }
 
     @FXML protected void sandbox_clicked() {
-        System.out.println("s");
+        Main.set_screen("CircuitPane");
     }
 
     @FXML protected void exit_clicked() {
-        System.out.println("exit");
+        System.exit(0);
     }
 
     @Override

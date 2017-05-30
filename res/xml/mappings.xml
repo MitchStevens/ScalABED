@@ -19,6 +19,5 @@
     <mapping name="SUPER2"      inputs="0,0,0,2" evals="10,10,10,_"/>
     <mapping name="OR2"         inputs="2,0,0,2" evals="_,13+02+,_,_"/>
     <mapping name="AND2"        inputs="2,0,0,2" evals="_,13*02*,_,_"/>
-    <mapping name="FULL_ADDER"  inputs="2,1,0,0" evals="_,_,012^^,">
-
+    <mapping name="FULL_ADDER"  inputs="2,1,0,0" evals="_,_,012^^,_"/>
 </root>

@@ -7,7 +7,7 @@
                 <output>Right 1</output>
             </io>
             <instruction_text>
-                Place an input on side 3 and an output on side 1. Then connect them by using bus pieces to extend the range of the input signal.
+                Place an input on the left and an output on the right. Then connect them by using bus pieces.
             </instruction_text>
             <tests>
                 <test>0->0</test>
@@ -229,4 +229,162 @@
             </upon_completion>
         </level>
     </level_set>
+    <level_set name="Advanced Gates">
+        <level name="A Two Parter">
+            <io>
+                <input>Left 2</input>
+                <output>Right 2</output>
+            </io>
+            <instruction_text>
+
+            </instruction_text>
+            <tests>
+                <test>00->00</test>
+                <test>01->01</test>
+                <test>10->10</test>
+                <test>11->11</test>
+            </tests>
+            <completion_text>
+                A two parter completion text
+            </completion_text>
+            <upon_completion>
+                <circuit_reward>CORNER CUT</circuit_reward>
+            </upon_completion>
+        </level>
+        <level name="It's French for Ship">
+
+        </level>
+        <level name="The Opposite of Merge!">
+
+        </level>
+        <level name="The ol' Digital Sage Switcharoo">
+
+        </level>
+        <level name="Double Negative">
+
+        </level>
+        <level name="Double And">
+
+        </level>
+        <level name="4 part bus">
+
+        </level>
+    </level_set>
+    <level_set name="Mux and Demux">
+        <level name="Multiplexer">
+
+        </level>
+        <level name="Demultiplexer">
+
+        </level>
+        <level name="Advanced BabyTown">
+
+        </level>
+    </level_set>
+    <level_set name="Binary">
+        <level name="Neo is One Backwards!" min_size="4">
+            <io>
+                <output>Right 4</output>
+            </io>
+            <instruction_text>
+                Now that you have a Display, we can start to learn about binary!
+            </instruction_text>
+            <tests>
+                <test> ->0001</test>
+            </tests>
+        </level>
+        <level name="Number Fun">
+
+        </level>
+    </level_set>
+    <level_set name="Bitwise Operations">
+        <level name="Right Shift">
+
+        </level>
+        <level name="Left Shift">
+
+        </level>
+        <level name="Bitwise Not">
+
+        </level>
+        <level name="Bitwise OR">
+
+        </level>
+        <level name="Bitwise AND">
+
+        </level>
+        <level name="Bitwise XOR">
+
+        </level>
+    </level_set>
+    <level_set name="Arithmetic Operation">
+        <level name="Half Adder">
+
+        </level>
+        <level name="Full Adder">
+
+        </level>
+        <level name="2 bit adder">
+
+        </level>
+        <level name="Adder">
+
+        </level>
+        <level name="Subtract">
+
+        </level>
+        <level name="Multiplication">
+
+        </level>
+        <level name="Divide">
+
+        </level>
+        <level name="Modulus">
+
+        </level>
+    </level_set>
+    <level_set name="Memory">
+        <level name="RS Latch">
+
+        </level>
+        <level name="1 Bit of Memory">
+
+        </level>
+        <level name="2 Bits!">
+
+        </level>
+        <level name="A byte of memory">
+
+        </level>
+    </level_set>
+    <level_set name="RAM">
+
+    </level_set>
+    <level_set name="CPU">
+
+    </level_set>
 </root>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

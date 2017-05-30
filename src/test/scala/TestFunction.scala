@@ -1,5 +1,6 @@
 import core.circuit.Port.PortType
 import core.circuit.{Function, Input, Mapping, Output, Port}
+import io.Reader
 import core.types.{Direction, Edge, Signal}
 import org.scalatest.FlatSpec
 
@@ -17,7 +18,7 @@ class TestFunction extends FlatSpec {
   it must "allow evaluables to be added and removed" in {
     val f: Function = new Function()
     assert(f.size == 0)
-    f add ("e1" -> Mapping.BUS)
+    f add ("e1" -> new Mapping("0,0,0,1", "_,0,_,_"))
     assert(f.size == 1)
     f remove "e1"
     assert(f.size == 0)

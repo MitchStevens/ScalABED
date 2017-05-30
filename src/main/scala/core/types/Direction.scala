@@ -38,4 +38,5 @@ object Direction {
   }
 
   implicit def direction2Int(d: Direction): Int = d.n
+  implicit def int2Direction(i: Int): Direction = Direction(i)
 }
