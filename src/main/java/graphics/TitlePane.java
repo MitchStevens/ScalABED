@@ -1,10 +1,7 @@
 package graphics;
 
-import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
@@ -35,4 +32,5 @@ public class TitlePane implements Initializable {
         title_pane.prefWidthProperty().bind(Main.BOARD_WIDTH);
         title_pane.prefHeightProperty().bind(Main.BOARD_HEIGHT);
     }
+
 }

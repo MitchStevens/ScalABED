@@ -28,7 +28,9 @@ public class LevelSelectPane implements Initializable {
 
     private LevelDiagram diagram = new LevelDiagram(300);
 
-
+    @FXML public void nav_title(){
+        Main.set_screen("TitlePane");
+    }
 
     public void set_level(Level level){
         diagram.set_level(level);
@@ -38,6 +40,8 @@ public class LevelSelectPane implements Initializable {
         level_completion_info.setText(
                 "Completed with size 8\nMin size "+level.min_size()
         );
+
+        System.out.println(level_desc.getWidth());
     }
 
     @Override
@@ -45,7 +49,7 @@ public class LevelSelectPane implements Initializable {
         TreeItem<Node> root = new TreeItem<>(new Label("Levels"));
 
         for (int i = 0; i < Reader.LEVELS_JAVA().size(); i++){
-            TreeItem<Node> level_set_root = new TreeItem<>(new Label(i+1 +"."));
+            TreeItem<Node> level_set_root = new TreeItem<>(new Label(i+1 +". "+ Reader.LEVEL_SET_NAMES_JAVA().get(i)));
             List<Level> level_set = Reader.LEVELS_JAVA().get(i);
             for(int j = 0; j < Reader.LEVELS_JAVA().get(i).size(); j++){
                 Label l = new Label(String.format("%d.%d. %s", i+1, j+1, level_set.get(j).name()));
@@ -53,19 +57,12 @@ public class LevelSelectPane implements Initializable {
                 l.setOnMouseClicked(e ->
                     this.set_level(Reader.LEVELS_JAVA().get(I).get(J))
                 );
-                TreeItem<Node> label = new TreeItem<>(l);
-                level_set_root.getChildren().add(label);
+                level_set_root.getChildren().add(new TreeItem<>(l));
             }
             root.getChildren().add(level_set_root);
         }
 
         tree_view.setRoot(root);
-        tree_view.setShowRoot(false);
-        level_details.setVisible(false);
-
         level_diagram.getChildren().add(diagram);
-        StackPane.setAlignment(level_diagram , Pos.CENTER);
-
-
     }
 }

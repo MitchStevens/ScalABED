@@ -1,0 +1,681 @@
+\documentclass[a4paper, 12pt]{article}
+\begin{document}
+\tableofcontents
+\section{Tutorial}
+\subsection{Introduction to BabyTown}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	3 & (Left 1) & (Right 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Place an input on side 3 and an output on side 1. Then connect them by using bus pieces to extend the range of the input signal.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	0 & 0 \\
+	1 & 1
+\end{tabular}
+\subparagraph{Completion Text}
+
+                You did it! The easiest level in the game! Hopefully the game gets harder than this (Right?). Those pieces we were playing with a moment ago are called ‘Gates’, because they stop or allow the flow of a signal. This signal is represented by an electric blue current in ABED.
+            \subparagraph{Upon Completion}
+Unlock circuit 'NOT', Unlock level '0.1'
+
+\subsection{Is Nice?}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	3 & (Left 1) & (Right 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                We are going to test out our new ‘Not’ gate. Place the input on side 3 and the output on side 1 as before, but this time create a Not gate in the center instead of a Bus.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	0 & 1 \\
+	1 & 0
+\end{tabular}
+\subparagraph{Completion Text}
+
+                Another success! A Not gate negates the signal coming from the input. So if the input of a Not gate is off, it will output on, and vice versa. In general, the input of a gate is on the left and the output is on the right. But as we will see, we are by no means restricted to one input/output.
+            \subparagraph{Upon Completion}
+Unlock circuit 'OR', Unlock level ''
+
+\subsection{My First Three-way!}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	3 & (Left 1) (Up 1) &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Oh boy, two inputs? Create an Or gate and place inputs at 3, 0 and an output at 1. Remember to rotate the input so the signal is facing the Or gate.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	00 & 0 \\
+	01 & 1 \\
+	10 & 1 \\
+	11 & 1
+\end{tabular}
+\subparagraph{Completion Text}
+
+                Now we’re getting somewhere! An Or gate will output a signal if one or more of its inputs is turned on, otherwise it outputs nothing. Imagine of a waiter asking “Would you like milk OR sugar in your coffee?” Gates can have as many inputs/outputs as they damn well please, with one condition: there must at least one. Obviously.
+            \subparagraph{Upon Completion}
+Unlock circuit '', Unlock level 'Circuits on Circuits?'
+
+\subsection{Circuits on Circuits?}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	4 & (Left 1) (Up 1) & (Right 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                As it turns out, we can also create completely original circuits from those we already have. Create another Or, but this time use a not gate to negate the output. You may need to change the size of the circuit board.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	00 & 1 \\
+	01 & 0 \\
+	10 & 0 \\
+	11 & 1
+\end{tabular}
+\subparagraph{Completion Text}
+
+                And there you go, a whole new gate. Once you complete a level, the game is turned into a circuit for you to use on any game you please. You can even create circuits without completing a level on sandbox mode.
+            \subparagraph{Upon Completion}
+Unlock circuit 'NOR', Unlock level 'Andromeda (It’s a galaxy out there!)'
+
+\subsection{Andromeda (It’s a galaxy out there!)}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	5 & (Left 1) (Up 1) & (Right 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Create an And gate. This gate takes two inputs at 3, 0 and outputs a signal if both of the inputs are on. If one or more of the outputs are off, the output should also be off.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	00 & 0 \\
+	01 & 0 \\
+	10 & 0 \\
+	11 & 1
+\end{tabular}
+\subparagraph{Completion Text}
+
+                Hey you did it! I was worried I’d lose you there for a second. And, Not and Or are the fundamental operations of Boolean algebra, every electronic circuit in your computer is made exclusively of these gates. Now you’ve created these three, we can begin to really make things!
+            \subparagraph{Upon Completion}
+Unlock circuit 'AND', Unlock level 'Mr. NAND-Man'
+
+\subsection{Mr. NAND-Man}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	4 & (Left 1) (Up 1) & (Right 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Negate an And gate.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	00 & 1 \\
+	01 & 1 \\
+	10 & 1 \\
+	11 & 1
+\end{tabular}
+\subparagraph{Completion Text}
+
+                Yeah it was pretty easy, but you got a new circuit out of it. And you gotta collect ‘em all! You feel like Ash Ketchum yet, you piece of millennial trash?
+            \subparagraph{Upon Completion}
+Unlock circuit 'NAND', Unlock level 'Make a Left'
+
+\section{Basic}
+\subsection{Make a Left}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	3 & (Left 1) & (Up 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Create a circuit that takes and input on 3 and outputs the signal to an output on side 0.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	0 & 0 \\
+	1 & 1
+\end{tabular}
+\subparagraph{Completion Text}
+
+                Wow, writing these is really tiresome. These gates should give you more freedom in choosing where to place tiles.
+            \subparagraph{Upon Completion}
+Unlock circuit 'LEFT', Unlock circuit 'RIGHT', Unlock circuit 'SUPER', Unlock level 'Some XOR problems'
+
+\subsection{XOR problems}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	7 & (Left 1) (Up 1) & (Right 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                This one’s tricky. Create a gate that outputs a signal if exactly one input is on. If both inputs are on or both inputs are off, then output off. Hint: The easiest way to do this is to use 4 NAND gates.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	00 & 0 \\
+	01 & 1 \\
+	10 & 1 \\
+	11 & 1
+\end{tabular}
+\subparagraph{Completion Text}
+
+                Oh boy, this one was a good one. Did you have to use google? No shame if you did.
+            \subparagraph{Upon Completion}
+Unlock circuit 'XOR', Unlock level 'A Crossover Episode'
+
+\subsection{What is this, a crossover episode!}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	6 & (Left 1) (Up 1) & (Right 1) (Down 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Using the new XOR gate, create a circuit the routes the signal at the top to the bottom, and the signal on the left to the right. In other words, create two buses that cross over each other.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	00 & 00 \\
+	01 & 10 \\
+	10 & 01 \\
+	11 & 11
+\end{tabular}
+\subparagraph{Completion Text}
+
+                In computer science, this operation is called an XOR swap, and was used when memory was very expensive. Now days, memory is pretty cheap and we don’t worry so much.
+            \subparagraph{Upon Completion}
+Unlock circuit 'CROSS OVER', Unlock level 'Scrublords Delight'
+
+\subsection{Scrublords Delight}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	4 & (Left 1) (Up 1) & (Right 1) (Down 1) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Connect side 3 to side 2 and side 0 to side 1.
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	00 & 00 \\
+	01 & 01 \\
+	10 & 10 \\
+	11 & 11
+\end{tabular}
+\subparagraph{Completion Text}
+
+                You’ll thank me later when you’re trying to save space. This piece is a lifesaver!
+            \subparagraph{Upon Completion}
+Unlock circuit 'CORNER CUT'
+
+\section{Advanced Gates}
+\subsection{A Two Parter}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{It's French for Ship}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{The Opposite of Merge!}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{The ol' Digital Sage Switcharoo}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Double Negative}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Double And}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{4 part bus}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\section{Mux and Demux}
+\subsection{Multiplexer}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Demultiplexer}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Advanced BabyTown}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\section{Binary}
+\subsection{Neo is One Backwards!}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	4 &  & (Right 4) \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+
+                Now that you have a Display, we can start to learn about binary!
+            \subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+	  & 0001
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Number Fun}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\section{Bitwise Operations}
+\subsection{Right Shift}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Left Shift}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Bitwise Not}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Bitwise OR}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Bitwise AND}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Bitwise XOR}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\section{Arithmetic Operation}
+\subsection{Half Adder}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Full Adder}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{2 bit adder}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Adder}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Subtract}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Multiplication}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Divide}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{Modulus}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\section{Memory}
+\subsection{RS Latch}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{1 Bit of Memory}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{2 Bits!}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\subsection{A byte of memory}
+\begin{center}\begin{tabular}{||c|c|c||}
+\hline	Min Size & Accepts & Returns \\
+\hline\hline	 &  &  \\
+\hline\end{tabular}
+\end{center}\subparagraph{Instruction Text}
+\subparagraph{Tests}
+\begin{tabular}{cc}
+	Input & Output \\
+
+\end{tabular}
+\subparagraph{Completion Text}
+\subparagraph{Upon Completion}
+
+
+\section{RAM}
+
+\section{CPU}
+\end{document}

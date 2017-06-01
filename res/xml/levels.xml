@@ -252,22 +252,43 @@
             </upon_completion>
         </level>
         <level name="It's French for Ship">
-
+            <io>
+                <input>Up 1</input>
+                <input>Left 1</input>
+                <output>Right 2</output>
+            </io>
         </level>
         <level name="The Opposite of Merge!">
-
+            <io>
+                <input>Left 2</input>
+                <output>Up 1</output>
+                <output>Right 1</output>
+            </io>
         </level>
         <level name="The ol' Digital Sage Switcharoo">
-
+            <io>
+                <input>Left 2</input>
+                <output>Right 2</output>
+            </io>
         </level>
         <level name="Double Negative">
-
+            <io>
+                <input>Left 2</input>
+                <output>Right 2</output>
+            </io>
         </level>
         <level name="Double And">
-
+            <io>
+                <input>Left 2</input>
+                <input>Up 2</input>
+                <output>Right 2</output>
+            </io>
         </level>
         <level name="4 part bus">
-
+            <io>
+                <input>Left 4</input>
+                <output>Right 4</output>
+            </io>
         </level>
     </level_set>
     <level_set name="Mux and Demux">
@@ -299,22 +320,45 @@
     </level_set>
     <level_set name="Bitwise Operations">
         <level name="Right Shift">
-
+            <io>
+                <input>Left 8</input>
+                <input>Up 8</input>
+                <output>Right 8</output>
+            </io>
         </level>
         <level name="Left Shift">
-
+            <io>
+                <input>Left 8</input>
+                <input>Up 8</input>
+                <output>Right 8</output>
+            </io>
         </level>
         <level name="Bitwise Not">
-
+            <io>
+                <input>Left 8</input>
+                <output>Right 8</output>
+            </io>
         </level>
         <level name="Bitwise OR">
-
+            <io>
+                <input>Left 8</input>
+                <input>Up 8</input>
+                <output>Right 8</output>
+            </io>
         </level>
         <level name="Bitwise AND">
-
+            <io>
+                <input>Left 8</input>
+                <input>Up 8</input>
+                <output>Right 8</output>
+            </io>
         </level>
         <level name="Bitwise XOR">
-
+            <io>
+                <input>Left 8</input>
+                <input>Up 8</input>
+                <output>Right 8</output>
+            </io>
         </level>
     </level_set>
     <level_set name="Arithmetic Operation">

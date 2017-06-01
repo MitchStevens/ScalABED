@@ -37,7 +37,7 @@ public class Main extends Application {
     public final static List<String> SCREEN_NAMES  = Arrays.asList(
             "TitlePane",
             "LevelSelectPane",
-            "CircuitPane"
+            "GamePane"
     );
 
     public  static StackPane root;
@@ -55,8 +55,7 @@ public class Main extends Application {
         stage.setMinWidth(MIN_WIDTH);
         stage.show();
         initialise_screens();
-        set_screen("CircuitPane");
-        set_screen("TitlePane");
+        set_screen("GamePane");
     }
 
     private void initialise_screens() {

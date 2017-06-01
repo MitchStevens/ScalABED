@@ -22,6 +22,9 @@ object Reader {
     java_list
   }
 
+  val LEVEL_SET_NAMES: Seq[String] = read_level_set_names()
+  val LEVEL_SET_NAMES_JAVA: JavaList[String] = JavaConverters.seqAsJavaList(LEVEL_SET_NAMES)
+
   val MAPPINGS: ScalaMap[String, Mapping] = read_mappings()
 
 
@@ -61,6 +64,11 @@ object Reader {
     val outs = outputs(nodeseq \ "io")
 
     Level(name, min_size, instruction_text, completion_text, ins, outs, Nil)
+  }
+
+  private def read_level_set_names(): Seq[String] = {
+    val data: Elem = scala.xml.XML.loadFile(LEVELS_PATH)
+    (data \ "level_set") map (_ \ "@name" text)
   }
 
   private def read_mappings(): ScalaMap[String, Mapping] = {

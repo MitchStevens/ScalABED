@@ -86,7 +86,7 @@ public class LevelDiagram extends Pane {
                 {0.5-1.5*OFFSET,    1.0 - OFFSET},
                 {0.0,               0.5-1.5*OFFSET}
         };
-        final double FONT_OFFSET = 0.05; //Change this after changing font size
+        final double FONT_OFFSET = 0.02; //Change this after changing font size
         double a = OFFSET * size;
 
         Label l = new Label(capacity+"");

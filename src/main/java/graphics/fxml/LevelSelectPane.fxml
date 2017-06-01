@@ -5,18 +5,24 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.StackPane?>
 <HBox id="pane-root" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.LevelSelectPane">
-    <TreeView fx:id="tree_view" />
-    <VBox fx:id="level_details" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-        <Label fx:id="level_name" />
-        <Label fx:id="level_desc" wrapText="true" />
-        <StackPane fx:id="level_diagram"/>
-        <Label fx:id="level_completion_info" wrapText="true" />
-        <Button>Attempt</Button>
+    <VBox styleClass="bordered">
+        <TreeView fx:id="tree_view" showRoot="false" VBox.vgrow="ALWAYS" />
+        <Button maxWidth="1.7976931348623157E308" onMouseClicked="#nav_title" text="Menu" />
     </VBox>
+    <Pane maxWidth="1.7976931348623157E308" styleClass="bordered" HBox.hgrow="ALWAYS">
+        <VBox fx:id="level_details" visible="false">
+            <Label fx:id="level_name" />
+            <Label fx:id="level_desc" wrapText="true" />
+            <StackPane fx:id="level_diagram" />
+            <Label fx:id="level_completion_info" wrapText="true" />
+            <Button >Attempt</Button>
+        </VBox>
+    </Pane>
     <stylesheets>
         <URL value="@../css/all-panes.css" />
         <URL value="@../css/level-select-pane.css" />
