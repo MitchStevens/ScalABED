@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane maxHeight="20.0" maxWidth="80.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.controls.Incrementer">
+    <left>
+        <Button fx:id="dec_button"  text="-"    onMouseClicked="#decrement" HBox.hgrow="NEVER" />
+    </left>
+    <center>
+        <Text   fx:id="num_label"   text="NUM"  textAlignment="CENTER"      HBox.hgrow="ALWAYS" />
+    </center>
+    <right>
+        <Button fx:id="inc_button"  text="+"    onMouseClicked="#increment" HBox.hgrow="NEVER" />
+    </right>
+</BorderPane>
