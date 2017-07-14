@@ -9,6 +9,8 @@ import core.types.Signal.Signal
 import scala.collection.mutable.{HashMap, Queue}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scalax.collection.Graph
+import scalax.collection.GraphEdge.DiEdge
 
 /**
   * Created by Mitch on 4/23/2017.
@@ -20,6 +22,7 @@ class Function extends Evaluable {
 
   val edges: HashMap[Edge, Edge]    = HashMap.empty
   val nodes: HashMap[ID, Evaluable] = HashMap.empty
+  val dependency_graph: Graph[ID, DiEdge] = Graph()
 
   val last_inputs:  Array[Signal] = Array.fill(4)(Signal.empty(0))
   val last_outputs: Array[Signal] = Array.fill(4)(Signal.empty(0))
@@ -54,10 +57,10 @@ class Function extends Evaluable {
   override def request_inputs(): Unit = {
     for (i <- 0 to 3){
       last_inputs(i) = ports(i).get_input
+      println(ports(1))
       if (sides(i).isDefined){
         sides(i).get.port set_input last_inputs(i)
         evaluation_list += side_names(i)
-        println("set the damn input")
       }
     }
   }
@@ -99,6 +102,7 @@ class Function extends Evaluable {
           this.num_outputs(dir)  = output.capacity
           this.last_outputs(dir) = Signal.empty(output.capacity)
           this.ports(dir) = new Port(PortType.OUT, output.capacity)
+        case _ => throw new Error("asdasd")
       }
       this.sides(dir)      = Some(nodes(id).asInstanceOf[IOCircuit])
       this.side_names(dir) = id

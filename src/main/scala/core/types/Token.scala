@@ -28,8 +28,8 @@ object Token {
 
     def characteristic: Int = this.outputs - this.inputs
 
-    def is_num:  Boolean = (0xFFFFFFF0 & t) == 0x10 //the 5th bit is on, all higher bits are off
-    def is_bool: Boolean = (0xFFFFFFFE & t) == 0 //bits 2 through 32 are off
+    def is_num:   Boolean = (0xFFFFFFF0 & t) == 0x10 //the 5th bit is on, all higher bits are off
+    def is_bool:  Boolean = (0xFFFFFFFE & t) == 0 //bits 2 through 32 are off
 
     def str: String = token_names(t)
   }

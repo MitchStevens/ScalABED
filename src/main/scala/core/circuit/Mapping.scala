@@ -1,5 +1,6 @@
 package core.circuit
 
+import core.types.Expression.{Expression, ExpressionMethods}
 import core.types.Signal.Signal
 import core.types.{Direction, Expression, Signal}
 
@@ -30,7 +31,7 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
   override def calc_outputs(): Unit = {
     val flat_inputs: Signal = last_inputs.flatten.toList
     for (d <- 0 to 3)
-      last_outputs(d) = logic(d)(flat_inputs)
+      last_outputs(d) = logic(d).eval(flat_inputs)
   }
 
   override def send_outputs(): Unit = {
@@ -54,7 +55,7 @@ object Mapping {
 
   private def logic(outs: String) =
     for(exp <- outs.split(","))
-      yield new Expression(exp)
+      yield Expression(exp)
 }
 
 

@@ -6,41 +6,38 @@ package core.types
 
 import core.types.Signal.Signal
 import core.types.Token._
-import Expression._
+import cats.Monoid
 
 import scala.annotation.switch
 
-class Expression(val logic: List[Token]) {
-
-  def this(str: String) = {
-    this(str.toCharArray map token_map toList)
-  }
-
-  val num_inputs: Int = {
-    val inputs = for {
-      token <- logic
-      if token.is_num
-    } yield (token - 15)
-    if(inputs.isEmpty) 0 else (inputs.max)
-  }
-
-  val num_outputs: Int =
-    logic.map(_.characteristic) .sum
-
-  def apply(ins: Signal): Signal =
-    logic.foldLeft(Signal.empty(0))(step_func(ins))
-
-  def ++(that: Expression): Expression = new Expression(this.logic ++ that.logic)
-
-  override def toString: String =
-    "(" ++ logic.map(_.str).mkString(" ") ++ ")"
-}
-
 object Expression {
-
+  type Expression = List[Token]
   type Stack = Signal
 
-  def token_map(c: Char): Token = c match {
+  def apply(str: String): Expression =
+    str.toCharArray map token_map toList
+
+  implicit class ExpressionMethods(val logic: Expression){
+    val num_inputs: Int = {
+      val inputs = for {
+        token <- logic
+        if token.is_num
+      } yield token - 0xF
+      if(inputs.isEmpty) 0 else inputs.max
+    }
+
+    val num_outputs: Int =
+    logic.map(_.characteristic) .sum
+
+    def eval(ins: Signal): Signal =
+    logic.foldLeft(Signal.empty(0))(step_func(ins))
+
+    //would have prefered to simply override toString as is standard, but can't override toString in implicit class
+    def print: Unit = println("(" ++ logic.map(_.str).mkString(" ") ++ ")")
+  }
+
+
+  def token_map(c: Char): Token = (c: @switch) match {
     case 'F' => F
     case 'T' => T
     case '~' => N
@@ -64,7 +61,11 @@ object Expression {
       case A => (stack(0) & stack(1)) :: (stack drop 2)
       case X => (stack(0) ^ stack(1)) :: (stack drop 2)
       case Z => stack
-      case 0x10 | 0x11 | 0x12 | 0x13 => ins(token - 0x10) :: stack
-      case _ => throw new Error("Got unexpected token: $token.")
+      case n =>
+        if (n.is_num)
+          ins(token - 0x10) :: stack
+        else
+          throw new Error("Got unexpected token: $n.")
+
     }
 }

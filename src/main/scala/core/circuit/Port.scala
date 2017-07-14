@@ -98,13 +98,8 @@ object Port {
   }
 
   private def connection_precondition(p1: Port, p2: Port): Boolean = {
-    val capacity_condition: Boolean = {p1.capacity == p2.capacity}
-    val port_type_condition: Boolean = p1 match {
-      case PortType.IN     => p2.port_type == PortType.OUT
-      case PortType.OUT    => p2.port_type == PortType.IN
-      case PortType.UNUSED => false
-    }
-      p1.port_type == PortType.OUT && p2.port_type == PortType.IN
+    val capacity_condition: Boolean = p1.capacity == p2.capacity
+    val port_type_condition: Boolean = p1.port_type == PortType.OUT && p2.port_type == PortType.IN
 
     capacity_condition && port_type_condition
   }
