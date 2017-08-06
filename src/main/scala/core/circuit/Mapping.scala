@@ -16,19 +16,20 @@ class Mapping (val num_inputs: Array[Int], val logic: Array[Expression]) extends
     this(ins.split(",") map (_.head.asDigit), Mapping.logic(outs))
   }
 
+  val eval_number: Int = 1
   val num_outputs:  Array[Int] = logic map (_.num_outputs)
   val last_inputs:  Array[Signal] = num_inputs  map Signal.empty
   val last_outputs: Array[Signal] = num_outputs map Signal.empty
   val ports:        Array[Port] =
     (num_inputs zip num_outputs) map Port.create
-  calc_outputs()
+  next_state()
 
   override def request_inputs(): Unit = {
     for (i <- 0 to 3)
       last_inputs(i) = ports(i).get_input
   }
 
-  override def calc_outputs(): Unit = {
+  override def next_state(): Unit = {
     val flat_inputs: Signal = last_inputs.flatten.toList
     for (d <- 0 to 3)
       last_outputs(d) = logic(d).eval(flat_inputs)

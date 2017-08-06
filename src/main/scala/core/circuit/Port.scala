@@ -1,13 +1,19 @@
 package core.circuit
 
+import javafx.beans
+import javafx.beans.Observable
+
 import core.circuit.Port._
 import core.circuit.Port.PortType.PortType
 import core.types.Signal
 import core.types.Signal.Signal
+
+import scalafx.beans.property.Property
+
 /**
   * Created by Mitch on 4/11/2017.
   */
-class Port(val port_type: PortType, val capacity: Int) {
+class Port private (val port_type: PortType, val capacity: Int) {
   private var signal: Signal = Signal.empty(capacity)
   private var spouse: Option[Port] = None
 
@@ -50,10 +56,10 @@ class Port(val port_type: PortType, val capacity: Int) {
     else Signal.empty(0)
   }
 
-  def set_input(signal: Signal): Unit = {
-    if(is_input)
+  def set_input(signal: Signal): Unit =
+    if(is_input) {
       this.signal = signal
-  }
+    }
 
   def get_output: Signal =
     if (is_output) signal
@@ -84,6 +90,11 @@ object Port {
     type PortType = Value
     val IN, OUT, UNUSED = Value
   }
+
+  //These are the only way to create a port
+  def in(capacity: Int):  Port = new Port(PortType.IN,  capacity)
+  def out(capacity: Int): Port = new Port(PortType.OUT, capacity)
+  def unused:             Port = new Port(PortType.UNUSED, 0)
 
   def create(i: Int, o: Int): Port = create((i, o))
   def create(io: (Int, Int)): Port = {

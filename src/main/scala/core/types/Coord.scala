@@ -1,8 +1,8 @@
 package core.types
 
+import core.types.Coord.Location.Location
+import core.types.Coord._
 import core.types.Direction._
-
-import scala.math.abs
 
 /**
   * Created by Mitch on 4/18/2017.
@@ -11,8 +11,10 @@ class Coord (val coord: (Int, Int)) {
   val x = coord._1
   val y = coord._2
 
-  def +(that: Coord): Coord = Coord(x+that.x, y+that.y)
-  def -(that: Coord): Coord = Coord(x-that.x, y-that.y)
+  def +(b: Coord):  Coord = Coord(x+b.x, y+b.y)
+  def -(b: Coord):  Coord = Coord(x-b.x, y-b.y)
+  def *(n: Int):    Coord = Coord(x*n, y*n)
+  def /(n: Int):    Coord = Coord(x/n, y/n)
 
   def within(n: Int): Boolean = x < n && y < n
 
@@ -25,9 +27,9 @@ class Coord (val coord: (Int, Int)) {
   * else if(coord is on the corner) return 2
   *
   * */
-  def on_side(size: Int): Int = {
+  def on_side(size: Int): Location = {
     def f(z: Int) = if (z == 0 || z == size-1) 1 else 0
-    f(x) + f(y)
+    Location(f(x)+f(y))
   }
 
   type OrthoVector = (Direction, Int)
@@ -40,9 +42,20 @@ class Coord (val coord: (Int, Int)) {
   def trail(vector: OrthoVector): List[Coord] =
     List.iterate(this, vector._2)(_ + vector._1)
 
+  def adj(): List[Coord] = Direction.values map (_ + this)
+
   // gets taxicab distance
   def taxi_dist(that: Coord): Int =
-    abs(this.x - that.x) + abs(this.y - that.y)
+    math.abs(this.x - that.x) + math.abs(this.y - that.y)
+
+  override def toString: String = s"($x, $y)"
+  override def equals(obj: scala.Any): Boolean =
+    obj match {
+      case c: Coord => c.x == x && c.y == y
+      case _ => false
+    }
+  override def hashCode(): Int = ((x+y+1)*(x+y+2))/2 -x-1
+
 }
 
 object Coord {
@@ -62,8 +75,22 @@ object Coord {
       j <- 0 until n
     } yield Coord(i, j)
 
-  def over_corner(n:Int): List[Coord] =
-    (0,0)::(0,n-1)::(n-1,n-1)::(n-1,0)::Nil map (Coord(_))
+  def over_corner(n:Int): Seq[Coord] =
+    Seq((0,0), (0,n-1), (n-1,n-1), (n-1,0))
+
+  /*
+  * Represents the all the positions that are in `over_square(b)` that aren't in `over_square(a)`
+  * */
+  def over_square_rem(a: Int, b: Int): Seq[Coord] = {
+    assert(a <= b)
+    over_square(b) filter (!_.within(a))
+  }
 
   implicit def tuple2Coord(tuple: (Int, Int)): Coord = new Coord(tuple)
+
+  object Location extends Enumeration {
+    type Location = Value
+    val CENTER, EDGE, CORNER = Value
+  }
 }
+

@@ -16,3 +16,5 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
 libraryDependencies += "org.scala-graph" %% "graph-core" % "1.11.5"
 
 libraryDependencies += "org.typelevel" %% "cats" % "0.9.0"
+
+libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.92-R10"

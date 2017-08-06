@@ -7,7 +7,7 @@ import core.types.ID.ID
 /**
   * Created by Mitch on 4/23/2017.
   */
-class Game {
+class Game(var n: Int) {
   val function: Function = new Function
   val game_info: GameInformation = new GameInformation
 

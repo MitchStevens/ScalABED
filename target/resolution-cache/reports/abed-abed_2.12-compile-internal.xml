@@ -7,7 +7,7 @@
 		revision="1.0"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20170709214530"/>
+		date="20170802012050"/>
 	<dependencies>
 		<module organisation="org.typelevel" name="cats_2.12">
 			<revision name="0.9.0" status="release" pubdate="20170116103138" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="5">
@@ -304,6 +304,13 @@
 					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5272325" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-lang\scala-library\jars\scala-library-2.12.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.1/scala-library-2.12.1.jar"/>
 					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalafx" name="scalafx_2.12">
+			<revision name="8.0.92-R10" error="not found" downloaded="false" searched="false" conf="default(compile)" position="-1">
+				<caller organisation="abed" name="abed_2.12" conf="compile-internal, compile, provided, optional" rev="8.0.92-R10" rev-constraint-default="8.0.92-R10" rev-constraint-dynamic="8.0.92-R10" callerrev="1.0"/>
+				<artifacts>
 				</artifacts>
 			</revision>
 		</module>

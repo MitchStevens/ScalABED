@@ -1,16 +1,18 @@
 package core.circuit
 
 import core.circuit.Port.PortType
+import core.circuit.Port.PortType._
 import core.types.Edge.Edge
 import core.types.ID.ID
 import core.types.{Direction, Signal}
 import core.types.Signal.Signal
 
+import scala.collection.mutable
 import scala.collection.mutable.{HashMap, Queue}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import scalax.collection.Graph
 import scalax.collection.GraphEdge.DiEdge
+import scalax.collection.mutable.Graph
 
 /**
   * Created by Mitch on 4/23/2017.
@@ -20,15 +22,16 @@ class Function extends Evaluable {
   val sides:      Array[Option[IOCircuit]] = Array.fill(4)(None)
   val side_names: Array[ID]                = Array.fill(4)("")
 
+  val eval_number = 1
   val edges: HashMap[Edge, Edge]    = HashMap.empty
   val nodes: HashMap[ID, Evaluable] = HashMap.empty
-  val dependency_graph: Graph[ID, DiEdge] = Graph()
+  //val dependency_graph: Graph[ID, DiEdge] = Graph()
 
   val last_inputs:  Array[Signal] = Array.fill(4)(Signal.empty(0))
   val last_outputs: Array[Signal] = Array.fill(4)(Signal.empty(0))
   val num_inputs:   Array[Int]    = Array.fill(4)(0)
   val num_outputs:  Array[Int]    = Array.fill(4)(0)
-  val ports:        Array[Port]   = Array.fill(4)(new Port(PortType.UNUSED, 0))
+  val ports:        Array[Port]   = Array.fill(4)(Port.unused)
 
   val eval_loop: Future[Unit] =
     Future {
@@ -55,27 +58,25 @@ class Function extends Evaluable {
     * </ol>
     */
   override def request_inputs(): Unit = {
-    for (i <- 0 to 3){
-      last_inputs(i) = ports(i).get_input
-      println(ports(1))
-      if (sides(i).isDefined){
+    for (i <- 0 to 3)
+      if (ports(i).port_type == PortType.IN) {
+        last_inputs(i) = ports(i).get_input
         sides(i).get.port set_input last_inputs(i)
         evaluation_list += side_names(i)
       }
-    }
   }
 
   /**
     * Function is constantly evaluating, does nothing
     * */
-  override def calc_outputs(): Unit = {}
+  override def next_state(): Unit = {}
 
   /**
     * First get the information out of the sides that are outputs, then transmit this information to the ports.
     */
   override def send_outputs(): Unit = {
     for (i <- 0 to 3)
-      if (sides(i).isDefined) {
+      if (ports(i).port_type == PortType.OUT) {
         last_outputs(i) = sides(i).get.port.get_output
         ports(i) set_output last_outputs(i)
       }
@@ -97,17 +98,16 @@ class Function extends Evaluable {
         case input: Input  =>
           this.num_inputs(dir)  = input.capacity
           this.last_inputs(dir) = Signal.empty(input.capacity)
-          this.ports(dir) = new Port(PortType.IN, input.capacity)
+          this.ports(dir) = Port.in(input.capacity)
         case output: Output =>
           this.num_outputs(dir)  = output.capacity
           this.last_outputs(dir) = Signal.empty(output.capacity)
-          this.ports(dir) = new Port(PortType.OUT, output.capacity)
+          this.ports(dir) = Port.out(output.capacity)
         case _ => throw new Error("asdasd")
       }
       this.sides(dir)      = Some(nodes(id).asInstanceOf[IOCircuit])
       this.side_names(dir) = id
     }
-
   }
 
   /**
@@ -121,7 +121,7 @@ class Function extends Evaluable {
     this.num_outputs(dir)   = 0
     this.last_inputs(dir)   = Signal.empty(0)
     this.last_outputs(dir)  = Signal.empty(0)
-    this.ports(dir)         = new Port(PortType.UNUSED, 0)
+    this.ports(dir)         = Port.unused
   }
 
   /** Given two edges, make an attempt to connect them
@@ -191,6 +191,11 @@ class Function extends Evaluable {
       nodes += kv
     cond
   }
+
+  def addAll(m: mutable.HashMap[ID, Evaluable]): Boolean =
+    m.iterator
+      .map(this.add)
+      .forall(identity)
 
   def remove(id: ID): Option[Evaluable] = {
     val eval = nodes.remove(id)

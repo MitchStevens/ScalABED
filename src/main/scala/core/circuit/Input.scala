@@ -10,10 +10,14 @@ import core.types.Signal.Signal
 class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".split(",") map (Expression(_))) with IOCircuit {
   require(0 < capacity && capacity <= 8, s"The capacity of input must be between 1 and 8; capacity found: $capacity")
 
-  val port: Port = new Port(PortType.IN, capacity)
+  override val eval_number: Int = 1
+  val port: Port = Port.in(capacity)
   private var booleans: Signal = Signal.empty(capacity)
 
-  override def values: Signal = booleans
+  def values: Signal = {
+    println(s"getting values: ${ports(Direction.RIGHT)}")
+    this.booleans
+  }
 
   def toggle(idx: Int): Unit = {
     if (0 <= idx && idx < capacity)
@@ -24,12 +28,14 @@ class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".spli
     booleans = port.get_input
   }
 
-  override def calc_outputs(): Unit = {
+  override def next_state(): Unit = {
     last_outputs(Direction.RIGHT) = booleans
   }
 
   override def send_outputs(): Unit = {
-    ports(Direction.RIGHT) set_output last_outputs(Direction.RIGHT)
+    println(s"hsh: $booleans")
+    ports(Direction.RIGHT) set_output this.booleans
+    println(ports(Direction.RIGHT))
   }
 
 }

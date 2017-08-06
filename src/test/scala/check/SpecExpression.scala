@@ -1,12 +1,15 @@
 package check
 
-import cats.implicits._
 import GenExpression._
 import cats.Monoid
+import check.GenSignal.signal_gen_len
+
 import core.types.{Expression, Signal}
 import core.types.Expression.ExpressionMethods
 import core.types.Expression.Expression
+import core.types.Signal.Signal
 import core.types.Token.{A, F, I, N, O, T, Token, X, Z}
+
 import org.scalacheck.Gen.{listOf, oneOf}
 import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
 import org.scalacheck.Prop.{BooleanOperators, forAll}
@@ -29,11 +32,11 @@ object SpecExpression extends Properties("Expression") {
     }
   }
 
-  property("") = forAll (function_gen, expression_) {
-    (token: Token) => {
-      val f = List(token)
-      val x = evaluable_gen.combineN(f.num_inputs)
-
+  property("") = forAll (function_gen, signal_gen_len(16)) {
+    (token: Token, signal: Signal) => {
+      val f: Expression = List(token)
+      val x: Expression = evaluable_gen.combineN(f.num_inputs).sample.get
+      (x ::: f).eval(signal) == (x.eval(signal) ::: f).eval(signal)
     }
   }
 

@@ -6,7 +6,6 @@ package core.types
 
 import core.types.Signal.Signal
 import core.types.Token._
-import cats.Monoid
 
 import scala.annotation.switch
 

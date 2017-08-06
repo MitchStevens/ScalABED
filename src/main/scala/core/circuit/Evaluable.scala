@@ -16,6 +16,9 @@ import scala.concurrent.duration._
   */
 
 trait Evaluable extends Circuit {
+  //number of times to call next state when evaluating
+  val eval_number: Int
+
   val num_inputs:   Array[Int]
   val num_outputs:  Array[Int]
   val last_inputs:  Array[Signal]
@@ -26,7 +29,7 @@ trait Evaluable extends Circuit {
   def request_inputs(): Unit
 
   //do something with the new inputs
-  def calc_outputs(): Unit
+  def next_state(): Unit
 
   //return new outputs to the ports
   def send_outputs(): Unit
@@ -34,7 +37,7 @@ trait Evaluable extends Circuit {
   //do all the above operations at once
   def evaluate(): Unit = {
     this.request_inputs()
-    this.calc_outputs()
+    for (_ <- 0 to eval_number) this.next_state()
     this.send_outputs()
   }
 
