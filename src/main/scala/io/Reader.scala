@@ -1,11 +1,10 @@
 package io
 
 import core.circuit.Mapping
-import java.util.{List => JavaList, ArrayList => JavaArrayList}
+import java.io.{File, FileInputStream}
 
-import scala.collection.JavaConverters
-import scala.collection.immutable.{HashMap => ScalaMap}
 import scala.xml.{Elem, Node, NodeSeq}
+import scalafx.scene.image.Image
 
 /**
   * Created by Mitch on 5/21/2017.
@@ -14,18 +13,10 @@ object Reader {
   private val LEVELS_PATH:    String = "res/xml/levels.xml"
   private val MAPPINGS_PATH:  String = "res/xml/mappings.xml"
 
-  val LEVELS: Seq[Seq[Level]] = read_levels()
-  val LEVELS_JAVA: JavaList[JavaList[Level]] = {
-    val java_list: JavaList[JavaList[Level]] = new JavaArrayList()
-    for(list <- LEVELS)
-      java_list.add(JavaConverters.seqAsJavaList(list))
-    java_list
-  }
-
-  val LEVEL_SET_NAMES: Seq[String] = read_level_set_names()
-  val LEVEL_SET_NAMES_JAVA: JavaList[String] = JavaConverters.seqAsJavaList(LEVEL_SET_NAMES)
-
-  val MAPPINGS: ScalaMap[String, Mapping] = read_mappings()
+  val LEVELS: Seq[Seq[Level]]        = read_levels()
+  val LEVEL_SET_NAMES: Seq[String]   = read_level_set_names()
+  val MAPPINGS: Map[String, Mapping] = read_mappings()
+  val IMAGES: Map[String, Image]     = read_images()
 
 
   private def read_levels(): Seq[Seq[Level]] = {
@@ -35,7 +26,6 @@ object Reader {
         create_level
       }
     }
-
   }
 
   private def create_level(nodeseq: NodeSeq): Level  = {
@@ -47,6 +37,7 @@ object Reader {
       }
       ins
     }
+
     def outputs(xml: NodeSeq): Array[Int] = {
       val ins :Array[Int] = Array(0, 0, 0, 0)
       for (i <- (xml \ "output") map (_.text.split(" "))){
@@ -71,11 +62,17 @@ object Reader {
     (data \ "level_set") map (_ \ "@name" text)
   }
 
-  private def read_mappings(): ScalaMap[String, Mapping] = {
+  private def read_mappings(): Map[String, Mapping] = {
     def f(xml: NodeSeq): (String, Mapping) =
       (xml \@ "name", new Mapping(xml \@ "inputs", xml \@ "evals"))
 
     val data: Elem = scala.xml.XML.loadFile(MAPPINGS_PATH)
-    ScalaMap.empty[String, Mapping] ++ ((data \ "mapping") map f)
+    Map.empty[String, Mapping] ++ ((data \ "mapping") map f)
+  }
+
+  private def read_images(): Map[String, Image] = {
+    def f(file: File): (String, Image) =
+      file.getName.takeWhile(_ != '.') -> new Image(new FileInputStream(file))
+    Map.empty[String, Image] ++ (new File("res/img").listFiles map f)
   }
 }

@@ -4,6 +4,7 @@ import core.circuit.{Evaluable, Port}
 import core.types.Direction
 import main.scala.graphical.screens.CircuitPane
 import Piece._
+import io.Reader
 
 import scalafx.beans.binding._
 import scalafx.beans.property.{DoubleProperty, ReadOnlyDoubleProperty}
@@ -15,16 +16,17 @@ import scalafx.scene.shape._
 /**
   * Created by Mitch on 8/2/2017.
   */
-class Piece(evaluable: Evaluable) extends Draggable {
+class Piece(evaluable: Evaluable) extends Draggable with Snapping {
   val delete_button = new Button("x")
   val clone_button = new Button("+")
   val edges = for (dir <-Direction.values) yield new PieceEdge(dir, evaluable.ports(dir))
   val center = new ImageView {
-    image = new Image("@../../../img/default_center.png")
+    image = Reader.IMAGES("default_center")
   }
-  center.fitWidth  <== this.prefWidth  * 0.5
-  center.fitHeight <== this.prefHeight * 0.5
-
+  center.fitWidth   <== this.prefWidth  * 0.5
+  center.fitHeight  <== this.prefHeight * 0.5
+  center.translateX <== this.prefWidth  * 0.25
+  center.translateY <== this.prefHeight * 0.25
   this.prefWidth  <== CircuitPane.tile_size
   this.prefHeight <== CircuitPane.tile_size
 

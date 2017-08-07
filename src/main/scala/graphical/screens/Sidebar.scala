@@ -33,7 +33,7 @@ object Sidebar extends TabPane {
           new Button {
             text = "Add a piece"
             maxWidth = Double.MaxValue
-            onMouseClicked = _ => {CircuitPane.children add new Piece(Reader.MAPPINGS("AND"))}
+            onMouseClicked = _ => {GamePane.children add new Piece(Reader.MAPPINGS("AND"))}
           },
           new Button {
             text = "Menu"

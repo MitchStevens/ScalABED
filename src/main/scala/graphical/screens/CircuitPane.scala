@@ -6,8 +6,6 @@ import main.scala.graphical.Main
 import main.scala.graphical.controls.{Piece, Square}
 
 import scala.collection.mutable
-import scala.concurrent.ExecutionContext.global
-import scala.concurrent.Future
 import scalafx.Includes._
 import scalafx.beans.property._
 import scalafx.scene.layout.GridPane
@@ -61,8 +59,6 @@ object CircuitPane extends GridPane {
       this.squares += c -> square
       this.add(square, c.y, c.x)
     }
-
-  // (Maybe s -> c -> Maybe s) -> b -> [c] -> b
 
   private def decrease_size(o: Int, n: Int): Unit = {
       for {
