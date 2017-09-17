@@ -2,16 +2,24 @@ package core.types
 
 import core.types.ID.ID
 
-object Edge {
-  /** An Edge is an object that is used to point to a port in a Function of Game.
-    *
-    * @constructor Create an edge from an id and a direction.
-    * @param id The ID of the evaluable (Assuming the evaluable is embedded in a mesagame)
-    * @param dir The direction of the port (Assuming that the evaluable is embedded inside a mesagame) www.frr.org.au
-    */
-  case class Edge(val id: ID, val dir: Direction)
+import scalax.collection.GraphEdge.DiEdgeLike
 
-  /** Syntactic Sugar */
-  def apply(id: ID, dir: Direction): Edge =
-    new Edge(id, dir)
+/** An Edge is an object that is used to point to a port in a Function of Game.
+  *
+  * @constructor Create an edge from an id and a direction.
+  * @param from
+  * @param to
+  */
+class Edge(from: Side, to: Side) extends DiEdgeLike[ID] {
+  override def isAt(pred: ID => Boolean): Boolean = pred (to.id)
+  override def isAt[M >: ID](node: M): Boolean = ??? //(from eq node) || (to eq node)
+  override def iterator: Iterator[ID] = Iterator(to.id)
+  override def nodes: Product = ???
+  override def isValidArity(size: Int): Boolean = size == 1
 }
+
+case class Side(id: ID, dir: Direction) extends Ordered[Side] {
+  override def compare(that: Side): Int =
+    (this.id compareTo that.id) * 4 + (this.dir compareTo that.dir)
+}
+

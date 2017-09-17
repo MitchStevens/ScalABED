@@ -1,5 +1,0 @@
-{
-  "true_expressions":  ["t", "f~", "t~~", "tt~|", "f~f|"," 00~|", "11&,10~&"],
-  "false_expressions": ["f", "t~", "f~~", "ft&", "01&", "0f|"],
-  "other_expressions": ["t", "f", "ttft", "0", "1", "0121", "0~", "01|", "ttttt|||&"]
-}

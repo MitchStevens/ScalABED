@@ -28,9 +28,9 @@ object Expression {
     val num_outputs: Int =
     logic.map(_.characteristic) .sum
 
-    def eval(ins: Signal): Signal =
-    logic.foldLeft(Signal.empty(0))(step_func(ins))
-
+    def eval(ins: Signal): Signal = {
+      logic.foldLeft(Signal.empty(0))(step_func(ins))
+    }
     //would have prefered to simply override toString as is standard, but can't override toString in implicit class
     def print: Unit = println("(" ++ logic.map(_.str).mkString(" ") ++ ")")
   }
@@ -39,6 +39,7 @@ object Expression {
   def token_map(c: Char): Token = (c: @switch) match {
     case 'F' => F
     case 'T' => T
+    case 'i' => I
     case '~' => N
     case '+' => O
     case '*' => A

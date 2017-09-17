@@ -1,5 +1,9 @@
 package test
 
+import core.types.{Expression, Signal}
+import core.types.Expression.{Expression, Stack}
+import core.types.Token.Token
+import org.scalatest.FlatSpec
 
 /**
   * Created by Mitch on 30/01/2017.
@@ -10,7 +14,6 @@ import core.types.{Expression, Signal}
 import org.scalatest.FlatSpec
 
 import test.TestExpression.{exp_false, exp_single, exp_true, ins}
-
 class TestExpression extends FlatSpec{
 
   "A Token" must "initialise without error" in {
@@ -97,9 +100,9 @@ class TestExpression extends FlatSpec{
   }
 
   it must "implement the num_outputs function correctly" in {
-    for(e <- exp_single){
+    for(e <- exp_single) {
       val n: Int = e.num_outputs
-    assert(n == 1, s". The expression $e was found to have $n inputs, expected 1.")
+      assert(n == 1, s". The expression $e was found to have $n inputs, expected 1.")
     }
   }
 }

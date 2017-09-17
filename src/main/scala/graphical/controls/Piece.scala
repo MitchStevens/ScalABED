@@ -1,9 +1,11 @@
 package main.scala.graphical.controls
 
 import core.circuit.{Evaluable, Port}
-import core.types.Direction
+import core.types.{Coord, Direction}
 import main.scala.graphical.screens.CircuitPane
 import Piece._
+import core.Positional
+import core.circuit.Port.PortType
 import io.Reader
 
 import scalafx.beans.binding._
@@ -16,10 +18,10 @@ import scalafx.scene.shape._
 /**
   * Created by Mitch on 8/2/2017.
   */
-class Piece(evaluable: Evaluable) extends Draggable with Snapping {
+class Piece(evaluable: Evaluable, var pos: Coord) extends Snapping with Positional {
   val delete_button = new Button("x")
   val clone_button = new Button("+")
-  val edges = for (dir <-Direction.values) yield new PieceEdge(dir, evaluable.ports(dir))
+  val edges: Seq[PieceEdge] = for (d <- Direction.values) yield new PieceEdge(d)
   val center = new ImageView {
     image = Reader.IMAGES("default_center")
   }
@@ -29,50 +31,38 @@ class Piece(evaluable: Evaluable) extends Draggable with Snapping {
   center.translateY <== this.prefHeight * 0.25
   this.prefWidth  <== CircuitPane.tile_size
   this.prefHeight <== CircuitPane.tile_size
+  this.translateX = CircuitPane.squares(pos).translateX.value
+  this.translateY = CircuitPane.squares(pos).translateY.value
 
-  this.children = Seq(
-    center
-  )
+  this.children = Seq(center) ++ edges
 
   def repaint(): Unit = {
 
   }
 
-}
+  override def position: Coord = pos
+  override def move(pos: Coord): Unit = {this.pos = pos}
 
-class PieceEdge(dir: Direction, port: Port) extends Pane {
-
-  //val circuit_symbols: Seq[Path] = ???
-
-  prefWidth  <== piece_edge_width
-  prefHeight <== piece_edge_height
-  translateX <== piece_edge_translateX(dir)
-  translateY <== piece_edge_translateY(dir)
-
-
-  children = Seq(
-    //new HBox {
-    //  children = circuit_symbols
-    //}
-  )
-
-  def cross(size: Double): Path =
-  new Path {
-    elements = Seq(
-    new MoveTo{x = 0;    y = 0},
-    new LineTo{x = size; y = size},
-    new MoveTo{x = size; y = 0},
-    new LineTo{x = 0;    y = size}
-    )
+  class PieceEdge(dir: Direction) extends Pane {
+    prefWidth  <== piece_edge_width
+    prefHeight <== piece_edge_height
+    translateX <== piece_edge_translateX(dir)
+    translateY <== piece_edge_translateY(dir)
+    val port_image = new ImageView {
+      image = evaluable.ports(dir).port_type match {
+        case PortType.OUT    => Reader.IMAGES("out")
+        case PortType.IN     => Reader.IMAGES("in")
+        case PortType.UNUSED => Reader.IMAGES("unused")
+      }
+      rotate = dir * 90.0
+    }
+    port_image.fitWidth  <== prefWidth
+    port_image.fitHeight <== prefHeight
+   children = Seq(port_image)
   }
 
-  def circle(size: Double): Circle =
-  new Circle {
-    centerX = size*0.5
-    centerY = size*0.5
-    radius = size*0.5
-  }
 }
+
 
 object Piece {
   val EDGE_WIDTH_PERCENTAGE = 0.4

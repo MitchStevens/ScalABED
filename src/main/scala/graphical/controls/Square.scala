@@ -2,6 +2,7 @@ package main.scala.graphical.controls
 
 import javafx.css.PseudoClass
 
+import core.Positional
 import core.types.Coord.Location
 import core.types.{Coord, Direction}
 import main.scala.graphical.screens.CircuitPane
@@ -13,9 +14,8 @@ import scalafx.scene.shape.Polygon
 /**
   * Created by Mitch on 7/28/2017.
   */
-class Square(pos: Coord) extends Pane {
+class Square(private var pos: Coord) extends Pane with Positional {
   import Square._
-
   val m = 0.05
   val chevron = new Polygon {
     //points = Seq(
@@ -34,9 +34,9 @@ class Square(pos: Coord) extends Pane {
   CircuitPane.num_tiles onChange ( (_, _, n) => {
     set_psuedoclasses(n.intValue())
   })
-
   children = Seq(chevron, new Label(pos.toString))
   styleClass = Seq("square")
+  this.set_translate()
 
   def chevron_direction(dir: Direction): Unit =
     chevron.setRotate(90 * dir.n)
@@ -49,6 +49,18 @@ class Square(pos: Coord) extends Pane {
     this.pseudoClassStateChanged(EDGE_PSEUDO_CLASS,   location == Location.EDGE)
     this.pseudoClassStateChanged(CORNER_PSEUDO_CLASS, location == Location.CORNER)
   }
+
+  override def position: Coord = pos
+  override def move(pos: Coord): Unit = {
+    this.pos = pos
+    this.set_translate()
+  }
+
+  def set_translate(): Unit = {
+    translateX <== CircuitPane.tile_originX + CircuitPane.tile_size * pos.x
+    translateY <== CircuitPane.tile_originY + CircuitPane.tile_size * pos.y
+  }
+
 }
 
 object Square {

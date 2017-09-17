@@ -1,15 +1,16 @@
 package core.types
 
+import cats.Monoid
 import core.types.Token._
 
 object Signal {
   type Signal = List[Token]
 
-  implicit class SignalMethods(signal: Signal) {
+  implicit class SignalMethods(val signal: Signal) {
     for(token <- signal)
       require(token.is_bool)
 
-    override def toString: String = "(" ++ signal.mkString(", ") ++ ")"
+    def str: String = "[" ++ signal.map(_.str).mkString(", ") ++ "]"
   }
 
   def apply(tokens: Token*): Signal = {
@@ -30,5 +31,6 @@ object Signal {
   def int2Signal(size: Int)(n: Int): Signal =
     for (i <- 0 until size toList)
       yield (n >> i) & 0x1
+
 }
 

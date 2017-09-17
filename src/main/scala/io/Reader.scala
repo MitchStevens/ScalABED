@@ -75,4 +75,7 @@ object Reader {
       file.getName.takeWhile(_ != '.') -> new Image(new FileInputStream(file))
     Map.empty[String, Image] ++ (new File("res/img").listFiles map f)
   }
+
+  def css(str: String): String =
+    "@res/css/" + str
 }

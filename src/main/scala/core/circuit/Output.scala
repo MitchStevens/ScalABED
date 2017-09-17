@@ -6,19 +6,7 @@ import core.types.Signal.Signal
 /**
   * Created by Mitch on 5/13/2017.
   */
-class Output(val capacity: Int) extends Mapping(s"0,0,0,$capacity", "_,_,_,_") with IOCircuit {
+class Output(val capacity: Int) extends Mapping(s"0,0,0,$capacity", "_,_,_,_") {
 
   val port: Port = Port.out(capacity)
-  def values: Signal = last_inputs(Direction.LEFT)
-
-  override def request_inputs(): Unit = {
-    last_inputs(Direction.LEFT) = ports(Direction.LEFT).get_input
-  }
-
-  override def next_state(): Unit = {}
-
-  override def send_outputs(): Unit = {
-    port set_output this.values
-  }
-
 }

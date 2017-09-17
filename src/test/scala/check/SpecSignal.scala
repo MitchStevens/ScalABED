@@ -1,7 +1,5 @@
 package check
 
-import GenSignal._
-
 import core.types.Signal.Signal
 import core.types.Token.{F, T, Token}
 import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
@@ -19,16 +17,11 @@ object SpecSignal extends Properties("Signal") {
     }
   }
 
-}
-
-object GenSignal {
-
+  //Generators
   implicit lazy val signal_arb: Arbitrary[Signal] = Arbitrary(signal_gen)
 
   val signal_gen: Gen[Signal] = Gen.choose(1, 32) flatMap signal_gen_len
-
   def signal_gen_len(n: Int): Gen[Signal] = Gen.listOfN(n, bool_gen)
-
   val bool_gen: Gen[Token] = Gen.oneOf(F, T)
 
 }

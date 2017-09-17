@@ -1,28 +1,39 @@
 package main.scala.graphical.screens
 
-import core.circuit.Game
+import core.circuit.{Evaluable, Game}
 import core.types.{Coord, Direction}
+import main.scala.core.GameAction._
 import main.scala.graphical.Main
 import main.scala.graphical.controls.{Piece, Square}
 
 import scala.collection.mutable
 import scalafx.Includes._
+import scalafx.beans.binding.{Bindings, NumberBinding}
 import scalafx.beans.property._
-import scalafx.scene.layout.GridPane
+import scalafx.scene.layout.{GridPane, Pane}
 
 /**
   * Created by Mitch on 7/31/2017.
   */
-object CircuitPane extends GridPane {
-  private val SPACING = 70.0
+object CircuitPane extends Pane {
   private val FPS: Int = 24
+  private val MARGIN: Double = 5.0
 
   private var repainting: Boolean = true
 
   val squares = mutable.Map.empty[Coord, Square]
   val pieces = mutable.Map.empty[Coord, Piece]
-  val tile_size = DoubleProperty(10)
+
+  prefWidth  <== GamePane.inner_pane_width - Sidebar.WIDTH - GamePane.PADDING
+  prefHeight <== GamePane.inner_pane_height
+  translateX <== GamePane.SPACING
+  translateY <== GamePane.SPACING
   val num_tiles = IntegerProperty(0)
+  val tile_size: NumberBinding = Bindings.createDoubleBinding(() => {
+    (math.min(this.height.value, this.width.value) - 2*MARGIN) / num_tiles.value
+  }, this.height, this.width, num_tiles)
+  val tile_originX = (this.width  - num_tiles * tile_size) * 0.5
+  val tile_originY = (this.height - num_tiles * tile_size) * 0.5
   var current_game = new Game(5)
 
   /*
@@ -39,10 +50,6 @@ object CircuitPane extends GridPane {
     "@../../css/all-panes.css",
     "@../../css/circuit-pane.css"
   )
-  tile_size <== createDoubleBinding(
-    () => (scala.math.min(Main.board_width.value - Sidebar.WIDTH, Main.board_height.value) - (2 * SPACING)) / num_tiles.toDouble,
-    Main.board_width, Main.board_height, this.num_tiles
-  )
   num_tiles onChange {
     (_, old_value, new_value) => {
       val o = old_value.intValue()
@@ -57,7 +64,7 @@ object CircuitPane extends GridPane {
     for (c <- Coord.over_square_rem(o, n)) {
       val square = new Square(c)
       this.squares += c -> square
-      this.add(square, c.y, c.x)
+      this.children += square
     }
 
   private def decrease_size(o: Int, n: Int): Unit = {
@@ -66,5 +73,28 @@ object CircuitPane extends GridPane {
         s <- squares.remove(c)
       } this.children -= s
     }
+  /*
+  def add(e: Evaluable, pos: Coord): Option[AddAction] =
+  current_game.add(e, pos) map ((action: AddAction) => {
+    val piece = new Piece(e, pos)
+    this.children.add(piece)
+    pieces += pos -> piece
+    action
+  })
 
+  def remove(pos: Coord): Option[RemoveAction] =
+    current_game.remove(pos) map ((action: RemoveAction) => {
+      val piece = pieces.remove(pos)
+      piece foreach this.children.remove
+      action
+    })
+
+  def move(from: Coord, to: Coord): Option[MoveAction] =
+    current_game.move(from, to) map ((action: MoveAction) => {
+      val piece = pieces.remove(from)
+
+      //piece foreach (pieces += (to, _))
+      action
+    })
+  */
 }

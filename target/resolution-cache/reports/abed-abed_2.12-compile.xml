@@ -7,8 +7,33 @@
 		revision="1.0"
 		conf="compile"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20170802012050"/>
+		date="20170917012955"/>
 	<dependencies>
+		<module organisation="org.ow2.sat4j" name="org.ow2.sat4j.core">
+			<revision name="2.3.4" status="release" pubdate="20130419221812" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="22">
+				<license name="Eclipse Public License 1.0" url="http://www.eclipse.org/org/documents/epl-v10.php"/>
+				<license name="GNU Lesser GPL 2.1" url="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"/>
+				<metadata-artifact status="no" details="" size="6289" time="0" location="C:\Users\mitch\.ivy2\cache\org.ow2.sat4j\org.ow2.sat4j.core\ivy-2.3.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/ow2/sat4j/org.ow2.sat4j.core/2.3.4/org.ow2.sat4j.core-2.3.4.pom"/>
+				<caller organisation="abed" name="abed_2.12" conf="compile" rev="2.3.4" rev-constraint-default="2.3.4" rev-constraint-dynamic="2.3.4" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="org.ow2.sat4j.core" type="jar" ext="jar" status="no" details="" size="343806" time="0" location="C:\Users\mitch\.ivy2\cache\org.ow2.sat4j\org.ow2.sat4j.core\jars\org.ow2.sat4j.core-2.3.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/ow2/sat4j/org.ow2.sat4j.core/2.3.4/org.ow2.sat4j.core-2.3.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalafx" name="scalafx_2.12">
+			<revision name="8.0.102-R11" status="release" pubdate="20161103100138" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalafx.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="21">
+				<license name="BSD" url="https://github.com/scalafx/scalafx/blob/master/LICENSE.txt"/>
+				<metadata-artifact status="no" details="" size="3071" time="0" location="C:\Users\mitch\.ivy2\cache\org.scalafx\scalafx_2.12\ivy-8.0.102-R11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scalafx/scalafx_2.12/8.0.102-R11/scalafx_2.12-8.0.102-R11.pom"/>
+				<caller organisation="abed" name="abed_2.12" conf="compile" rev="8.0.102-R11" rev-constraint-default="8.0.102-R11" rev-constraint-dynamic="8.0.102-R11" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scalafx_2.12" type="jar" ext="jar" status="no" details="" size="2736158" time="0" location="C:\Users\mitch\.ivy2\cache\org.scalafx\scalafx_2.12\jars\scalafx_2.12-8.0.102-R11.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scalafx/scalafx_2.12/8.0.102-R11/scalafx_2.12-8.0.102-R11.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.typelevel" name="cats_2.12">
 			<revision name="0.9.0" status="release" pubdate="20170116103138" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="5">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
@@ -256,6 +281,7 @@
 				<license name="BSD 3-Clause" url="http://www.scala-lang.org/license.html"/>
 				<metadata-artifact status="no" details="" size="2860" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-lang\scala-reflect\ivy-2.12.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.1/scala-reflect-2.12.1.pom"/>
 				<caller organisation="org.typelevel" name="machinist_2.12" conf="compile, runtime" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="0.6.1"/>
+				<caller organisation="org.scalafx" name="scalafx_2.12" conf="default, compile, runtime, master" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="8.0.102-R11"/>
 				<caller organisation="org.scalactic" name="scalactic_2.12" conf="default, compile, runtime, master" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="3.0.1"/>
 				<artifacts>
 					<artifact name="scala-reflect" type="jar" ext="jar" status="no" details="" size="3538697" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-lang\scala-reflect\jars\scala-reflect-2.12.1.jar">
@@ -293,6 +319,7 @@
 				<caller organisation="org.scalacheck" name="scalacheck_2.12" conf="compile, runtime" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="1.13.4"/>
 				<caller organisation="org.typelevel" name="cats-laws_2.12" conf="compile, runtime" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="0.9.0"/>
 				<caller organisation="org.typelevel" name="cats-kernel_2.12" conf="compile, runtime" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="0.9.0"/>
+				<caller organisation="org.scalafx" name="scalafx_2.12" conf="default, compile, runtime, master" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="8.0.102-R11"/>
 				<caller organisation="org.typelevel" name="cats-free_2.12" conf="compile, runtime" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="0.9.0"/>
 				<caller organisation="org.scala-graph" name="graph-core_2.12" conf="default, compile, runtime, master" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="1.11.5"/>
 				<caller organisation="org.typelevel" name="cats-jvm_2.12" conf="compile, runtime" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="0.9.0"/>
@@ -304,13 +331,6 @@
 					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5272325" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-lang\scala-library\jars\scala-library-2.12.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.1/scala-library-2.12.1.jar"/>
 					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.scalafx" name="scalafx_2.12">
-			<revision name="8.0.92-R10" error="not found" downloaded="false" searched="false" conf="default(compile)" position="-1">
-				<caller organisation="abed" name="abed_2.12" conf="compile" rev="8.0.92-R10" rev-constraint-default="8.0.92-R10" rev-constraint-dynamic="8.0.92-R10" callerrev="1.0"/>
-				<artifacts>
 				</artifacts>
 			</revision>
 		</module>

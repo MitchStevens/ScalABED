@@ -1,5 +1,6 @@
 package main.scala.graphical.screens
 
+import core.types.Coord
 import graphical.screens.TitlePane
 import io.Reader
 import main.scala.graphical.Main
@@ -15,7 +16,10 @@ object Sidebar extends TabPane {
   val WIDTH: Double = 300.0
   val incrementer = new Incrementer(3, 10, 5)
 
-  prefWidth = WIDTH
+  prefHeight <== GamePane.inner_pane_height
+  prefWidth  = WIDTH
+  translateX <== GamePane.width - WIDTH - GamePane.SPACING
+  translateY = GamePane.SPACING
   tabs = Seq(
     new Tab {
       text = "Info"
@@ -33,7 +37,7 @@ object Sidebar extends TabPane {
           new Button {
             text = "Add a piece"
             maxWidth = Double.MaxValue
-            onMouseClicked = _ => {GamePane.children add new Piece(Reader.MAPPINGS("AND"))}
+            onMouseClicked = _ => {}//CircuitPane.add(Reader.MAPPINGS("AND"), Coord(0, 0))}
           },
           new Button {
             text = "Menu"

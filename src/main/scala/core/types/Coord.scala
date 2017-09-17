@@ -42,7 +42,7 @@ class Coord (val coord: (Int, Int)) {
   def trail(vector: OrthoVector): List[Coord] =
     List.iterate(this, vector._2)(_ + vector._1)
 
-  def adj(): List[Coord] = Direction.values map (_ + this)
+  def adj(): Array[Coord] = Direction.values map (_ + this)
 
   // gets taxicab distance
   def taxi_dist(that: Coord): Int =

@@ -1,43 +1,56 @@
 package core.circuit
 
-import core.types.Edge.Edge
 import core.types._
-import core.types.ID.ID
 
 /**
   * Created by Mitch on 4/23/2017.
   */
 class Game(var n: Int) {
-  val function: Function = new Function
+  val function: MesaCircuit = new MesaCircuit
   val game_info: GameInformation = new GameInformation
 
-  def add(e: Evaluable, pos: Coord): Boolean = {
-    val id: ID = ID.generate()
-    game_info += (id, GameRecord(pos, Direction.UP, e))
-    function.add(id, e)
-  }
+  def add(e: Evaluable, pos: Coord):            Change[Game] = ???
+  def remove(pos: Coord):                       Change[Game] = ???
+  def rotate(rotation: Direction, pos: Coord):  Change[Game] = ???
+  def move(from: Coord, to: Coord):             Change[Game] = ???
 
-  def remove(pos: Coord): Option[Evaluable] = {
-    for (id <- game_info.id(pos)) {
-      game_info -= id
-      return function.remove(id)
+  /*
+  def add(e: Evaluable, pos: Coord): Option[AddAction] = {
+    val id: ID = ID.generate()
+    if (game_info.pos(id).isEmpty && game_info.id(pos).isEmpty) {
+      game_info += (id, GameRecord(pos, Direction.UP, e))
+      return Some(AddAction(id, pos))
     }
     None
   }
 
-  def rotate(rotation: Direction, pos: Coord): Boolean = {
-    for(id <- game_info.id(pos)) {
+  def remove(pos: Coord): Option[RemoveAction] = {
+    for (id <- game_info.id(pos)) {
+      game_info -= id
+      return Some(RemoveAction(id, pos))
+    }
+    None
+  }
+
+  def rotate(rotation: Direction, pos: Coord): Option[RotateAction] = {
+    for (id <- game_info.id(pos)) {
       function.disconnect_all(id)
       game_info.update(id, rotation)
-
-      function
+      return Some(RotateAction(id, pos, rotation))
     }
-    false
+    None
   }
 
-  def move(from: Coord, to: Coord): Boolean = {
-    false
+  def move(from: Coord, to: Coord): Option[MoveAction] = {
+    for (id <- game_info.id(from))
+      if (game_info.id(to).isEmpty) {
+        game_info.update(id, to)
+        return Some(MoveAction(id, from, to))
+      }
+    None
   }
+
+
 
   def reconnect(id: ID): Unit = {
     //abs_dir = rel_dir + rot
@@ -61,5 +74,5 @@ class Game(var n: Int) {
   def disconnect(id: ID): Unit = {
 
   }
-
+  */
 }

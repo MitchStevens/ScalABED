@@ -1,44 +1,32 @@
 package core.circuit
 
-
-import core.ConcurrencyContext._
-import core.circuit.Port.PortType
-import core.circuit.Port.PortType.PortType
 import core.types.Direction
-import core.types.Edge.Edge
 import core.types.Signal.Signal
-
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration._
 
 /**
   * Created by Mitch on 3/18/2017.
   */
 
-trait Evaluable extends Circuit {
-  //number of times to call next state when evaluating
-  val eval_number: Int
+trait Evaluable {
+  def num_inputs(dir: Direction): Int
+  def num_outputs(dir: Direction): Int
+  def ports(dir: Direction): Port = Port.create(num_inputs(dir), num_outputs(dir))
 
-  val num_inputs:   Array[Int]
-  val num_outputs:  Array[Int]
-  val last_inputs:  Array[Signal]
-  val last_outputs: Array[Signal]
-  val ports:        Array[Port]
+  def num_input_array:  Array[Int]  = Direction.values map num_inputs
+  def num_output_array: Array[Int]  = Direction.values map num_outputs
+  def port_array:       Array[Port] = Direction.values map ports
 
-  //get all the new inputs in
-  def request_inputs(): Unit
-
-  //do something with the new inputs
-  def next_state(): Unit
-
-  //return new outputs to the ports
-  def send_outputs(): Unit
-
-  //do all the above operations at once
-  def evaluate(): Unit = {
-    this.request_inputs()
-    for (_ <- 0 to eval_number) this.next_state()
-    this.send_outputs()
+  def apply(ins: Array[Signal]): Array[Signal]
+  def apply(signal: Signal): Array[Signal] = {
+    val ins: Array[Signal] = Array.ofDim(4)
+    var x, d = 0
+    for (i <- 0 to 3){
+      d = num_inputs(i)
+      ins(i) = signal.slice(x, x + d)
+      x += d
+    }
+    println(ins.mkString(", "))
+    apply(ins)
   }
 
   def repr: Array[String] = {
@@ -49,7 +37,9 @@ trait Evaluable extends Circuit {
       Array("> ",  "< ",  "  ")
     )
 
-    val type_nums = ports map (_.port_type.id)
+    val type_nums =
+      for (dir <- Direction.values)
+        yield ports(dir).port_type.id
 
     val sym: Seq[String] =
       for(i <- 0 to 3)
@@ -67,7 +57,7 @@ trait Evaluable extends Circuit {
 object Evaluable {
 
   def create_ports(ins: Array[Int], outs: Array[Int]): Array[Port] = {
-    for (i <- 0 to 3 toArray)
+    for (i <- Direction.values)
       yield Port.create(ins(i), outs(i))
   }
 
@@ -76,6 +66,10 @@ object Evaluable {
     Direction.values
       .map(f)
       .mkString("\n")
+  }
+
+  trait EvalException {
+    override def toString: String
   }
 
 }
