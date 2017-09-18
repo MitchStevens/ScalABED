@@ -8,6 +8,8 @@ import core.types.Signal._
 import scala.collection.mutable
 import core.CatzInstances._
 
+import scala.annotation.tailrec
+
 /**
   * Created by Mitch on 9/7/2017.
   *
@@ -17,25 +19,22 @@ import core.CatzInstances._
   *
   *
   */
-class CircuitState extends Map[Side, Signal] {
+class CircuitState {
   private val ports = mutable.HashMap.empty[Side, Either[Side, Signal]]
 
-
   /**
-  * s1 is
+  * the child is dependant upun the parent
   * */
-  def dependant(parent: Side, child: Side): Unit = {
-    ports += child -> Left(parent)
+  def dependant(edge: (Side, Side)): Unit = {
+    ports += edge._2 -> Left(edge._1)
   }
 
-  def unbind(s1: Side, s2: Side): Boolean = {
-    for (p1 <- ports.get(s1); p2 <- ports.get(s2))
-      return p1 disconnect p2
-    false
+  def independant(child: Side): Unit = {
+    ports -= child
   }
 
-  def signal(side: Side): Option[Signal] = ports.get(side) match {
-    case Some(Left(s))    => get_signal(s)
+  def apply(side: Side): Option[Signal] = ports.get(side) match {
+    case Some(Left(s))    => apply(s)
     case Some(Right(sig)) => Some(sig)
     case None             => None
   }
@@ -47,13 +46,19 @@ class CircuitState extends Map[Side, Signal] {
 
   def get_state(id: ID): Array[Signal] =
     for (dir <- Direction.values)
-      yield signal(Side(id, dir)) getOrElse Signal.empty(0)
+      yield apply(Side(id, dir)) getOrElse Signal.empty(0)
+
+  def get_state_padded(id: ID, size: Array[Int]): Array[Signal] =
+    for (dir <- Direction.values)
+      yield apply(Side(id, dir)) getOrElse Signal.empty(size(dir))
 
   def set_state(id: ID, signals: Array[Signal]): Unit =
   for {
     dir <- Direction.values
     if signals(dir).nonEmpty
-  } this(Side(id, dir)) = signals(sir)
+  } this(Side(id, dir)) = signals(dir)
+
+  def size: Int = ports.size
 
   override def toString: String = {
     val all_ids = ports.keysIterator.map(_.id).toSet[ID]

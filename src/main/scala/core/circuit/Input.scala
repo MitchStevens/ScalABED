@@ -16,17 +16,17 @@ class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".spli
     this.booleans
   }
 
-  override def apply(signal: Signal): Array[Signal] =
-    Array(Signal.empty(0), booleans, Signal.empty(0), Signal.empty(0))
+  override def apply(ins: Array[Signal]): Array[Signal] =
+    Array(Signal.empty(0), values, Signal.empty(0), Signal.empty(0))
 
   def toggle(idx: Int): Unit = {
     if (0 <= idx && idx < capacity)
       booleans = booleans.updated(idx, booleans(idx) ^ 1)
   }
 
-  def set(signal: Signal): Unit = {
-    if (capacity == signal.length)
+  def set(signal: Signal): Unit =
+    if (capacity == signal.length){
       booleans = signal
-  }
+    }
 
 }

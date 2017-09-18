@@ -18,12 +18,18 @@ class MesaCircuit extends Evaluable {
 
   def add(id: ID, evaluable: Evaluable): Unit = {
     graphs.add(id, evaluable)
-    state = next_state(state)
+    state.set_state(id, evaluable.num_input_array map Signal.empty)
   }
 
+  def add_all(tuples: List[(ID, Evaluable)]): Unit =
+    tuples foreach ((t: (ID, Evaluable)) => this.add(t._1, t._2))
+
+  /** connect side a to side b
+    *
+  * */
   def connect(edge: (Side, Side)): Unit = {
     graphs.connect(edge)
-    state.bind(edge._1, edge._2)
+    state.dependant(edge)
     state = next_state(state)
   }
 
@@ -32,23 +38,43 @@ class MesaCircuit extends Evaluable {
   * */
   override def apply(ins: Array[Signal]): Array[Signal] = {
     //Handle this error, what if ins length != 4
+    if (provide_inputs(ins: Array[Signal]))
+      state = next_state(state)
+    recieved_outputs(state)
+  }
+
+
+  //
+  private def provide_inputs(ins: Array[Signal]): Boolean = {
     for {
-      dir  <- Direction.values
-      edge <- graphs.side(dir)
-      if edge.isInstanceOf[Input]
-    } edge.asInstanceOf[Input] set ins(dir) //Handle this
-    state = next_state(state)
-    this.graphs.output_values
+      dir      <- Direction.values
+      circuit <- graphs.eval_on_side(dir)
+    } circuit match {
+      case in: Input => in set ins(dir) //Handle this
+      case _         => {}
+    }
+    true
+  }
+
+  def recieved_outputs(state: CircuitState): Array[Signal] = {
+    val outs: Array[Signal] = Array.fill(4)(Signal.empty(0))
+    for {
+      dir <- Direction.values
+      id  <- graphs.sides.get(dir)
+      sig <- state(Side(id, Direction.LEFT))
+      if graphs.eval_on_side(dir).isInstanceOf[Option[Output]]
+    } outs(dir) = sig
+    outs
   }
 
   override def num_inputs(dir: Direction): Int =
-    graphs.side(dir) map {
+    graphs.eval_on_side(dir) map {
       case in: Input => in.capacity
       case _         => 0
     } getOrElse 0
 
   override def num_outputs(dir: Direction): Int =
-    graphs.side(dir) map {
+    graphs.eval_on_side(dir) map {
       case out: Output => out.capacity
       case _           => 0
     } getOrElse 0
@@ -56,27 +82,22 @@ class MesaCircuit extends Evaluable {
   def size: Int = graphs.subcircuits.size
 
   def set_side(dir: Direction, id: ID): Unit = {
+
     graphs.sides(dir) = id
   }
 
   // Should this be pure? Could pass in the CircuitGraph?
   def next_state(state: CircuitState): CircuitState = {
-    //evaluate inputs
-    for {
-      dir  <- Direction.values
-      edge <- graphs.side(dir)
-      if edge.isInstanceOf[Input]
-    } {
-      val s = edge.asInstanceOf[Input].apply(Array.fill(4)(Signal.empty(0)))
-      state.set_state(graphs.sides(dir), s)
-    }
-
     val toposort_data = MesaCircuit.pseudo_toposort(graphs.dependency_graph)
     for(id <- toposort_data.toposorted) {
+      //print(s"id: $id, \t")
+      val evaluable = graphs.subcircuits(id)
       val inputs: Array[Signal] = state.get_state(id)
-      val outputs = graphs.subcircuits(id).apply(inputs)
-      println(s"id: $id, \t"+ inputs.map(_.str).mkString(", ") +"\t ~~~> "+ outputs.map(_.str).mkString(", "))
+      //print(inputs.map(_.str).mkString(", ") +"\t ~~~> ")
+      val outputs = evaluable.apply(inputs)
+      //println(outputs.map(_.str).mkString(", "))
       state.set_state(id, outputs)
+      //println(state.toString)
     }
     state
   }

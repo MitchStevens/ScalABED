@@ -1,7 +1,7 @@
 package core.circuit
 
 import cats.kernel.Monoid
-import core.types.Expression.{Expression, ExpressionMethods}
+import core.types.Expression._
 import core.types.Signal.Signal
 import core.types.{Direction, Expression, Signal}
 
@@ -26,11 +26,15 @@ class Mapping (input_size: Array[Int], val logic: Array[Expression]) extends Eva
   override def apply(ins: Array[Signal]): Array[Signal] = {
     require(ins.length == 4)
 
-    val input_signal: Signal = ins .foldRight(Signal())(_++_)
+    var input_signal = Signal.empty(0)
+    for (dir <- Direction.values)
+      input_signal = input_signal ++ ins(dir).take(num_inputs(dir))
+
     val outs: Array[Signal] =
-    for(i <- Direction.values)
-      yield logic(i).eval(input_signal) //Should this be a zipWith?
+      for(i <- Direction.values)
+        yield logic(i).eval(input_signal) //Should this be a zipWith?
     //assume(outs.length == 4)
+    //println(logic.map(_.str).mkString(",") +", inputs: "+ ins.mkString(",") +", outputs: "+ outs.mkString(","))
     outs
   }
 

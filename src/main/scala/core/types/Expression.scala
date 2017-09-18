@@ -32,7 +32,7 @@ object Expression {
       logic.foldLeft(Signal.empty(0))(step_func(ins))
     }
     //would have prefered to simply override toString as is standard, but can't override toString in implicit class
-    def print: Unit = println("(" ++ logic.map(_.str).mkString(" ") ++ ")")
+    def str: String = "(" ++ logic.map(_.str).mkString(" ") ++ ")"
   }
 
 

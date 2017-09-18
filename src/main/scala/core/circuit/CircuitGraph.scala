@@ -39,13 +39,13 @@ class CircuitGraph {
   def output_values: Array[Signal] = {
     val outs = Array.fill(4)(Signal.empty(0))
     for { dir <- Direction.values
-          io  <- side(dir)
+          io  <- eval_on_side(dir)
           if io.isInstanceOf[Input]
         } outs(dir) = io.asInstanceOf[Input].values
     outs
   }
 
-  def side(dir: Direction): Option[Evaluable] = sides.get(dir).flatMap(subcircuits.get)
+  def eval_on_side(dir: Direction): Option[Evaluable] = sides.get(dir).flatMap(subcircuits.get)
 
   def parents(id: ID):  Traversable[Side] =
     graph.nodes.filter(_.id == id).flatMap(_.diPredecessors).toOuterNodes

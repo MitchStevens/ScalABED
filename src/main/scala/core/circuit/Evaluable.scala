@@ -25,7 +25,6 @@ trait Evaluable {
       ins(i) = signal.slice(x, x + d)
       x += d
     }
-    println(ins.mkString(", "))
     apply(ins)
   }
 
