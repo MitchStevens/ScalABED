@@ -14,7 +14,7 @@ import scalafx.scene.shape.Polygon
 /**
   * Created by Mitch on 7/28/2017.
   */
-class Square(private var pos: Coord) extends Pane with Positional {
+class Square(var position: Coord) extends Pane with Positional {
   import Square._
   val m = 0.05
   val chevron = new Polygon {
@@ -34,7 +34,7 @@ class Square(private var pos: Coord) extends Pane with Positional {
   CircuitPane.num_tiles onChange ( (_, _, n) => {
     set_psuedoclasses(n.intValue())
   })
-  children = Seq(chevron, new Label(pos.toString))
+  children = Seq(chevron, new Label(position.toString))
   styleClass = Seq("square")
   this.set_translate()
 
@@ -45,20 +45,14 @@ class Square(private var pos: Coord) extends Pane with Positional {
     chevron.setVisible(bool)
 
   def set_psuedoclasses(n: Int): Unit = {
-    val location = pos.on_side(n.intValue())
+    val location = position.on_side(n.intValue())
     this.pseudoClassStateChanged(EDGE_PSEUDO_CLASS,   location == Location.EDGE)
     this.pseudoClassStateChanged(CORNER_PSEUDO_CLASS, location == Location.CORNER)
   }
 
-  override def position: Coord = pos
-  override def move(pos: Coord): Unit = {
-    this.pos = pos
-    this.set_translate()
-  }
-
   def set_translate(): Unit = {
-    translateX <== CircuitPane.tile_originX + CircuitPane.tile_size * pos.x
-    translateY <== CircuitPane.tile_originY + CircuitPane.tile_size * pos.y
+    translateX <== CircuitPane.tile_originX + CircuitPane.tile_size * position.x
+    translateY <== CircuitPane.tile_originY + CircuitPane.tile_size * position.y
   }
 
 }

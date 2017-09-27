@@ -21,9 +21,10 @@ object Main extends JFXApp {
   val screen_pane = new StackPane()
 
   stage = new PrimaryStage {
-      width  = DEFAULT_WIDTH
-      height = DEFAULT_HEIGHT
-      scene = new Scene(screen_pane)
+    title = "Digital Sage, Version: "+ VERSION
+    width  = DEFAULT_WIDTH
+    height = DEFAULT_HEIGHT
+    scene = new Scene(screen_pane)
   }
 
   val board_width:  NumberBinding = stage.width  * 1

@@ -8,13 +8,14 @@ import core.types.Signal.Signal
   */
 
 trait Evaluable {
+  val name: String
+
   def num_inputs(dir: Direction): Int
   def num_outputs(dir: Direction): Int
   def ports(dir: Direction): Port = Port.create(num_inputs(dir), num_outputs(dir))
 
   def num_input_array:  Array[Int]  = Direction.values map num_inputs
   def num_output_array: Array[Int]  = Direction.values map num_outputs
-  def port_array:       Array[Port] = Direction.values map ports
 
   def apply(ins: Array[Signal]): Array[Signal]
   def apply(signal: Signal): Array[Signal] = {
@@ -28,7 +29,7 @@ trait Evaluable {
     apply(ins)
   }
 
-  def repr: Array[String] = {
+  def rep: Array[String] = {
     val arrows: Array[Array[String]] = Array(
       Array("\\/", "/\\", "  "),
       Array(" <",  " >",  "  "),

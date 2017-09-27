@@ -35,11 +35,6 @@ object Sidebar extends TabPane {
             text = "Hint"
           },
           new Button {
-            text = "Add a piece"
-            maxWidth = Double.MaxValue
-            onMouseClicked = _ => {}//CircuitPane.add(Reader.MAPPINGS("AND"), Coord(0, 0))}
-          },
-          new Button {
             text = "Menu"
             maxWidth = Double.MaxValue
             onMouseClicked = _ => Main.set_screen(TitlePane)

@@ -10,6 +10,9 @@ object Signal {
     for(token <- signal)
       require(token.is_bool)
 
+    def or:  Boolean = signal.contains(T)
+    def and: Boolean = signal.forall(_ == T)
+
     def str: String = "[" ++ signal.map(_.str).mkString(", ") ++ "]"
   }
 

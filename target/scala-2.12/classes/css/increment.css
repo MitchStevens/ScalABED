@@ -1,0 +1,14 @@
+.incrementer {
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-border-style: none;
+    -fx-background-color: tan;
+}
+
+#dec_button, #inc_button {
+    -fx-border-width: 0;
+    -fx-font-family: "Arial";
+}
+
+#num_label {
+}

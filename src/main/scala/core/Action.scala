@@ -1,5 +1,6 @@
 package main.scala.core
 
+import core.circuit.Evaluable
 import core.types.{Coord, Direction}
 import core.types.ID.ID
 import io.Level
@@ -9,6 +10,7 @@ import io.Level
   */
 trait Action {
   //Logger.new_action(this)
+  println(this.description)
 
   def description: String
   override def toString: ID = description
@@ -17,22 +19,22 @@ trait Action {
 
 
 object GameAction {
-  abstract class GameAction(id: ID) extends Action
+  abstract class GameAction(id: ID, name: String) extends Action
 
-  case class AddAction(id: ID, to: Coord)                         extends GameAction(id) {
-    override def description: String = s"A piece with ID:\'$id\' was added at $to"
+  case class AddAction(id: ID, name: String, to: Coord)                         extends GameAction(id, name) {
+    override def description: String = s"A(n) \'$name\' was added at   $to"
   }
-  case class RemoveAction(id: ID, from: Coord)                    extends GameAction(id) {
-    override def description: String = s"A piece with ID:\'$id\' was removed at $from"
+  case class RemoveAction(id: ID, name: String, from: Coord)                    extends GameAction(id, name) {
+    override def description: String = s"A(n) \'$name\' was removed at $from"
   }
-  case class MoveAction(id: ID, from: Coord, to: Coord)           extends GameAction(id) {
-    override def description: String = s"A piece with ID:\'$id\' was moved from $from to $to"
+  case class MoveAction(id: ID, name: String, from: Coord, to: Coord)           extends GameAction(id, name) {
+    override def description: String = s"A(n) \'$name\' was moved from $from to $to"
   }
-  case class RotateAction(id: ID, pos: Coord, rotate: Direction)  extends GameAction(id) {
-    override def description: String = s"A piece with ID:\'$id\' was rotate at $pos, facing $rotate"
+  case class RotateAction(id: ID, name: String, pos: Coord, rotate: Direction)  extends GameAction(id, name) {
+    override def description: String = s"A(n) \'$name\' was rotate at $pos, facing $rotate"
   }
-  case class ToggleAction(id: ID, pos: Coord)                     extends GameAction(id) {
-    override def description: String = s"A piece with ID:\'$id\' was toggled at $pos"
+  case class ToggleAction(id: ID, name: String, pos: Coord)                     extends GameAction(id, name) {
+    override def description: String = s"A(n) \'$name\' was toggled at $pos"
   }
 }
 

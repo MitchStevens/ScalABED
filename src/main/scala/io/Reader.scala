@@ -1,6 +1,6 @@
 package io
 
-import core.circuit.Mapping
+import core.circuit._
 import java.io.{File, FileInputStream}
 
 import scala.xml.{Elem, Node, NodeSeq}
@@ -16,8 +16,15 @@ object Reader {
   val LEVELS: Seq[Seq[Level]]        = read_levels()
   val LEVEL_SET_NAMES: Seq[String]   = read_level_set_names()
   val MAPPINGS: Map[String, Mapping] = read_mappings()
+  private val MESACIRCUITS: Map[String, MesaCircuit] = Map.empty[String, MesaCircuit]
   val IMAGES: Map[String, Image]     = read_images()
 
+  def evaluable(str: String): Evaluable =
+    if (MAPPINGS.contains(str))
+      MAPPINGS(str).clone
+    else if (MESACIRCUITS.contains(str))
+      throw new Error("Not yet implemented")
+    else throw new Error(s"Evaluable $str was not found")
 
   private def read_levels(): Seq[Seq[Level]] = {
     val data: Elem = scala.xml.XML.loadFile(LEVELS_PATH)
@@ -64,10 +71,15 @@ object Reader {
 
   private def read_mappings(): Map[String, Mapping] = {
     def f(xml: NodeSeq): (String, Mapping) =
-      (xml \@ "name", new Mapping(xml \@ "inputs", xml \@ "evals"))
+      (xml \@ "name", new Mapping(xml \@ "inputs", xml \@ "evals", xml \@ "name"))
 
     val data: Elem = scala.xml.XML.loadFile(MAPPINGS_PATH)
-    Map.empty[String, Mapping] ++ ((data \ "mapping") map f)
+    Map.empty[String, Mapping] ++
+    ((data \ "mapping") map f) ++
+    List(
+      "INPUT"  -> new Input(1),
+      "OUTPUT" -> new Output(1)
+    )
   }
 
   private def read_images(): Map[String, Image] = {

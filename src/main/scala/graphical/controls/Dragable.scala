@@ -10,20 +10,20 @@ import scalafx.scene.layout.Pane
   */
 trait Draggable extends Pane {
   private val dragModeActiveProperty = new BooleanProperty(this, "dragModeActive", true)
-  private val drag_context = new DragContext
+  private val drag_context = new DragContext(0, 0, 0, 0)
 
   filterEvent(MouseEvent.Any) {
     (me: MouseEvent) =>
       if (dragModeActiveProperty()) {
         me.eventType match {
           case MouseEvent.MousePressed =>
-            drag_context.mouseAnchorX = me.sceneX
-            drag_context.mouseAnchorY = me.sceneY
-            drag_context.initialTranslateX = this.translateX.toDouble
-            drag_context.initialTranslateY = this.translateY.toDouble
+            drag_context.mx = me.sceneX
+            drag_context.my = me.sceneY
+            drag_context.tx = this.translateX.toDouble
+            drag_context.ty = this.translateY.toDouble
           case MouseEvent.MouseDragged =>
-            this.translateX = drag_context.initialTranslateX + me.sceneX - drag_context.mouseAnchorX
-            this.translateY = drag_context.initialTranslateY + me.sceneY - drag_context.mouseAnchorY
+            this.translateX = drag_context.tx + me.sceneX - drag_context.mx
+            this.translateY = drag_context.ty + me.sceneY - drag_context.my
           case _ => {}
         }
         me.consume()
@@ -32,10 +32,5 @@ trait Draggable extends Pane {
 
   // Taken directly from the scalafx tutorial:
   // https://github.com/scalafx/ScalaFX-Tutorials/blob/master/event-filters/src/main/scala/event_filters/DraggablePanelsExample.scala
-  private final class DragContext {
-    var mouseAnchorX: Double = 0.0
-    var mouseAnchorY: Double = 0.0
-    var initialTranslateX: Double = 0.0
-    var initialTranslateY: Double = 0.0
-  }
+  case class DragContext(var mx: Double, var my: Double, var tx: Double, var ty: Double)
 }

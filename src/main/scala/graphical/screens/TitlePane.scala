@@ -35,8 +35,8 @@ object TitlePane extends StackPane {
     }
   )
   stylesheets = Seq(
-      "@../../css/all-panes.css",
-      "@../../css/title-pane.css"
+    "css/all-panes.css",
+    "css/title-pane.css"
   )
   id = "root"
   prefWidth  <== Main.board_width

@@ -7,7 +7,7 @@ import core.types.Signal.Signal
 /**
   * Created by Mitch on 5/12/2017.
   */
-class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".split(",") map (Expression(_))) {
+class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".split(",") map (Expression(_)), "Input") {
   require(0 < capacity && capacity <= 8, s"The capacity of input must be between 1 and 8; capacity found: $capacity")
 
   private var booleans: Signal = Signal.empty(capacity)

@@ -7,10 +7,10 @@
 		revision="1.0"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20170917012957"/>
+		date="20170926235619"/>
 	<dependencies>
 		<module organisation="org.scalactic" name="scalactic_2.12">
-			<revision name="3.0.1" status="release" pubdate="20161110165016" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="22">
+			<revision name="3.0.1" status="release" pubdate="20161110165016" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="23">
 				<license name="the Apache License, ASL Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="3002" time="0" location="C:\Users\mitch\.ivy2\cache\org.scalactic\scalactic_2.12\ivy-3.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scalactic/scalactic_2.12/3.0.1/scalactic_2.12-3.0.1.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="3.0.1" rev-constraint-default="3.0.1" rev-constraint-dynamic="3.0.1" callerrev="1.0"/>
@@ -22,13 +22,25 @@
 			</revision>
 		</module>
 		<module organisation="org.scala-graph" name="graph-core_2.12">
-			<revision name="1.11.5" status="release" pubdate="20170421165300" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scala-graph.org " downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="16">
+			<revision name="1.11.5" status="release" pubdate="20170421165300" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scala-graph.org " downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="17">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3229" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-graph\graph-core_2.12\ivy-1.11.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-graph/graph-core_2.12/1.11.5/graph-core_2.12-1.11.5.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="1.11.5" rev-constraint-default="1.11.5" rev-constraint-dynamic="1.11.5" callerrev="1.0"/>
 				<artifacts>
 					<artifact name="graph-core_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="109163" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-graph\graph-core_2.12\srcs\graph-core_2.12-1.11.5-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-graph/graph-core_2.12/1.11.5/graph-core_2.12-1.11.5-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.controlsfx" name="controlsfx">
+			<revision name="8.40.14" status="release" pubdate="20170925074921" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.controlsfx.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="15">
+				<license name="The 3-Clause BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="no" details="" size="2821" time="0" location="C:\Users\mitch\.ivy2\cache\org.controlsfx\controlsfx\ivy-8.40.14.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/controlsfx/controlsfx/8.40.14/controlsfx-8.40.14.pom"/>
+				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="8.40.14" rev-constraint-default="8.40.14" rev-constraint-dynamic="8.40.14" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="controlsfx" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="845461" time="3756" location="C:\Users\mitch\.ivy2\cache\org.controlsfx\controlsfx\srcs\controlsfx-8.40.14-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/controlsfx/controlsfx/8.40.14/controlsfx-8.40.14-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
@@ -131,7 +143,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="cats-kernel-laws_2.12">
-			<revision name="0.9.0" status="release" pubdate="20170116103053" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="20">
+			<revision name="0.9.0" status="release" pubdate="20170116103053" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
 				<metadata-artifact status="no" details="" size="3685" time="0" location="C:\Users\mitch\.ivy2\cache\org.typelevel\cats-kernel-laws_2.12\ivy-0.9.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-kernel-laws_2.12/0.9.0/cats-kernel-laws_2.12-0.9.0.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="0.9.0" rev-constraint-default="0.9.0" rev-constraint-dynamic="0.9.0" callerrev="1.0" extra-info.apiURL="http://typelevel.org/cats/api/"/>
@@ -143,7 +155,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="catalysts-platform_2.12">
-			<revision name="0.0.5" status="release" pubdate="20161108083451" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/catalysts" extra-info.apiURL="https://typelevel.github.io/catalysts/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
+			<revision name="0.0.5" status="release" pubdate="20161108083451" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/catalysts" extra-info.apiURL="https://typelevel.github.io/catalysts/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
 				<license name="Apache License" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3029" time="0" location="C:\Users\mitch\.ivy2\cache\org.typelevel\catalysts-platform_2.12\ivy-0.0.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/catalysts-platform_2.12/0.0.5/catalysts-platform_2.12-0.0.5.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="0.0.5" rev-constraint-default="0.0.5" rev-constraint-dynamic="0.0.5" callerrev="1.0" extra-info.apiURL="https://typelevel.github.io/catalysts/api/"/>
@@ -203,7 +215,7 @@
 			</revision>
 		</module>
 		<module organisation="org.scala-sbt" name="test-interface">
-			<revision name="1.0" status="release" pubdate="20130629084435" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-sbt.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
+			<revision name="1.0" status="release" pubdate="20130629084435" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-sbt.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="19">
 				<license name="BSD" url="https://github.com/sbt/test-interface/blob/master/LICENSE"/>
 				<metadata-artifact status="no" details="" size="2621" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-sbt\test-interface\ivy-1.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="1.0" rev-constraint-default="1.0" rev-constraint-dynamic="1.0" callerrev="1.0"/>
@@ -239,7 +251,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="machinist_2.12">
-			<revision name="0.6.1" status="release" pubdate="20161030021418" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/typelevel/machinist" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
+			<revision name="0.6.1" status="release" pubdate="20161030021418" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/typelevel/machinist" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
 				<metadata-artifact status="no" details="" size="2819" time="0" location="C:\Users\mitch\.ivy2\cache\org.typelevel\machinist_2.12\ivy-0.6.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/machinist_2.12/0.6.1/machinist_2.12-0.6.1.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="0.6.1" rev-constraint-default="0.6.1" rev-constraint-dynamic="0.6.1" callerrev="1.0"/>
@@ -263,7 +275,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="macro-compat_2.12">
-			<revision name="1.1.1" status="release" pubdate="20161102194258" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
+			<revision name="1.1.1" status="release" pubdate="20161102194258" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="16">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="2999" time="0" location="C:\Users\mitch\.ivy2\cache\org.typelevel\macro-compat_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="1.0"/>
@@ -275,7 +287,7 @@
 			</revision>
 		</module>
 		<module organisation="org.scala-lang" name="scala-library">
-			<revision name="2.12.1" status="release" pubdate="20161205220923" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.1/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="19">
+			<revision name="2.12.1" status="release" pubdate="20161205220923" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.1/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="20">
 				<license name="BSD 3-Clause" url="http://www.scala-lang.org/license.html"/>
 				<metadata-artifact status="no" details="" size="2685" time="0" location="C:\Users\mitch\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.1/scala-library-2.12.1.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile-internal, compile, provided, optional" rev="2.12.1" rev-constraint-default="2.12.1" rev-constraint-dynamic="2.12.1" callerrev="1.0" extra-info.apiURL="http://www.scala-lang.org/api/2.12.1/"/>

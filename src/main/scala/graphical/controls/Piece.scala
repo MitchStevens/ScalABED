@@ -1,12 +1,14 @@
 package main.scala.graphical.controls
 
 import core.circuit.{Evaluable, Port}
-import core.types.{Coord, Direction}
+import core.types.{Coord, Direction, Side}
 import main.scala.graphical.screens.CircuitPane
 import Piece._
-import core.Positional
+import core.{Paintable, Positional}
 import core.circuit.Port.PortType
+import core.types.Signal._
 import io.Reader
+import main.scala.graphical.Main
 
 import scalafx.beans.binding._
 import scalafx.beans.property.{DoubleProperty, ReadOnlyDoubleProperty}
@@ -18,10 +20,10 @@ import scalafx.scene.shape._
 /**
   * Created by Mitch on 8/2/2017.
   */
-class Piece(evaluable: Evaluable, var pos: Coord) extends Snapping with Positional {
-  val delete_button = new Button("x")
-  val clone_button = new Button("+")
-  val edges: Seq[PieceEdge] = for (d <- Direction.values) yield new PieceEdge(d)
+class Piece(evaluable: Evaluable, var position: Coord)  extends Snapping
+                                                        with    Positional
+                                                        with    Paintable[Array[Signal]] {
+  val edges: Seq[PieceEdge] = Direction.values map (new PieceEdge(_))
   val center = new ImageView {
     image = Reader.IMAGES("default_center")
   }
@@ -31,38 +33,56 @@ class Piece(evaluable: Evaluable, var pos: Coord) extends Snapping with Position
   center.translateY <== this.prefHeight * 0.25
   this.prefWidth  <== CircuitPane.tile_size
   this.prefHeight <== CircuitPane.tile_size
-  this.translateX = CircuitPane.squares(pos).translateX.value
-  this.translateY = CircuitPane.squares(pos).translateY.value
+  set_translateX()
+  set_translateY()
+  Main.board_width  onChange set_translateX()
+  Main.board_height onChange set_translateY()
 
+  def set_translateX(): Unit = {translateX = CircuitPane.squares(this.position).translateX.value}
+  def set_translateY(): Unit = {translateY = CircuitPane.squares(this.position).translateY.value}
+
+  this.toFront()
   this.children = Seq(center) ++ edges
 
-  def repaint(): Unit = {
+  this.setOnScroll(e => {
+    val rot = if (e.getDeltaY < 0) 1 else -1
+    CircuitPane.rotate(this.position, rot)
+  })
 
-  }
+  override def repaint(t: Array[Signal]): Unit =
+    for (dir <- Direction.values)
+      edges(dir) repaint t(dir)
 
-  override def position: Coord = pos
-  override def move(pos: Coord): Unit = {this.pos = pos}
-
-  class PieceEdge(dir: Direction) extends Pane {
+  class PieceEdge(dir: Direction) extends Pane with Paintable[Signal] {
     prefWidth  <== piece_edge_width
     prefHeight <== piece_edge_height
     translateX <== piece_edge_translateX(dir)
     translateY <== piece_edge_translateY(dir)
     val port_image = new ImageView {
       image = evaluable.ports(dir).port_type match {
-        case PortType.OUT    => Reader.IMAGES("out")
-        case PortType.IN     => Reader.IMAGES("in")
-        case PortType.UNUSED => Reader.IMAGES("unused")
+        case PortType.OUT    => Reader.IMAGES("port_out")
+        case PortType.IN     => Reader.IMAGES("port_in")
+        case PortType.UNUSED => Reader.IMAGES("port_unused")
       }
-      rotate = dir * 90.0
     }
     port_image.fitWidth  <== prefWidth
     port_image.fitHeight <== prefHeight
-   children = Seq(port_image)
+    val signal_image = new ImageView()
+    signal_image.fitWidth  <== prefWidth  * 0.4
+    signal_image.fitHeight <== prefHeight * 0.4
+    signal_image.translateX <== (width - signal_image.fitWidth) * 0.5
+    rotate = dir * 90.0
+    children = Seq(port_image, signal_image)
+
+    override def repaint(t: Signal): Unit = {
+      val a =
+        if (t.isEmpty) "unused"
+        else if (t.or) "on"
+        else           "off"
+      signal_image.image = Reader.IMAGES(a)
+    }
   }
-
 }
-
 
 object Piece {
   val EDGE_WIDTH_PERCENTAGE = 0.4

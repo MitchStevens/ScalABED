@@ -9,13 +9,13 @@ import core.types.{Direction, Expression, Signal}
 /**
   * Created by Mitch on 3/20/2017.
   */
-class Mapping (input_size: Array[Int], val logic: Array[Expression]) extends Evaluable {
+class Mapping (input_size: Array[Int], val logic: Array[Expression], override val name: String) extends Evaluable {
   require(input_size.length == 4)
-  for (i <- input_size) require(i >= 0)
+  input_size foreach {i => require(i >= 0)}
   require(logic.length == 4)
 
-  def this(ins: String, outs: String) {
-    this(ins.split(",") map (_.head.asDigit), Mapping.logic(outs))
+  def this(ins: String, outs: String, name: String) {
+    this(ins.split(",") map (_.head.asDigit), Mapping.logic(outs), name)
   }
 
   override def num_inputs(dir: Direction): Int = input_size(dir)
@@ -32,14 +32,14 @@ class Mapping (input_size: Array[Int], val logic: Array[Expression]) extends Eva
 
     val outs: Array[Signal] =
       for(i <- Direction.values)
-        yield logic(i).eval(input_signal) //Should this be a zipWith?
+        yield logic(i).eval(input_signal)
     //assume(outs.length == 4)
     //println(logic.map(_.str).mkString(",") +", inputs: "+ ins.mkString(",") +", outputs: "+ outs.mkString(","))
     outs
   }
 
   override def clone: Mapping = {
-    new Mapping(input_size, logic)
+    new Mapping(input_size, logic, name)
   }
 
 }

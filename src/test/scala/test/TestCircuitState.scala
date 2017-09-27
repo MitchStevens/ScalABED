@@ -1,7 +1,7 @@
 package test
 
 import core.circuit.CircuitState
-import core.types.{Direction, Side, Signal}
+import core.types.{BindMap, Direction, Side, Signal}
 import org.scalatest.FlatSpec
 
 class TestCircuitState extends FlatSpec {
@@ -11,32 +11,26 @@ class TestCircuitState extends FlatSpec {
   }
 
   it must "add sides and states without failing" in {
-    val state = new CircuitState()
-    val a = Side("a", Direction.LEFT)
-    state(a) = Signal(0, 1)
-    assert(state.size == 1)
-    val signal = state(a)
-    assert(signal.isDefined)
-    assert(state(a).get == Signal(0, 1))
+    val m = new BindMap[Char, Int]
+    m += 'a' -> 1
+    assert(m.size == 1)
+    val a = m('a')
+    assert(a == 1)
   }
 
   it must "add dependencies correctly" in {
-    val state = new CircuitState()
-    val a = Side("a", Direction.LEFT)
-    val b = Side("b", Direction.RIGHT)
-    state(a) = Signal(0, 1)
-    state(b) = Signal(1, 0)
-    state.dependant(a -> b)
-    assert(state(a) == state(b))
+    val m = new BindMap[Char, Int]()
+    m += 'a' -> 0
+    m += 'b' -> 1
+    m bind 'a' -> 'b'
+    assert(m('b') == 0)
   }
 
   it must "add dependencies some" in {
-    val state = new CircuitState()
-    val a = Side("a", Direction.LEFT)
-    val b = Side("b", Direction.RIGHT)
-    state(a) = Signal(0, 1)
-    state.dependant(a -> b)
-    assert(state(a) == state(b))
+    val m = new BindMap[Char, Int]()
+    m += 'b' -> 1
+    m bind 'b' -> 'a'
+    assert(m('a') == 1)
   }
 
   it must "recognise circular dependencies and fail gracefully" in {

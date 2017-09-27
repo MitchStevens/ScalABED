@@ -1,5 +1,7 @@
 package core.circuit
 
+import cats.Applicative
+import cats.implicits._
 import core.types.ID.ID
 import core.types.{Side, _}
 import core.types.Signal._
@@ -12,25 +14,64 @@ import scalax.collection.mutable.Graph
 /**
   * Created by Mitch on 4/23/2017.
   */
-class MesaCircuit extends Evaluable {
+class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
+  override val name: String = "MESACIRCUIT"
+
   var state:  CircuitState = new CircuitState()
   val graphs: CircuitGraph = new CircuitGraph()
 
-  def add(id: ID, evaluable: Evaluable): Unit = {
-    graphs.add(id, evaluable)
-    state.set_state(id, evaluable.num_input_array map Signal.empty)
+  override def get(key: ID): Option[Evaluable] =     graphs.get(key)
+  override def iterator: Iterator[(ID, Evaluable)] = graphs.iterator
+
+  override def +=(kv: (ID, Evaluable)): MesaCircuit.this.type = {
+    graphs += kv
+    val s = for (dir <- Direction.values)
+      yield Side(kv._1, dir) -> Signal.empty(kv._2.num_inputs(dir))
+    state ++= s
+    this
   }
 
-  def add_all(tuples: List[(ID, Evaluable)]): Unit =
-    tuples foreach ((t: (ID, Evaluable)) => this.add(t._1, t._2))
+  override def -=(key: ID) :MesaCircuit.this.type = {
+    graphs -= key
+    state --= Direction.values map (d => Side(key, d))
+    this
+  }
+
+  override def size: Int = graphs.size
 
   /** connect side a to side b
     *
   * */
-  def connect(edge: (Side, Side)): Unit = {
-    graphs.connect(edge)
-    state.dependant(edge)
-    state = next_state(state)
+  def connect(edge: (Side, Side)): Boolean =
+    if (potential_connection(edge)) {
+      println(s"mesa: connected two sides: $edge")
+      graphs.connect(edge)
+      state.bind(edge)
+      true
+    } else false
+
+  def connect_all(tuples: (Side, Side)*): this.type = {
+    tuples forall this.connect
+    this
+  }
+
+  /**
+    * if ()
+    *
+    * */
+  def disconnect(side: Side): Boolean = ???
+
+  def disconnect(id: ID): Boolean =
+    if (true) {
+      graphs.disconnect(id)
+      state.remove_state(id)
+      true
+    } else false
+
+  private def potential_connection(edge: (Side, Side)): Boolean = {
+    val parent = graphs.subcircuit_port(edge._1)
+    val child  = graphs.subcircuit_port(edge._2)
+    Applicative[Option].map2(parent, child)(Port.connection_precondition) getOrElse false
   }
 
   /*
@@ -38,30 +79,34 @@ class MesaCircuit extends Evaluable {
   * */
   override def apply(ins: Array[Signal]): Array[Signal] = {
     //Handle this error, what if ins length != 4
-    if (provide_inputs(ins: Array[Signal]))
-      state = next_state(state)
+    if (provide_inputs(ins))
+      evaluate()
     recieved_outputs(state)
   }
 
-
   //
   private def provide_inputs(ins: Array[Signal]): Boolean = {
+    for (dir <- Direction.values)
+      assert(this.num_inputs(dir) == ins(dir).length)
+
     for {
       dir      <- Direction.values
       circuit <- graphs.eval_on_side(dir)
     } circuit match {
-      case in: Input => in set ins(dir) //Handle this
+      case in: Input => in set ins(dir)
       case _         => {}
     }
     true
   }
 
+  def evaluate(): Unit = { state = next_state(state) }
+
   def recieved_outputs(state: CircuitState): Array[Signal] = {
     val outs: Array[Signal] = Array.fill(4)(Signal.empty(0))
     for {
       dir <- Direction.values
-      id  <- graphs.sides.get(dir)
-      sig <- state(Side(id, Direction.LEFT))
+      id  <- graphs.side(dir)
+      sig <- state.get(Side(id, Direction.LEFT))
       if graphs.eval_on_side(dir).isInstanceOf[Option[Output]]
     } outs(dir) = sig
     outs
@@ -79,25 +124,23 @@ class MesaCircuit extends Evaluable {
       case _           => 0
     } getOrElse 0
 
-  def size: Int = graphs.subcircuits.size
+  def set_side(dir: Direction, id: ID): Unit =
+    graphs.set_side(dir, id)
 
-  def set_side(dir: Direction, id: ID): Unit = {
-
-    graphs.sides(dir) = id
+  def set_sides(sides: (Direction, ID)*): this.type = {
+    sides foreach (t => this.set_side(t._1, t._2))
+    this
   }
 
   // Should this be pure? Could pass in the CircuitGraph?
   def next_state(state: CircuitState): CircuitState = {
-    val toposort_data = MesaCircuit.pseudo_toposort(graphs.dependency_graph)
+    val toposort_data = MesaCircuit.pseudo_toposort(graphs.dependancies())
     for(id <- toposort_data.toposorted) {
-      //print(s"id: $id, \t")
-      val evaluable = graphs.subcircuits(id)
+      val evaluable = graphs(id)
       val inputs: Array[Signal] = state.get_state(id)
-      //print(inputs.map(_.str).mkString(", ") +"\t ~~~> ")
       val outputs = evaluable.apply(inputs)
-      //println(outputs.map(_.str).mkString(", "))
       state.set_state(id, outputs)
-      //println(state.toString)
+      println(s"id: $id, \t"+ inputs.map(_.str).mkString(", ") +"\t ~~~> "+ outputs.map(_.str).mkString(", "))
     }
     state
   }
