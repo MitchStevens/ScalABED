@@ -12,21 +12,35 @@ import scala.collection.mutable
 /**
   * Created by Mitch on 4/23/2017.
   */
-class Game(private var n: Int) {
+class Game(private var n: Int) extends mutable.Map[Coord, Evaluable] {
   val mesa_circuit: MesaCircuit = new MesaCircuit
   val coord_map = mutable.Map.empty[Coord, EvaluableData]
+
+  override def get(key: Coord): Option[Evaluable] = coord_map.get(key).map(_.id).flatMap(mesa_circuit.get)
+  override def iterator: Iterator[(Coord, Evaluable)] =
+    for (pos <- coord_map.keysIterator)
+      yield (pos, this(pos))
+  override def +=(kv: (Coord, Evaluable)): Game.this.type = {
+    add_evaluable(kv._2, kv._1)
+    this
+  }
+  override def -=(key: Coord): Game.this.type = {
+    remove_evaluable(key)
+    this
+  }
+  override def size: Int = coord_map.size
 
   /**
   * 1. Add the evaluable to the MesaCircuit
   * 2. Connect all the edges in the MesaCircuit
   * 3. Evaluate the MesaCircuit
   * */
-  def add(e: Evaluable, pos: Coord): Option[AddAction] =
+  def add_evaluable(e: Evaluable, pos: Coord): Option[AddAction] =
     if (!coord_map.contains(pos)) {
       val id = ID.generate()
-      mesa_circuit  += id -> e
-      coord_map += pos -> EvaluableData(id, Direction.values(0))
-      mesa_circuit connect_all (connections(pos):_*)
+      mesa_circuit += id -> e
+      coord_map += pos -> EvaluableData(id)
+      connect_sides(pos)
       mesa_circuit.evaluate()
       Some(AddAction(id, e.name, pos))
     } else None
@@ -36,11 +50,10 @@ class Game(private var n: Int) {
   * 2. Remove the evaluable from the MesaCircuit
   * 3. Evaluate the MesaCircuit
   * */
-  def remove(pos: Coord): Option[RemoveAction] =
+  def remove_evaluable(pos: Coord): Option[RemoveAction] =
     if (true) {
       val eval_data = coord_map(pos)
       val e = mesa_circuit.remove(eval_data.id)
-      //function.
       coord_map -= pos
       Some(RemoveAction(eval_data.id, e.get.name, pos))
     } else None
@@ -53,80 +66,83 @@ class Game(private var n: Int) {
   * 5. Connect all the edges
   * 6. Evaluate
   * */
-  def rotate(pos: Coord, rot: Direction): Option[RotateAction] =
-    if (true) {
+  def rotate_evaluable(pos: Coord, rot: Direction): Option[RotateAction] =
+    if (coord_map.contains(pos)) {
       val eval_data = coord_map(pos)
-      mesa_circuit.disconnect(eval_data.id)
+      this.disconnect_sides(pos)
       val e = mesa_circuit.remove(eval_data.id).get
       coord_map += pos -> EvaluableData(eval_data.id, eval_data.rotation + rot)
       mesa_circuit += eval_data.id -> e
-      this.mesa_circuit connect_all(connections(pos):_*)
+      this.connect_sides(pos)
       mesa_circuit.evaluate()
       Some(RotateAction(eval_data.id, e.name, pos, rot))
     } else None
 
 
   /**
-  * 1. Disconnect all the edges
-  * 2. Remove from MesaCircuit
-  * 3. Move the Evaluable
-  * 4. Add to Mesa Circuit
-  * 5. Connect all the edges
-  * 6. Evaluate
-  * */
-  def move(from: Coord, to: Coord): Option[MoveAction] =
+    * Disconnect all the edges
+    * Remove from the MesaCircuit
+    * Move the Evaluable
+    * Add to the MesaCircuit
+    * Connect all the edges
+    * Evaluate
+    */
+  def move_evaluable(from: Coord, to: Coord): Option[MoveAction] =
     if (coord_map.contains(from) && !coord_map.contains(to)) {
       val eval_data = coord_map(from)
-      mesa_circuit.disconnect(eval_data.id)
       val e = mesa_circuit(eval_data.id)
-      coord_map += to -> coord_map(from)
+      this.disconnect_sides(from)
+      mesa_circuit -= eval_data.id
+      coord_map += to -> eval_data
       coord_map -= from
       mesa_circuit += eval_data.id -> e
-      mesa_circuit.connect_all(connections(to):_*)
+      this.connect_sides(to)
       mesa_circuit.evaluate()
       Some(MoveAction(eval_data.id, e.name, from, to))
     } else None
 
-  private def connections(pos: Coord): Seq[(Side, Side)] = {
-    def rel_dir(ev: EvaluableData, dir: Direction): Direction = ev.rotation - dir
+  def toggle_evaluable(pos: Coord, a: Any): Option[ToggleAction] =
+    if (coord_map.contains(pos)) {
+      val eval_data = coord_map(pos)
+      val e = mesa_circuit(eval_data.id)
+      println(e.getClass)
+      e.toggle(a)
+      Some(ToggleAction(eval_data.id, e.name, pos, a))
+    } else None
 
+  /**
+    * */
+  private def connect_sides(pos: Coord): TraversableOnce[ConnectionAction] = {
+    def rel_dir(ev: EvaluableData, dir: Direction): Direction = dir - ev.rotation
+
+    val actions = mutable.ArrayBuffer.empty[ConnectionAction]
     for {
       d   <- Direction.values
       ev1 <- coord_map.get(pos)
       ev2 <- coord_map.get(pos + d)
-    } yield Side(ev1.id, rel_dir(ev1, d)) -> Side(ev2.id, rel_dir(ev2, d+2))
+    } {
+      val result = mesa_circuit.connect(Side(ev1.id, rel_dir(ev1, d)) -> Side(ev2.id, rel_dir(ev2, d+2)))
+      if (result)
+        actions += ConnectionAction(pos, pos + d)
+    }
+    actions
   }
 
-  /*
-
-  def reconnect(id: ID): Unit = {
-    //abs_dir = rel_dir + rot
-    def reconnect_dir(pos1: Coord, abs_dir: Direction): Unit =
-      for {
-        id1: ID <- game_info.id(pos1)
-        id2: ID <- game_info.id(pos1 + abs_dir)
-        rot1    <- game_info.rot(id1)
-        rot2    <- game_info.rot(id2)
-      } function.connect(
-        Edge(id1, abs_dir - rot1),
-        Edge(id2, abs_dir - rot2 + 2)
-      )
-
-    for {
-      pos1 <- game_info.pos(id)
-      abs_dir <- Direction.values
-    } reconnect_dir(pos1, abs_dir)
+  private def disconnect_sides(pos: Coord): TraversableOnce[DisconnectionAction] = {
+    val actions = mutable.ArrayBuffer.empty[DisconnectionAction]
+    for (ev <- coord_map.get(pos); dir <- Direction.values) {
+      val result = mesa_circuit.disconnect(Side(ev.id, dir))
+      if (result)
+        actions += DisconnectionAction(pos, pos + dir)
+    }
+    actions
   }
 
-  def disconnect(id: ID): Unit = {
-
-  }
-  */
-
-  def first_open: Option[Coord] =
+  def first_open: Option[Coord] = {
     Coord.over_square(this.n).find(!coord_map.contains(_))
+  }
 
   def state: CircuitState = mesa_circuit.state
 
-  case class EvaluableData(id: ID, rotation: Direction)
+  case class EvaluableData(id: ID, rotation: Direction = Direction.values(0))
 }

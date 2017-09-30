@@ -9,7 +9,6 @@ import core.types.Signal.Signal
   */
 class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".split(",") map (Expression(_)), "Input") {
   require(0 < capacity && capacity <= 8, s"The capacity of input must be between 1 and 8; capacity found: $capacity")
-
   private var booleans: Signal = Signal.empty(capacity)
 
   def values: Signal = {
@@ -19,7 +18,12 @@ class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".spli
   override def apply(ins: Array[Signal]): Array[Signal] =
     Array(Signal.empty(0), values, Signal.empty(0), Signal.empty(0))
 
-  def toggle(idx: Int): Unit = {
+  override def toggle(a: Any): Unit = {
+    toggle_index(0)
+    println(booleans)
+  }
+
+  def toggle_index(idx: Int): Unit = {
     if (0 <= idx && idx < capacity)
       booleans = booleans.updated(idx, booleans(idx) ^ 1)
   }

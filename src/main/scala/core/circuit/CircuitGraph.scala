@@ -2,29 +2,31 @@ package core.circuit
 
 import core.types.ID.ID
 import core.types.Signal.Signal
-import core.types.{Direction, Side, Signal}
-import core.circuit.Input
+import core.types._
 
 import scala.collection.mutable
+import scalax.collection.GraphBase._
 import scalax.collection.GraphEdge.DiEdge
 import scalax.collection.mutable.{Graph, GraphLike}
 import scalax.collection.GraphPredef._
-import scalax.collection.GraphEdge._
 
 /**
   * Created by Mitch on 9/7/2017.
+  *
+  * A CircuitGraph is the set of all the graphs needed to accurately model all the evaluables and their relationships
+  * to one another.
   */
 class CircuitGraph extends mutable.Map[ID, Evaluable]{
   private val subcircuits:      mutable.Map[ID, Evaluable] = mutable.Map.empty[ID, Evaluable]
   private val sides:            mutable.Map[Direction, ID] = mutable.Map.empty[Direction, ID]
-  private val graph:            Graph[Side, DiEdge] = Graph.empty[Side, DiEdge]
+  private val connections:      ConnectedList[Side] = new ConnectedList[Side]()
   private val dependency_graph: Graph[ID, DiEdge]   = Graph.empty[ID, DiEdge]
 
   def side(dir: Direction): Option[ID] =       sides.get(dir)
   def rem_side(dir: Direction): Unit =         sides -= dir
   def set_side(dir: Direction, id: ID): Unit = sides += dir -> id
-  def dependancies(): Graph[ID, DiEdge] = dependency_graph
 
+  def dependancies(): Graph[ID, DiEdge] =      dependency_graph
 
   override def get(key: ID): Option[Evaluable] = subcircuits.get(key)
   override def iterator: Iterator[(ID, Evaluable)] = subcircuits.iterator
@@ -32,34 +34,50 @@ class CircuitGraph extends mutable.Map[ID, Evaluable]{
   override def +=(kv: (ID, Evaluable)): CircuitGraph.this.type = {
     subcircuits += kv
     dependency_graph += kv._1
+    //assert(subcircuits.size == dependency_graph.size)
     this
   }
 
   override def -=(key: ID): CircuitGraph.this.type = {
-    disconnect(key)
-    is_side(key) foreach {sides.remove}
     subcircuits -= key
+    dependency_graph -=key
+    disconnect(key)
+    for (dir <- is_side(key))
+      rem_side(dir)
     this
   }
 
-  def connect(tuple: (Side, Side)): Boolean =
+  //Is the side connected to some other side?
+  def is_connected(side: Side): Option[Side] = {
+    connections.get(side).flatMap(_.adjacent)
+  }
+
+    def connect(tuple: (Side, Side)): Boolean =
     if (this.contains(tuple._1.id) && this.contains(tuple._2.id)) {
-      graph            += tuple._1    ~> tuple._2
+      connections      += tuple._1    -> tuple._2
       dependency_graph += tuple._1.id ~> tuple._2.id
       true
     } else false
 
-  def disconnect(tuple: (Side, Side)): Boolean =
-    if (graph.contains(tuple._1 ~> tuple._2)) {
-      graph            -= tuple._1    ~> tuple._2
-      dependency_graph -= tuple._1.id ~> tuple._2.id
+  /**
+    *
+    */
+  def disconnect(side: Side): Boolean = connections.get(side) match {
+    case Some(Parent(_, c)) =>
+      connections      -= side
+      dependency_graph -= side.id ~> c.value.id
       true
-    } else false
+    case Some(Child(_, p)) =>
+      connections      -= side
+      dependency_graph -= p.value.id ~> side.id
+      true
+    case None => println("\t"+ side); false
+  }
 
   def disconnect(id: ID): Boolean = {
     dependency_graph.remove(id)
     for (dir <- Direction.values)
-      graph -= Side(id, dir)
+      connections -= Side(id, dir)
     true
   }
 
@@ -79,16 +97,25 @@ class CircuitGraph extends mutable.Map[ID, Evaluable]{
 
   def subcircuit_port(side: Side): Option[Port] = this.get(side.id).map(_.ports(side.dir))
 
-  def parents(id: ID):  Traversable[Side] =
-    graph.nodes.filter(_.id == id).flatMap(_.diPredecessors).toOuterNodes
+  def inputting_to(id: ID):  Traversable[Side] =
+    for {
+      dir    <- Direction.values
+      node   <- connections.get(Side(id, dir))
+      parent <- node.parent
+    } yield parent
 
-  def children(id: ID): Traversable[Side] =
-    graph.nodes.filter(_.id == id).flatMap(_.diSuccessors).toOuterNodes
 
-  def is_cyclic(): Boolean = graph.isCyclic
+  def outputting_to(id: ID): Traversable[Side] =
+    for {
+      dir    <- Direction.values
+      node   <- connections.get(Side(id, dir))
+      child <- node.child
+    } yield child
 
-  def num_nodes: Int = graph.size
-  def num_edges: Int = graph.graphSize
+  def is_cyclic(): Boolean = dependency_graph.isCyclic
+
+  def num_nodes: Int = dependency_graph.size
+  def num_edges: Int = connections.size
 }
 
 

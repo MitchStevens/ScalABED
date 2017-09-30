@@ -11,7 +11,7 @@ import scala.collection.mutable
   *     println(bindmap.get(a))
   *
   *  would print Some(42), despite never actually setting any value for a in bindmap.
-* */
+  */
 class BindMap[A, B] extends mutable.Map[A, B] {
   private val m = mutable.HashMap.empty[A, Either[A, B]]
 
@@ -52,4 +52,8 @@ class BindMap[A, B] extends mutable.Map[A, B] {
 
   def unbind(child: A): Unit = this -= child
 
+  def num_binds(): Int = m.values.count {
+    case Left(_)  => true
+    case Right(_) => false
+  }
 }

@@ -1,5 +1,6 @@
 package core.circuit
 
+import core.circuit.Port.ConnectionType.ConnectionType
 import core.circuit.Port._
 import core.circuit.Port.PortType.PortType
 import core.types.Signal
@@ -29,6 +30,11 @@ object Port {
     val IN, OUT, UNUSED = Value
   }
 
+  final object ConnectionType extends Enumeration {
+    type ConnectionType = Value
+    val TransmitsTo, ReceivesFrom = Value
+  }
+
   //These are the only way to create a port
   def in(capacity: Int):  Port = new Port(PortType.IN,  capacity)
   def out(capacity: Int): Port = new Port(PortType.OUT, capacity)
@@ -46,9 +52,15 @@ object Port {
     else throw new Error(s"Couldn't create a port with $ins inputs and $outs outputs.")
   }
 
-  def connection_precondition(p1: Port, p2: Port): Boolean = {
-    val capacity_condition: Boolean = p1.capacity == p2.capacity
-    val port_type_condition: Boolean = p1.port_type == PortType.OUT && p2.port_type == PortType.IN
-    capacity_condition && port_type_condition
+  def connection_type(p1: Port, p2: Port): Option[ConnectionType] = {
+    val same_capacity: Boolean = p1.capacity == p2.capacity
+    val connection_type: Option[ConnectionType] = (p1.port_type, p2.port_type) match {
+      case (PortType.OUT, PortType.IN) =>  Some(ConnectionType.TransmitsTo)
+      case (PortType.IN,  PortType.OUT) => Some(ConnectionType.ReceivesFrom)
+      case _         => None
+    }
+    if (same_capacity)
+      connection_type
+    else None
   }
 }

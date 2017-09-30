@@ -13,9 +13,8 @@ import scala.annotation.tailrec
 /**
   * Created by Mitch on 9/7/2017.
   *
-  * A CircuitState is essentially a map from a Side to a Signal, with a few extra features:
-  *   1. The ability to create dependancies between sides
-  *
+  * A CircuitState is essentially a map from a Side to a Signal, with the ability to create dependancies between sides.
+  * This functionality is implemented by a class called BindMap, which is an extention of a mutable Map.
   */
 class CircuitState extends BindMap[Side, Signal] {
 

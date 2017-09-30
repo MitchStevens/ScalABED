@@ -4,7 +4,7 @@
 		module="abed$sources_2.12"
 		revision="1.0"
 		status="integration"
-		publication="20170926235619"
+		publication="20170929235554"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

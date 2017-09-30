@@ -7,7 +7,7 @@
 		revision="1.0"
 		conf="runtime-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20170926235619"/>
+		date="20170929235554"/>
 	<dependencies>
 		<module organisation="org.scalactic" name="scalactic_2.12">
 			<revision name="3.0.1" status="release" pubdate="20161110165016" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="23">
@@ -39,7 +39,7 @@
 				<metadata-artifact status="no" details="" size="2821" time="0" location="C:\Users\mitch\.ivy2\cache\org.controlsfx\controlsfx\ivy-8.40.14.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/controlsfx/controlsfx/8.40.14/controlsfx-8.40.14.pom"/>
 				<caller organisation="abed" name="abed$sources_2.12" conf="compile, runtime-internal, runtime, optional" rev="8.40.14" rev-constraint-default="8.40.14" rev-constraint-dynamic="8.40.14" callerrev="1.0"/>
 				<artifacts>
-					<artifact name="controlsfx" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="845461" time="3756" location="C:\Users\mitch\.ivy2\cache\org.controlsfx\controlsfx\srcs\controlsfx-8.40.14-sources.jar">
+					<artifact name="controlsfx" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="845461" time="0" location="C:\Users\mitch\.ivy2\cache\org.controlsfx\controlsfx\srcs\controlsfx-8.40.14-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/controlsfx/controlsfx/8.40.14/controlsfx-8.40.14-sources.jar"/>
 					</artifact>
 				</artifacts>

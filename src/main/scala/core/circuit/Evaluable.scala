@@ -1,5 +1,6 @@
 package core.circuit
 
+import core.circuit.Port.PortType.PortType
 import core.types.Direction
 import core.types.Signal.Signal
 
@@ -13,6 +14,7 @@ trait Evaluable {
   def num_inputs(dir: Direction): Int
   def num_outputs(dir: Direction): Int
   def ports(dir: Direction): Port = Port.create(num_inputs(dir), num_outputs(dir))
+  def toggle(a :Any): Unit = {}
 
   def num_input_array:  Array[Int]  = Direction.values map num_inputs
   def num_output_array: Array[Int]  = Direction.values map num_outputs
@@ -28,30 +30,6 @@ trait Evaluable {
     }
     apply(ins)
   }
-
-  def rep: Array[String] = {
-    val arrows: Array[Array[String]] = Array(
-      Array("\\/", "/\\", "  "),
-      Array(" <",  " >",  "  "),
-      Array("/\\", "\\/", "  "),
-      Array("> ",  "< ",  "  ")
-    )
-
-    val type_nums =
-      for (dir <- Direction.values)
-        yield ports(dir).port_type.id
-
-    val sym: Seq[String] =
-      for(i <- 0 to 3)
-        yield arrows(i)(type_nums(i))
-
-    Array(
-      s"  ${sym(0)}  ",
-      s"${sym(3)}[]${sym(1)}",
-      s"  ${sym(2)}  "
-    )
-  }
-
 }
 
 object Evaluable {
@@ -68,8 +46,22 @@ object Evaluable {
       .mkString("\n")
   }
 
-  trait EvalException {
-    override def toString: String
+  def repr(port_types: Array[PortType]): Array[String] = {
+    val arrows: Array[Array[String]] = Array(
+      Array("\\/", "/\\", "  "),
+      Array(" <",  " >",  "  "),
+      Array("/\\", "\\/", "  "),
+      Array("> ",  "< ",  "  ")
+    )
+
+    val type_nums = Direction.values map (d => port_types(d).id)
+    val sym       = Direction.values map (d => arrows(d)(type_nums(d)))
+
+    Array(
+      s"  ${sym(0)}  ",
+      s"${sym(3)}[]${sym(1)}",
+      s"  ${sym(2)}  "
+    )
   }
 
 }

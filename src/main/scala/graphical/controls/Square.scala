@@ -25,6 +25,7 @@ class Square(var position: Coord) extends Pane with Positional {
     styleClass = Seq("chevron")
   }
   //chevron.points = Seq()
+  children = Seq(Label(position.toString))
   prefWidth  <== CircuitPane.tile_size
   prefHeight <== CircuitPane.tile_size
   chevron.scaleX <== this.width

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <!-- Single Output -->
+    <mapping name="TRUE"        inputs="0,0,0,0" evals="_,T,_,_" />
+    <mapping name="FALSE"       inputs="0,0,0,0" evals="_,F,_,_" />
     <mapping name="BUS" 		inputs="0,0,0,1" evals="_,0,_,_" />
     <mapping name="LEFT" 		inputs="0,0,0,1" evals="0,_,_,_" />
     <mapping name="RIGHT" 		inputs="0,0,0,1" evals="_,_,0,_" />
@@ -10,6 +12,8 @@
     <mapping name="NOR" 		inputs="1,0,0,1" evals="_,01+~,_,_" />
     <mapping name="AND" 		inputs="1,0,0,1" evals="_,01*,_,_" />
     <mapping name="NAND" 		inputs="1,0,0,1" evals="_,01*~,_,_" />
+    <mapping name="XOR"         inputs="1,0,0,1" evals="_,01^,_,_" />
+    <mapping name="XNOR"        inputs="1,0,0,1" evals="_,01^~,_,_" />
     <mapping name="CORNER_CUT" 	inputs="1,0,0,1" evals="_,0,1,_" />
     <mapping name="CROSS_OVER"  inputs="1,0,0,1" evals="_,1,0,_" />
     <mapping name="HALF_ADDER"  inputs="1,0,0,1" evals="_,01^,01*,_"/>

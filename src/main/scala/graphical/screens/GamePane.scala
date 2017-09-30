@@ -4,12 +4,8 @@ import graphical.controls.AutoCompleteField
 import io.Reader
 import main.scala.graphical.Main
 
-import scalafx.animation.FillTransition
 import scalafx.beans.binding.NumberBinding
-import scalafx.scene.control.TextField
-import scalafx.scene.input.{KeyCode, KeyEvent}
-import scalafx.scene.layout.{BorderPane, Pane}
-import scalafx.util.Duration
+import scalafx.scene.layout.Pane
 
 /**
   * Created by Mitch on 7/31/2017.
@@ -21,7 +17,12 @@ object GamePane extends Pane {
   val inner_pane_height: NumberBinding = this.height - 2 * SPACING
   val debug_cheats = true
   val cheats: Map[String, () => Unit] = Map(
-    "_state" -> (() => println(CircuitPane.current_game.state))
+    "_state"     -> (() => println(CircuitPane.current_game.state)),
+    "_coord_map" -> (() => println(CircuitPane.current_game.coord_map)),
+    "_init"      -> (() => {
+      for (name <- Seq("INPUT", "NOT", "NOT", "BUS", "TRUE", "FALSE", "XOR", "AND"))
+        CircuitPane.add_somewhere(Reader.MAPPINGS(name))
+    })
   )
 
   val search_bar = new AutoCompleteField() {
@@ -47,7 +48,7 @@ object GamePane extends Pane {
         search_bar.visible = true
         search_bar.requestFocus()
       }
-    case e => {println(s"$e does nothing")}
+    case _ => {}
   })
 
   id = "root"

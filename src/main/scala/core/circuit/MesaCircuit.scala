@@ -1,20 +1,18 @@
 package core.circuit
 
-import cats.Applicative
-import cats.implicits._
+import core.circuit.Port.ConnectionType._
 import core.types.ID.ID
-import core.types.{Side, _}
+import core.types._
 import core.types.Signal._
 
 import scala.collection.mutable
-import scala.collection.mutable.{HashMap, Queue}
-import scalax.collection.GraphEdge.{DiEdge, DiEdgeLike}
+import scalax.collection.GraphEdge.DiEdge
 import scalax.collection.mutable.Graph
 
 /**
   * Created by Mitch on 4/23/2017.
   */
-class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
+  class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
   override val name: String = "MESACIRCUIT"
 
   var state:  CircuitState = new CircuitState()
@@ -24,10 +22,10 @@ class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
   override def iterator: Iterator[(ID, Evaluable)] = graphs.iterator
 
   override def +=(kv: (ID, Evaluable)): MesaCircuit.this.type = {
+    assert(!kv._2.eq(this), "You added a MesaCircuit to itself you dolt!")
     graphs += kv
-    val s = for (dir <- Direction.values)
-      yield Side(kv._1, dir) -> Signal.empty(kv._2.num_inputs(dir))
-    state ++= s
+    for (dir <- Direction.values)
+      state += Side(kv._1, dir) -> Signal.empty(kv._2.num_inputs(dir))
     this
   }
 
@@ -42,37 +40,42 @@ class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
   /** connect side a to side b
     *
   * */
-  def connect(edge: (Side, Side)): Boolean =
-    if (potential_connection(edge)) {
-      println(s"mesa: connected two sides: $edge")
-      graphs.connect(edge)
-      state.bind(edge)
-      true
-    } else false
+  def connect(edge: (Side, Side)): Boolean = {
+    val connection: Option[ConnectionType] = for{
+      p1 <- graphs.subcircuit_port(edge._1)
+      p2 <- graphs.subcircuit_port(edge._2)
+      c_type <- Port.connection_type(p1, p2)
+    } yield c_type
+    connection match {
+      case Some(TransmitsTo)  =>
+        graphs.connect(edge)
+        state.bind(edge)
+        true
+      case Some(ReceivesFrom) =>
+        graphs.connect(edge.swap)
+        state.bind(edge.swap)
+        true
+      case None => false
+    }
+  }
 
   def connect_all(tuples: (Side, Side)*): this.type = {
     tuples forall this.connect
     this
   }
 
-  /**
-    * if ()
-    *
-    * */
-  def disconnect(side: Side): Boolean = ???
-
-  def disconnect(id: ID): Boolean =
-    if (true) {
-      graphs.disconnect(id)
-      state.remove_state(id)
+  //TODO:
+  def disconnect(side: Side): Boolean =
+    if (graphs.disconnect(side)) {
+      state.remove(side)
       true
     } else false
 
-  private def potential_connection(edge: (Side, Side)): Boolean = {
-    val parent = graphs.subcircuit_port(edge._1)
-    val child  = graphs.subcircuit_port(edge._2)
-    Applicative[Option].map2(parent, child)(Port.connection_precondition) getOrElse false
-  }
+  def disconnect(id: ID): Boolean =
+    if (graphs.disconnect(id)) {
+      state.remove_state(id)
+      true
+    } else false
 
   /*
   * TODO: Error handling, this functijon could return a Either[EvalException, Array[Signal]] instead of Array[Signal]
@@ -84,7 +87,6 @@ class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
     recieved_outputs(state)
   }
 
-  //
   private def provide_inputs(ins: Array[Signal]): Boolean = {
     for (dir <- Direction.values)
       assert(this.num_inputs(dir) == ins(dir).length)
@@ -109,6 +111,10 @@ class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
       sig <- state.get(Side(id, Direction.LEFT))
       if graphs.eval_on_side(dir).isInstanceOf[Option[Output]]
     } outs(dir) = sig
+
+    for (dir <- Direction.values)
+      assert(this.num_outputs(dir) == outs(dir).length)
+
     outs
   }
 
@@ -138,9 +144,9 @@ class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
     for(id <- toposort_data.toposorted) {
       val evaluable = graphs(id)
       val inputs: Array[Signal] = state.get_state(id)
-      val outputs = evaluable.apply(inputs)
+      val outputs = evaluable(inputs)
       state.set_state(id, outputs)
-      println(s"id: $id, \t"+ inputs.map(_.str).mkString(", ") +"\t ~~~> "+ outputs.map(_.str).mkString(", "))
+      //println(s"id: $id, \t"+ inputs.map(_.str).mkString(", ") +"\t ~~~> "+ outputs.map(_.str).mkString(", "))
     }
     state
   }

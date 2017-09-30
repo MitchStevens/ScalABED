@@ -22,7 +22,7 @@ import scalafx.scene.shape._
   */
 class Piece(evaluable: Evaluable, var position: Coord)  extends Snapping
                                                         with    Positional
-                                                        with    Paintable[Array[Signal]] {
+                                                        with    Paintable[(Direction, Array[Signal])] {
   val edges: Seq[PieceEdge] = Direction.values map (new PieceEdge(_))
   val center = new ImageView {
     image = Reader.IMAGES("default_center")
@@ -31,6 +31,7 @@ class Piece(evaluable: Evaluable, var position: Coord)  extends Snapping
   center.fitHeight  <== this.prefHeight * 0.5
   center.translateX <== this.prefWidth  * 0.25
   center.translateY <== this.prefHeight * 0.25
+
   this.prefWidth  <== CircuitPane.tile_size
   this.prefHeight <== CircuitPane.tile_size
   set_translateX()
@@ -49,9 +50,11 @@ class Piece(evaluable: Evaluable, var position: Coord)  extends Snapping
     CircuitPane.rotate(this.position, rot)
   })
 
-  override def repaint(t: Array[Signal]): Unit =
+  override def repaint(t: (Direction, Array[Signal])): Unit = {
+    this.rotate = t._1 * 90.0
     for (dir <- Direction.values)
-      edges(dir) repaint t(dir)
+      edges(dir) repaint t._2(dir)
+  }
 
   class PieceEdge(dir: Direction) extends Pane with Paintable[Signal] {
     prefWidth  <== piece_edge_width
