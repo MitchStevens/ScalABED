@@ -30,6 +30,8 @@ class Game(private var n: Int) extends mutable.Map[Coord, Evaluable] {
   }
   override def size: Int = coord_map.size
 
+  def board_size: Int = n
+
   /**
   * 1. Add the evaluable to the MesaCircuit
   * 2. Connect all the edges in the MesaCircuit
@@ -97,6 +99,8 @@ class Game(private var n: Int) extends mutable.Map[Coord, Evaluable] {
       coord_map -= from
       mesa_circuit += eval_data.id -> e
       this.connect_sides(to)
+      println(this.mesa_circuit.state)
+
       mesa_circuit.evaluate()
       Some(MoveAction(eval_data.id, e.name, from, to))
     } else None

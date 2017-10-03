@@ -10,8 +10,12 @@ import scalafx.scene.image.Image
   * Created by Mitch on 5/21/2017.
   */
 object Reader {
-  private val LEVELS_PATH:    String = "res/xml/levels.xml"
-  private val MAPPINGS_PATH:  String = "res/xml/mappings.xml"
+  protected object Paths {
+    private val root_path = "res/"
+    val levels   = root_path + "xml/levels.xml"
+    val mappings = root_path + "xml/mappings.xml"
+    val images   = root_path + "img"
+  }
 
   val LEVELS: Seq[Seq[Level]]        = read_levels()
   val LEVEL_SET_NAMES: Seq[String]   = read_level_set_names()
@@ -27,7 +31,7 @@ object Reader {
     else throw new Error(s"Evaluable $str was not found")
 
   private def read_levels(): Seq[Seq[Level]] = {
-    val data: Elem = scala.xml.XML.loadFile(LEVELS_PATH)
+    val data: Elem = scala.xml.XML.loadFile(Paths.levels)
     (data \ "level_set") map {
       _ \ "level" map {
         create_level
@@ -65,7 +69,7 @@ object Reader {
   }
 
   private def read_level_set_names(): Seq[String] = {
-    val data: Elem = scala.xml.XML.loadFile(LEVELS_PATH)
+    val data: Elem = scala.xml.XML.loadFile(Paths.levels)
     (data \ "level_set") map (_ \ "@name" text)
   }
 
@@ -73,7 +77,7 @@ object Reader {
     def f(xml: NodeSeq): (String, Mapping) =
       (xml \@ "name", new Mapping(xml \@ "inputs", xml \@ "evals", xml \@ "name"))
 
-    val data: Elem = scala.xml.XML.loadFile(MAPPINGS_PATH)
+    val data: Elem = scala.xml.XML.loadFile(Paths.mappings)
     Map.empty[String, Mapping] ++
     ((data \ "mapping") map f) ++
     List(
@@ -85,9 +89,6 @@ object Reader {
   private def read_images(): Map[String, Image] = {
     def f(file: File): (String, Image) =
       file.getName.takeWhile(_ != '.') -> new Image(new FileInputStream(file))
-    Map.empty[String, Image] ++ (new File("res/img").listFiles map f)
+    Map.empty[String, Image] ++ (new File(Paths.images).listFiles map f)
   }
-
-  def css(str: String): String =
-    "@res/css/" + str
 }

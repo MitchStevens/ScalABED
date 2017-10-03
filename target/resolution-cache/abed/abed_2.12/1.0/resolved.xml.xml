@@ -4,7 +4,7 @@
 		module="abed_2.12"
 		revision="1.0"
 		status="integration"
-		publication="20170926235601"
+		publication="20171002141526"
 	>
 		<description>
 		ABED
@@ -42,6 +42,8 @@
 		<dependency org="org.typelevel" name="cats_2.12" rev="0.9.0" conf="compile->default(compile)"/>
 		<dependency org="org.controlsfx" name="controlsfx" rev="8.40.14" conf="compile->default(compile)"/>
 		<dependency org="org.scalafx" name="scalafx_2.12" rev="8.0.102-R11" conf="compile->default(compile)"/>
-		<dependency org="org.ow2.sat4j" name="org.ow2.sat4j.core" rev="2.3.4" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-actor_2.12" rev="2.5.3" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-testkit_2.12" rev="2.5.3" conf="test->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-cluster-tools_2.12" rev="2.5.6" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>

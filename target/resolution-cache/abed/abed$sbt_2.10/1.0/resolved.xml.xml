@@ -4,7 +4,7 @@
 		module="abed$sbt_2.10"
 		revision="1.0"
 		status="integration"
-		publication="20170929235552"
+		publication="20171002141613"
 	/>
 	<configurations>
 		<conf name="default" visibility="public"/>

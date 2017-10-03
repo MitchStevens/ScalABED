@@ -1,22 +1,18 @@
 package main.scala.core
 
-import cats.Monoid
-import core.circuit.Evaluable
+import core.Logger
 import core.types.{Coord, Direction, Side}
 import core.types.ID.ID
 import io.Level
-
-import scala.collection.parallel.immutable
 
 /**
   * Created by Mitch on 8/8/2017.
   */
 trait Action {
-  //Logger.new_action(this)
-  println(this.description)
-
   def description: String
-  override def toString: ID = description
+  override def toString: String = description
+
+  def send(): Unit = {Logger.add_action(this)}
 }
 
 object GameAction {

@@ -71,7 +71,7 @@ class CircuitGraph extends mutable.Map[ID, Evaluable]{
       connections      -= side
       dependency_graph -= p.value.id ~> side.id
       true
-    case None => println("\t"+ side); false
+    case None => false
   }
 
   def disconnect(id: ID): Boolean = {

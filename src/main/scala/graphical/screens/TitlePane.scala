@@ -2,9 +2,10 @@ package graphical.screens
 
 import java.io.File
 
+import core.circuit.Game
 import io.Reader
 import main.scala.graphical.Main
-import main.scala.graphical.screens.{GamePane, LevelSelectPane}
+import main.scala.graphical.screens.{CircuitPane, GamePane, LevelSelectPane}
 
 import scalafx.Includes._
 import scalafx.scene.control.Label
@@ -25,6 +26,7 @@ object TitlePane extends StackPane {
         },
         new Label("Sandbox") {
           styleClass =Seq("a")
+          CircuitPane.set_game(new Game(5))
           onMouseClicked = _ => Main.set_screen(GamePane)
         },
         new Label("Exit") {
