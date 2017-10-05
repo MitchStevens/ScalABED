@@ -50,7 +50,13 @@ class BindMap[A, B] extends mutable.Map[A, B] {
   //TODO:
   private def potential_cycle(aa: (A, A)): Boolean = false
 
-  def unbind(child: A): Unit = this -= child
+  def unbind(child: A): Unit = {
+    println(s"unbinding $child")
+    m.get(child) match {
+      case Some(Left(_))  => m -= child
+      case _ => {println("not a child")}
+    }
+  }
 
   def num_binds(): Int = m.values.count {
     case Left(_)  => true

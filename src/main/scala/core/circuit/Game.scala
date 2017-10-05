@@ -42,42 +42,41 @@ class Game(private var n: Int) extends mutable.Map[Coord, Evaluable] {
       val id = ID.generate()
       mesa_circuit += id -> e
       coord_map += pos -> EvaluableData(id)
-      connect_sides(pos)
+      val connections = connect_sides(pos)
       mesa_circuit.evaluate()
-      Some(AddAction(id, e.name, pos))
+      Some(AddAction(id, e.name, pos, connections))
     } else None
 
   /**
   * 1. Disconnect all the edges in the MesaCircuit
-  * 2. Remove the evaluable from the MesaCircuit
+  * 2. Remove the evaluable from the
+    * MesaCircuit
   * 3. Evaluate the MesaCircuit
   * */
   def remove_evaluable(pos: Coord): Option[RemoveAction] =
     if (true) {
       val eval_data = coord_map(pos)
+      val disconnections = this.disconnect_sides(pos)
       val e = mesa_circuit.remove(eval_data.id)
       coord_map -= pos
-      Some(RemoveAction(eval_data.id, e.get.name, pos))
+      Some(RemoveAction(eval_data.id, e.get.name, pos, disconnections))
     } else None
 
   /**
   * 1. Disconnect all the edges
-  * 2. Remove from MesaCircuit
   * 3. Rotate the Evaluable
-  * 4. Add to Mesa Circuit
   * 5. Connect all the edges
   * 6. Evaluate
   * */
   def rotate_evaluable(pos: Coord, rot: Direction): Option[RotateAction] =
     if (coord_map.contains(pos)) {
       val eval_data = coord_map(pos)
-      this.disconnect_sides(pos)
-      val e = mesa_circuit.remove(eval_data.id).get
+      val disconn = this.disconnect_sides(pos)
+      val name = mesa_circuit(eval_data.id).name
       coord_map += pos -> EvaluableData(eval_data.id, eval_data.rotation + rot)
-      mesa_circuit += eval_data.id -> e
-      this.connect_sides(pos)
+      val conn = this.connect_sides(pos)
       mesa_circuit.evaluate()
-      Some(RotateAction(eval_data.id, e.name, pos, rot))
+      Some(RotateAction(eval_data.id, name, pos, rot, conn, disconn))
     } else None
 
 
@@ -92,54 +91,51 @@ class Game(private var n: Int) extends mutable.Map[Coord, Evaluable] {
   def move_evaluable(from: Coord, to: Coord): Option[MoveAction] =
     if (coord_map.contains(from) && !coord_map.contains(to)) {
       val eval_data = coord_map(from)
-      val e = mesa_circuit(eval_data.id)
-      this.disconnect_sides(from)
-      mesa_circuit -= eval_data.id
+      val name = mesa_circuit(eval_data.id).name
+      val disconn = this.disconnect_sides(from)
       coord_map += to -> eval_data
       coord_map -= from
-      mesa_circuit += eval_data.id -> e
-      this.connect_sides(to)
-      println(this.mesa_circuit.state)
-
+      val conn = this.connect_sides(to)
       mesa_circuit.evaluate()
-      Some(MoveAction(eval_data.id, e.name, from, to))
+      Some(MoveAction(eval_data.id, name, from, to, conn, disconn))
     } else None
 
   def toggle_evaluable(pos: Coord, a: Any): Option[ToggleAction] =
     if (coord_map.contains(pos)) {
       val eval_data = coord_map(pos)
       val e = mesa_circuit(eval_data.id)
-      println(e.getClass)
       e.toggle(a)
       Some(ToggleAction(eval_data.id, e.name, pos, a))
     } else None
 
   /**
     * */
-  private def connect_sides(pos: Coord): TraversableOnce[ConnectionAction] = {
-    def rel_dir(ev: EvaluableData, dir: Direction): Direction = dir - ev.rotation
-
-    val actions = mutable.ArrayBuffer.empty[ConnectionAction]
+  private def connect_sides(pos: Coord): mutable.ArrayBuffer[Coord] = {
+    val adj = mutable.ArrayBuffer.empty[Coord]
     for {
-      d   <- Direction.values
       ev1 <- coord_map.get(pos)
-      ev2 <- coord_map.get(pos + d)
+      dir <- Direction.values
+      ev2 <- coord_map.get(pos + dir)
     } {
-      val result = mesa_circuit.connect(Side(ev1.id, rel_dir(ev1, d)) -> Side(ev2.id, rel_dir(ev2, d+2)))
+      val result = mesa_circuit.connect(Side(ev1.id, dir - ev1.rotation) -> Side(ev2.id, dir + 2 - ev2.rotation))
       if (result)
-        actions += ConnectionAction(pos, pos + d)
+        adj += pos + dir
     }
-    actions
+    adj
   }
 
-  private def disconnect_sides(pos: Coord): TraversableOnce[DisconnectionAction] = {
-    val actions = mutable.ArrayBuffer.empty[DisconnectionAction]
-    for (ev <- coord_map.get(pos); dir <- Direction.values) {
-      val result = mesa_circuit.disconnect(Side(ev.id, dir))
+  private def disconnect_sides(pos: Coord): mutable.ArrayBuffer[Coord] = {
+    val adj = mutable.ArrayBuffer.empty[Coord]
+    for {
+      ev1  <- coord_map.get(pos)
+      dir <- Direction.values
+      ev2  <- coord_map.get(pos + dir)
+    } {
+      val result = mesa_circuit.disconnect(Side(ev1.id, dir - ev1.rotation) -> Side(ev2.id, dir + 2 - ev2.rotation))
       if (result)
-        actions += DisconnectionAction(pos, pos + dir)
+        adj += pos + dir
     }
-    actions
+    adj
   }
 
   def first_open: Option[Coord] = {

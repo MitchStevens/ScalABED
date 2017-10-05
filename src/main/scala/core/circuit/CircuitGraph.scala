@@ -16,10 +16,10 @@ import scalax.collection.GraphPredef._
   * A CircuitGraph is the set of all the graphs needed to accurately model all the evaluables and their relationships
   * to one another.
   */
-class CircuitGraph extends mutable.Map[ID, Evaluable]{
+class CircuitGraph extends mutable.Map[ID, Evaluable] {
   private val subcircuits:      mutable.Map[ID, Evaluable] = mutable.Map.empty[ID, Evaluable]
   private val sides:            mutable.Map[Direction, ID] = mutable.Map.empty[Direction, ID]
-  private val connections:      ConnectedList[Side] = new ConnectedList[Side]()
+  val connections:              ConnectedList[Side] = new ConnectedList[Side]()
   private val dependency_graph: Graph[ID, DiEdge]   = Graph.empty[ID, DiEdge]
 
   def side(dir: Direction): Option[ID] =       sides.get(dir)
@@ -41,45 +41,29 @@ class CircuitGraph extends mutable.Map[ID, Evaluable]{
   override def -=(key: ID): CircuitGraph.this.type = {
     subcircuits -= key
     dependency_graph -=key
-    disconnect(key)
-    for (dir <- is_side(key))
-      rem_side(dir)
+    //for (dir <- Direction.values)
+      //this.disconnect(Side(key, dir))
+    is_side(key) map rem_side
     this
   }
 
   //Is the side connected to some other side?
-  def is_connected(side: Side): Option[Side] = {
+  def is_connected(side: Side): Option[Side] =
     connections.get(side).flatMap(_.adjacent)
-  }
 
-    def connect(tuple: (Side, Side)): Boolean =
+  def connect(tuple: (Side, Side)): Boolean =
     if (this.contains(tuple._1.id) && this.contains(tuple._2.id)) {
       connections      += tuple._1    -> tuple._2
       dependency_graph += tuple._1.id ~> tuple._2.id
       true
     } else false
 
-  /**
-    *
-    */
-  def disconnect(side: Side): Boolean = connections.get(side) match {
-    case Some(Parent(_, c)) =>
-      connections      -= side
-      dependency_graph -= side.id ~> c.value.id
+  def disconnect(edge: (Side, Side)): Boolean =
+    if (connections.connected(edge)) {
+      connections -= edge._1
+      dependency_graph -= edge._1.id ~> edge._2.id
       true
-    case Some(Child(_, p)) =>
-      connections      -= side
-      dependency_graph -= p.value.id ~> side.id
-      true
-    case None => false
-  }
-
-  def disconnect(id: ID): Boolean = {
-    dependency_graph.remove(id)
-    for (dir <- Direction.values)
-      connections -= Side(id, dir)
-    true
-  }
+    } else false
 
   def is_side(id: ID): Option[Direction] =
       Direction.values.find(side(_).exists(_ == id))

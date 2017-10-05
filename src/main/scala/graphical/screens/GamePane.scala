@@ -8,7 +8,7 @@ import scalafx.beans.binding.NumberBinding
 import scalafx.scene.layout.Pane
 
 /**
-  * Created by Mitch on 7/31/2017.
+  * Created by Mitch o n 7/31/2017.
   */
 object GamePane extends Pane {
   val SPACING: Double = 50.0
@@ -16,14 +16,44 @@ object GamePane extends Pane {
   val inner_pane_width:  NumberBinding = this.width - 2 * SPACING
   val inner_pane_height: NumberBinding = this.height - 2 * SPACING
   val debug_cheats = true
-  val cheats: Map[String, () => Unit] = Map(
-    "_state"     -> (() => println(CircuitPane.current_game.state)),
-    "_coord_map" -> (() => println(CircuitPane.current_game.coord_map)),
-    "_init"      -> (() => {
-      for (name <- Seq("INPUT", "NOT", "NOT", "BUS", "TRUE", "FALSE", "XOR", "AND"))
+  def cheats(str: String): Unit = {
+    val rot = """_rot (\d) (\d)""".r
+    val add = """_add (\w*) \* (\d)""".r
+    str match {
+      case rot(x, y)  => CircuitPane.rotate((x.toInt, y.toInt), 1)
+      case add(name, num) => (1 to num.toInt) foreach (_ => CircuitPane.add_somewhere(Reader.evaluable(name)))
+      case "_state"   => println(CircuitPane.current_game.state)
+      case "_coords"  => println(CircuitPane.current_game.coord_map)
+      case "_init"    =>
+        for (name <- Seq("INPUT", "NOT", "NOT", "BUS", "TRUE", "FALSE", "XOR", "AND"))
         CircuitPane.add_somewhere(Reader.MAPPINGS(name))
-    })
-  )
+      case "_test1"   =>
+        CircuitPane.add_somewhere(Reader.evaluable("XOR"))
+        CircuitPane.add_somewhere(Reader.evaluable("TRUE"))
+        CircuitPane.move((0, 0), (1, 1))
+        CircuitPane.move((0, 1), (1, 0))
+      case "_test2"   =>
+        CircuitPane.add(Reader.evaluable("TRUE"), (2, 0))
+        CircuitPane.rotate((2, 0), 1)
+        CircuitPane.add(Reader.evaluable("TRUE"), (0, 2))
+        CircuitPane.add(Reader.evaluable("SUPER"), (2, 1))
+        CircuitPane.rotate((2, 1), 1)
+        CircuitPane.add(Reader.evaluable("SUPER"), (1, 2))
+        CircuitPane.add(Reader.evaluable("SUPER"), (3, 2))
+        CircuitPane.add(Reader.evaluable("BUS"), (3, 1))
+        CircuitPane.add(Reader.evaluable("BUS"), (2, 3))
+        CircuitPane.add(Reader.evaluable("BUS"), (4, 3))
+        CircuitPane.add(Reader.evaluable("RIGHT"), (4, 1))
+        CircuitPane.add(Reader.evaluable("RIGHT"), (5, 2))
+        CircuitPane.add(Reader.evaluable("LEFT"), (1, 3))
+        CircuitPane.rotate((1, 3), 1)
+        CircuitPane.add(Reader.evaluable("NAND"), (2, 2))
+        CircuitPane.add(Reader.evaluable("NAND"), (3, 3))
+        CircuitPane.add(Reader.evaluable("NAND"), (4, 2))
+        CircuitPane.add(Reader.evaluable("NAND"), (5, 3))
+      case _ => {}
+    }
+  }
 
   val search_bar = new AutoCompleteField() {
     visible = false
@@ -32,17 +62,14 @@ object GamePane extends Pane {
   this.setOnKeyPressed(_.getCode.getName match {
     case "Enter" =>
       val text = search_bar.getText
+      /*
       if (Reader.MAPPINGS.contains(text)) {
         CircuitPane.add_somewhere(Reader.evaluable(text))
         search_bar.clear()
         search_bar.visible = false
-      } else if (text.isEmpty)
+      } else*/ if (text.isEmpty)
         search_bar.visible = false
-      else if (debug_cheats && cheats.contains(text)) {
-        cheats(text)()
-        search_bar.clear()
-        search_bar.visible = false
-      } else {}
+      else cheats(text)
     case "Shift" =>
       if (!search_bar.isVisible) {
         search_bar.visible = true
@@ -61,5 +88,4 @@ object GamePane extends Pane {
   )
   prefWidth  <== Main.board_width
   prefHeight <== Main.board_height
-
 }

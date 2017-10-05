@@ -7984,109 +7984,37 @@
 [debug] 	[NOT REQUIRED] org.scalacheck#scalacheck_2.12;1.13.4!scalacheck_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.1!scala-reflect.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-macros_2.12;0.9.0!cats-macros_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\com.typesafe.akka\akka-remote_2.12\2.5.6\srcs\akka-remote_2.12-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/com/typesafe/akka/akka-remote_2.12/2.5.6/akka-remote_2.12-2.5.6-sources.jar
-[info] downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-remote_2.12/2.5.6/akka-remote_2.12-2.5.6-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-remote_2.12/2.5.6/akka-remote_2.12-2.5.6-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-remote_2.12/2.5.6/akka-remote_2.12-2.5.6-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/com/typesafe/akka/akka-remote_2.12/2.5.6/akka-remote_2.12-2.5.6-sources.jar
-[info] 	[SUCCESSFUL ] com.typesafe.akka#akka-remote_2.12;2.5.6!akka-remote_2.12.jar(src) (2970ms)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-remote_2.12;2.5.6!akka-remote_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-kernel_2.12;0.9.0!cats-kernel_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\com.typesafe.akka\akka-stream_2.12\2.5.6\srcs\akka-stream_2.12-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream_2.12/2.5.6/akka-stream_2.12-2.5.6-sources.jar
-[info] downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream_2.12/2.5.6/akka-stream_2.12-2.5.6-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream_2.12/2.5.6/akka-stream_2.12-2.5.6-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream_2.12/2.5.6/akka-stream_2.12-2.5.6-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream_2.12/2.5.6/akka-stream_2.12-2.5.6-sources.jar
-[info] 	[SUCCESSFUL ] com.typesafe.akka#akka-stream_2.12;2.5.6!akka-stream_2.12.jar(src) (2013ms)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream_2.12;2.5.6!akka-stream_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-core_2.12;0.9.0!cats-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scalafx#scalafx_2.12;8.0.102-R11!scalafx_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.github.mpilquist#simulacrum_2.12;0.10.0!simulacrum_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats_2.12;0.9.0!cats_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-free_2.12;0.9.0!cats-free_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\com.typesafe\ssl-config-core_2.12\0.2.2\srcs\ssl-config-core_2.12-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.2.2/ssl-config-core_2.12-0.2.2-sources.jar
-[info] downloading https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.2.2/ssl-config-core_2.12-0.2.2-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.2.2/ssl-config-core_2.12-0.2.2-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.2.2/ssl-config-core_2.12-0.2.2-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.2.2/ssl-config-core_2.12-0.2.2-sources.jar
-[info] 	[SUCCESSFUL ] com.typesafe#ssl-config-core_2.12;0.2.2!ssl-config-core_2.12.jar(src) (1714ms)
+[debug] 	[NOT REQUIRED] com.typesafe#ssl-config-core_2.12;0.2.2!ssl-config-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#catalysts-macros_2.12;0.0.5!catalysts-macros_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\io.netty\netty\3.10.6.Final\srcs\netty-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/io/netty/netty/3.10.6.Final/netty-3.10.6.Final-sources.jar
-[info] downloading https://repo1.maven.org/maven2/io/netty/netty/3.10.6.Final/netty-3.10.6.Final-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/io/netty/netty/3.10.6.Final/netty-3.10.6.Final-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/io/netty/netty/3.10.6.Final/netty-3.10.6.Final-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/io/netty/netty/3.10.6.Final/netty-3.10.6.Final-sources.jar
-[info] 	[SUCCESSFUL ] io.netty#netty;3.10.6.Final!netty.jar(src) (1864ms)
-[debug] 		tried C:\Users\mitch\.ivy2\local\io.aeron\aeron-client\1.3.0\srcs\aeron-client-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/io/aeron/aeron-client/1.3.0/aeron-client-1.3.0-sources.jar
-[info] downloading https://repo1.maven.org/maven2/io/aeron/aeron-client/1.3.0/aeron-client-1.3.0-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/io/aeron/aeron-client/1.3.0/aeron-client-1.3.0-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/io/aeron/aeron-client/1.3.0/aeron-client-1.3.0-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/io/aeron/aeron-client/1.3.0/aeron-client-1.3.0-sources.jar
-[info] 	[SUCCESSFUL ] io.aeron#aeron-client;1.3.0!aeron-client.jar(src) (1244ms)
+[debug] 	[NOT REQUIRED] io.netty#netty;3.10.6.Final!netty.jar(src)
+[debug] 	[NOT REQUIRED] io.aeron#aeron-client;1.3.0!aeron-client.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-jvm_2.12;0.9.0!cats-jvm_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\com.typesafe.akka\akka-protobuf_2.12\2.5.6\srcs\akka-protobuf_2.12-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.6/akka-protobuf_2.12-2.5.6-sources.jar
-[info] downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.6/akka-protobuf_2.12-2.5.6-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.6/akka-protobuf_2.12-2.5.6-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.6/akka-protobuf_2.12-2.5.6-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.6/akka-protobuf_2.12-2.5.6-sources.jar
-[info] 	[SUCCESSFUL ] com.typesafe.akka#akka-protobuf_2.12;2.5.6!akka-protobuf_2.12.jar(src) (1381ms)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-protobuf_2.12;2.5.6!akka-protobuf_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#discipline_2.12;0.7.2!discipline_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.controlsfx#controlsfx;8.40.14!controlsfx.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#macro-compat_2.12;1.1.1!macro-compat_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\org.agrona\agrona\0.9.6\srcs\agrona-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/org/agrona/agrona/0.9.6/agrona-0.9.6-sources.jar
-[info] downloading https://repo1.maven.org/maven2/org/agrona/agrona/0.9.6/agrona-0.9.6-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/agrona/agrona/0.9.6/agrona-0.9.6-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/agrona/agrona/0.9.6/agrona-0.9.6-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/agrona/agrona/0.9.6/agrona-0.9.6-sources.jar
-[info] 	[SUCCESSFUL ] org.agrona#agrona;0.9.6!agrona.jar(src) (1901ms)
+[debug] 	[NOT REQUIRED] org.agrona#agrona;0.9.6!agrona.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.12;1.0.4!scala-parser-combinators_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\io.aeron\aeron-driver\1.3.0\srcs\aeron-driver-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/io/aeron/aeron-driver/1.3.0/aeron-driver-1.3.0-sources.jar
-[info] downloading https://repo1.maven.org/maven2/io/aeron/aeron-driver/1.3.0/aeron-driver-1.3.0-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/io/aeron/aeron-driver/1.3.0/aeron-driver-1.3.0-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/io/aeron/aeron-driver/1.3.0/aeron-driver-1.3.0-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/io/aeron/aeron-driver/1.3.0/aeron-driver-1.3.0-sources.jar
-[info] 	[SUCCESSFUL ] io.aeron#aeron-driver;1.3.0!aeron-driver.jar(src) (1274ms)
-[debug] 		tried C:\Users\mitch\.ivy2\local\com.typesafe.akka\akka-cluster_2.12\2.5.6\srcs\akka-cluster_2.12-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster_2.12/2.5.6/akka-cluster_2.12-2.5.6-sources.jar
-[info] downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster_2.12/2.5.6/akka-cluster_2.12-2.5.6-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster_2.12/2.5.6/akka-cluster_2.12-2.5.6-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster_2.12/2.5.6/akka-cluster_2.12-2.5.6-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster_2.12/2.5.6/akka-cluster_2.12-2.5.6-sources.jar
-[info] 	[SUCCESSFUL ] com.typesafe.akka#akka-cluster_2.12;2.5.6!akka-cluster_2.12.jar(src) (1248ms)
+[debug] 	[NOT REQUIRED] io.aeron#aeron-driver;1.3.0!aeron-driver.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster_2.12;2.5.6!akka-cluster_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-graph#graph-core_2.12;1.11.5!graph-core_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\com.typesafe.akka\akka-actor_2.12\2.5.6\srcs\akka-actor_2.12-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.6/akka-actor_2.12-2.5.6-sources.jar
-[info] downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.6/akka-actor_2.12-2.5.6-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.6/akka-actor_2.12-2.5.6-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.6/akka-actor_2.12-2.5.6-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.6/akka-actor_2.12-2.5.6-sources.jar
-[info] 	[SUCCESSFUL ] com.typesafe.akka#akka-actor_2.12;2.5.6!akka-actor_2.12.jar(src) (1771ms)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.12;2.5.6!akka-actor_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#machinist_2.12;0.6.1!machinist_2.12.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\org.reactivestreams\reactive-streams\1.0.1\srcs\reactive-streams-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.1/reactive-streams-1.0.1-sources.jar
-[info] downloading https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.1/reactive-streams-1.0.1-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.1/reactive-streams-1.0.1-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.1/reactive-streams-1.0.1-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.1/reactive-streams-1.0.1-sources.jar
-[info] 	[SUCCESSFUL ] org.reactivestreams#reactive-streams;1.0.1!reactive-streams.jar(src) (1238ms)
+[debug] 	[NOT REQUIRED] org.reactivestreams#reactive-streams;1.0.1!reactive-streams.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-sbt#test-interface;1.0!test-interface.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.1!scala-library.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-kernel-laws_2.12;0.9.0!cats-kernel-laws_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe#config;1.3.1!config.jar(src)
-[debug] 		tried C:\Users\mitch\.ivy2\local\com.typesafe.akka\akka-cluster-tools_2.12\2.5.6\srcs\akka-cluster-tools_2.12-sources.jar
-[debug] 		tried https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster-tools_2.12/2.5.6/akka-cluster-tools_2.12-2.5.6-sources.jar
-[info] downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster-tools_2.12/2.5.6/akka-cluster-tools_2.12-2.5.6-sources.jar ...
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster-tools_2.12/2.5.6/akka-cluster-tools_2.12-2.5.6-sources.jar
-[debug] 	public: downloading https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster-tools_2.12/2.5.6/akka-cluster-tools_2.12-2.5.6-sources.jar.sha1
-[debug] sha1 OK for https://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster-tools_2.12/2.5.6/akka-cluster-tools_2.12-2.5.6-sources.jar
-[info] 	[SUCCESSFUL ] com.typesafe.akka#akka-cluster-tools_2.12;2.5.6!akka-cluster-tools_2.12.jar(src) (1219ms)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-cluster-tools_2.12;2.5.6!akka-cluster-tools_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#catalysts-platform_2.12;0.0.5!catalysts-platform_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scalactic#scalactic_2.12;3.0.1!scalactic_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-java8-compat_2.12;0.8.0!scala-java8-compat_2.12.jar(src)
@@ -8094,7 +8022,7 @@
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.12;2.5.3!akka-testkit_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.1!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.1!jline.jar(src)
-[debug] :: resolution report :: resolve 2309ms :: artifacts dl 19872ms
+[debug] :: resolution report :: resolve 6005ms :: artifacts dl 231ms
 [debug] 	report for abed#abed$sources_2.12;1.0 compile produced in C:\Users\mitch\IdeaProjects\ScalABED\target\resolution-cache\reports\abed-abed$sources_2.12-compile.xml
 [debug] 	report for abed#abed$sources_2.12;1.0 runtime produced in C:\Users\mitch\IdeaProjects\ScalABED\target\resolution-cache\reports\abed-abed$sources_2.12-runtime.xml
 [debug] 	report for abed#abed$sources_2.12;1.0 test produced in C:\Users\mitch\IdeaProjects\ScalABED\target\resolution-cache\reports\abed-abed$sources_2.12-test.xml
@@ -8108,4 +8036,4 @@
 [debug] 	report for abed#abed$sources_2.12;1.0 docs produced in C:\Users\mitch\IdeaProjects\ScalABED\target\resolution-cache\reports\abed-abed$sources_2.12-docs.xml
 [debug] 	report for abed#abed$sources_2.12;1.0 pom produced in C:\Users\mitch\IdeaProjects\ScalABED\target\resolution-cache\reports\abed-abed$sources_2.12-pom.xml
 [debug] 	report for abed#abed$sources_2.12;1.0 scala-tool produced in C:\Users\mitch\IdeaProjects\ScalABED\target\resolution-cache\reports\abed-abed$sources_2.12-scala-tool.xml
-[debug] 	resolve done (2309ms resolve - 19872ms download)
+[debug] 	resolve done (6005ms resolve - 231ms download)

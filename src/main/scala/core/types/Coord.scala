@@ -86,7 +86,7 @@ object Coord {
     over_square(b) filter (!_.within(a))
   }
 
-  implicit def tuple2Coord(tuple: (Int, Int)): Coord = new Coord(tuple)
+  implicit def Tuple2Coord(tuple: (Int, Int)): Coord = new Coord(tuple)
 
   object Location extends Enumeration {
     type Location = Value

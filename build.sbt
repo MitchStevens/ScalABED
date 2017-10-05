@@ -27,7 +27,7 @@ libraryDependencies += "org.controlsfx" % "controlsfx" % "8.40.14"
 libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.102-R11"
 
 // SAT4j SAT solver: https://mvnrepository.com/artifact/org.ow2.sat4j/org.ow2.sat4j.core
-//libraryDependencies += "org.ow2.sat4j" % "org.ow2.sat4j.core" %  "2.3.4"
+// libraryDependencies += "org.ow2.sat4j" % "org.ow2.sat4j.core" %  "2.3.4"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.5.3",

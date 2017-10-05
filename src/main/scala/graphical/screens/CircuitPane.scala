@@ -48,14 +48,12 @@ object CircuitPane extends Pane with Paintable[CircuitState] {
     case _: PieceAction => repaint(current_game.state)
   }
 
-  override def repaint(t: CircuitState): Unit = {
-    println("repainted: "+ pieces.keys)
+  override def repaint(t: CircuitState): Unit =
     for (pos <- pieces.keys) {
       val d = current_game.coord_map(pos)
       val state = t.get_state(d.id)
       pieces(pos) repaint (d.rotation, state)
     }
-  }
 
   id = "circuit_pane"
   styleClass = Seq("bordered")
@@ -112,7 +110,8 @@ object CircuitPane extends Pane with Paintable[CircuitState] {
     current_game.first_open foreach (c => this.add(e, c))
 
   def remove(pos: Coord): Unit =
-    for (action <- current_game.remove_evaluable(pos); piece <- pieces.get(pos)) {
+    for (action <- current_game.remove_evaluable(pos)) {
+      val piece = pieces(pos)
       val transition = CircuitPaneTransitions.remove(piece)
       transition.onFinished = _ => {this.children.remove(piece)}
       transition.play()
@@ -121,11 +120,12 @@ object CircuitPane extends Pane with Paintable[CircuitState] {
     }
 
   def move(from: Coord, to: Coord): Unit =
-    for (action <- current_game.move_evaluable(from, to); piece <- pieces.get(from); sq <- squares.get(to)) {
+    for (action <- current_game.move_evaluable(from, to)) {
+      val piece = pieces(from)
       pieces += to -> piece
       pieces -= from
       piece.move(to)
-      CircuitPaneTransitions.move(piece, sq).play()
+      CircuitPaneTransitions.move(piece, squares(to)).play()
       action.send()
     }
 
@@ -134,8 +134,9 @@ object CircuitPane extends Pane with Paintable[CircuitState] {
       action.send()
 
   def toggle(pos: Coord, a: Any): Unit =
-    for (action <- current_game.toggle_evaluable(pos, a); sq <- squares.get(pos)) {
-      CircuitPaneTransitions.toggle(sq.translateX(), sq.translateY()).play()
-      action.send
+    for (action <- current_game.toggle_evaluable(pos, a)) {
+      val square = squares(pos)
+      CircuitPaneTransitions.toggle(square.translateX(), square.translateY()).play()
+      action.send()
     }
 }

@@ -64,18 +64,24 @@ import scalax.collection.mutable.Graph
     this
   }
 
-  //TODO:
-  def disconnect(side: Side): Boolean =
-    if (graphs.disconnect(side)) {
-      state.remove(side)
-      true
-    } else false
-
-  def disconnect(id: ID): Boolean =
-    if (graphs.disconnect(id)) {
-      state.remove_state(id)
-      true
-    } else false
+  def disconnect(edge: (Side, Side)): Boolean = {
+    val connection: Option[ConnectionType] = for{
+      p1 <- graphs.subcircuit_port(edge._1)
+      p2 <- graphs.subcircuit_port(edge._2)
+      c_type <- Port.connection_type(p1, p2)
+    } yield c_type
+    connection match {
+      case Some(TransmitsTo)  =>
+        graphs.disconnect(edge)
+        state.unbind(edge._2)
+        true
+      case Some(ReceivesFrom) =>
+        graphs.disconnect(edge.swap)
+        state.unbind(edge._1)
+        true
+      case None => false
+    }
+  }
 
   /*
   * TODO: Error handling, this functijon could return a Either[EvalException, Array[Signal]] instead of Array[Signal]
@@ -143,7 +149,7 @@ import scalax.collection.mutable.Graph
     val toposort_data = MesaCircuit.pseudo_toposort(graphs.dependancies())
     for(id <- toposort_data.toposorted) {
       val evaluable = graphs(id)
-      val inputs: Array[Signal] = state.get_state(id)
+      val inputs: Array[Signal] = state.get_state_padded(id, evaluable.num_input_array)
       val outputs = evaluable(inputs)
       state.set_state(id, outputs)
       //println(s"id: $id, \t"+ inputs.map(_.str).mkString(", ") +"\t ~~~> "+ outputs.map(_.str).mkString(", "))

@@ -1,5 +1,6 @@
 package main.scala.graphical
 
+import core.Logger
 import graphical.screens.TitlePane
 
 import scalafx.application.JFXApp
@@ -25,6 +26,9 @@ object Main extends JFXApp {
     width  = DEFAULT_WIDTH
     height = DEFAULT_HEIGHT
     scene = new Scene(screen_pane)
+    onCloseRequest = _ => {
+      println("Goodbye")
+    }
   }
 
   val board_width:  NumberBinding = stage.width  * 1
