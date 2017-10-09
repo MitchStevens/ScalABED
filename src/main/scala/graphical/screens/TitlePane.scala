@@ -26,7 +26,7 @@ object TitlePane extends StackPane {
         },
         new Label("Sandbox") {
           styleClass =Seq("a")
-          CircuitPane.set_game(new Game(8))
+          CircuitPane.set_game(new Game(4))
           onMouseClicked = _ => Main.set_screen(GamePane)
         },
         new Label("Exit") {

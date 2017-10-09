@@ -7,15 +7,14 @@ import Piece._
 import core.{Paintable, Positional}
 import core.circuit.Port.PortType
 import core.types.Signal._
+import core.CatzInstances._
 import io.Reader
 import main.scala.graphical.Main
 
 import scalafx.beans.binding._
 import scalafx.beans.property.{DoubleProperty, ReadOnlyDoubleProperty}
-import scalafx.scene.control.Button
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.{HBox, Pane}
-import scalafx.scene.shape._
 
 /**
   * Created by Mitch on 8/2/2017.
@@ -25,7 +24,14 @@ class Piece(evaluable: Evaluable, var position: Coord)  extends Snapping
                                                         with    Paintable[(Direction, Array[Signal])] {
   val edges: Seq[PieceEdge] = Direction.values map (new PieceEdge(_))
   val center = new ImageView {
-    image = Reader.IMAGES("default_center")
+    image = Reader.IMAGES.get("center_" + evaluable.name) getOrElse {
+      evaluable.name match {
+        case "LEFT"  => Reader.IMAGES("center_BUS")
+        case "RIGHT" => Reader.IMAGES("center_BUS")
+        case "SUPER" => Reader.IMAGES("center_BUS")
+        case _       => Reader.IMAGES("center_DEFAULT")
+      }
+    }
   }
   center.fitWidth   <== this.prefWidth  * 0.5
   center.fitHeight  <== this.prefHeight * 0.5

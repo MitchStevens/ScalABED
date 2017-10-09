@@ -11,10 +11,4 @@ import scalax.collection.GraphPredef._
   */
 class TestCircuitGraph extends FlatSpec {
 
-  "The CircuitGraph toposort method" must "evaluate" in {
-    val g = Graph('b'~>'a', 'c'~>'b', 'd'~>'c', 'b'~>'d', 'e'~>'c')
-    val topo = MesaCircuit.pseudo_toposort(g)
-    println(topo)
-  }
-
 }

@@ -40,12 +40,17 @@ class Game(private var n: Int) extends mutable.Map[Coord, Evaluable] {
   def add_evaluable(e: Evaluable, pos: Coord): Option[AddAction] =
     if (!coord_map.contains(pos)) {
       val id = ID.generate()
-      mesa_circuit += id -> e
+      add_to_mesacircuit(e, id)
       coord_map += pos -> EvaluableData(id)
       val connections = connect_sides(pos)
       mesa_circuit.evaluate()
       Some(AddAction(id, e.name, pos, connections))
     } else None
+
+  private def add_to_mesacircuit(e: Evaluable, id: ID): Boolean = {
+    mesa_circuit += id -> e
+    true
+  }
 
   /**
   * 1. Disconnect all the edges in the MesaCircuit
@@ -57,10 +62,14 @@ class Game(private var n: Int) extends mutable.Map[Coord, Evaluable] {
     if (true) {
       val eval_data = coord_map(pos)
       val disconnections = this.disconnect_sides(pos)
-      val e = mesa_circuit.remove(eval_data.id)
+      val e = remove_from_mesacircuit(eval_data.id)
       coord_map -= pos
       Some(RemoveAction(eval_data.id, e.get.name, pos, disconnections))
     } else None
+
+  private def remove_from_mesacircuit(id: ID): Option[Evaluable] = {
+    mesa_circuit.remove(id)
+  }
 
   /**
   * 1. Disconnect all the edges

@@ -24,8 +24,11 @@ import scalax.collection.mutable.Graph
   override def +=(kv: (ID, Evaluable)): MesaCircuit.this.type = {
     assert(!kv._2.eq(this), "You added a MesaCircuit to itself you dolt!")
     graphs += kv
-    for (dir <- Direction.values)
-      state += Side(kv._1, dir) -> Signal.empty(kv._2.num_inputs(dir))
+    for (dir <- Direction.values) {
+      val outs = kv._2.num_outputs(dir)
+      if (outs > 0)
+        state += Side(kv._1, dir) -> Signal.empty(outs)
+    }
     this
   }
 
@@ -146,7 +149,7 @@ import scalax.collection.mutable.Graph
 
   // Should this be pure? Could pass in the CircuitGraph?
   def next_state(state: CircuitState): CircuitState = {
-    val toposort_data = MesaCircuit.pseudo_toposort(graphs.dependancies())
+    val toposort_data: ToposortData[ID] = graphs.pseudo_toposort()
     for(id <- toposort_data.toposorted) {
       val evaluable = graphs(id)
       val inputs: Array[Signal] = state.get_state_padded(id, evaluable.num_input_array)
@@ -157,44 +160,6 @@ import scalax.collection.mutable.Graph
     state
   }
 
-}
-
-object MesaCircuit {
-  /**
-    * This function is based on the depth-first search algorithm. It returns two pieces of
-    * information:
-    *   A sorted list `toposorted`, ordered by dependency in the graph
-    *   A list of critical nodes
-    *
-    * */
-  def pseudo_toposort[A](graph: Graph[A, DiEdge]): ToposortData[A] = {
-    var toposorted = List.empty[A]
-    var critical   = Set.empty[A]
-    var unmarked   = graph.nodes.toSet
-    val marked     = mutable.HashMap.empty[A, Mark]
-    trait Mark
-    case object Temporary extends Mark
-    case object Permanent extends Mark
-
-    def visit(id: graph.NodeT): Unit = marked.get(id) match {
-      case Some(Permanent) => {}
-      case Some(Temporary) => critical = critical + id.value
-      case None            => {
-        unmarked -= id
-        marked(id) = Temporary
-        for (child <- id.diSuccessors)
-          visit(child)
-        marked(id) = Permanent
-        toposorted = id.value :: toposorted
-      }
-    }
-
-    while(unmarked.nonEmpty)
-      visit(unmarked.head)
-    ToposortData(toposorted, critical)
-  }
-
-  case class ToposortData[A](toposorted: List[A], critical: Set[A])
 }
 
 
