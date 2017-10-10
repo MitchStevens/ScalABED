@@ -31,7 +31,7 @@ class TestFunction extends FlatSpec {
     assert(f.graphs.num_edges == 0)
     assert(f.graphs.size == 1)
   }
-
+/*
   it must "simulate a bus correctly" in {
     val f: MesaCircuit = new MesaCircuit
     f ++= List(
@@ -169,7 +169,7 @@ class TestFunction extends FlatSpec {
     f(reset)
     f(reset)
   }
-
+*/
   def assert_signals(sig1: Array[Signal], sig2: Array[Signal]): Unit =
     for (dir <- Direction.values)
       assert(sig1(dir) == sig2(dir), s". The signal on the $dir did not match.")

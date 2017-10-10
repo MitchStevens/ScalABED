@@ -9,7 +9,7 @@ import core.types.Signal.Signal
 /**
   * Created by Mitch on 4/11/2017.
   */
-class Port private (val port_type: PortType, val capacity: Int) {
+case class Port private (val port_type: PortType, val capacity: Int) {
   def is_input:  Boolean = port_type == PortType.IN
   def is_output: Boolean = port_type == PortType.OUT
   def is_unused: Boolean = port_type == PortType.UNUSED

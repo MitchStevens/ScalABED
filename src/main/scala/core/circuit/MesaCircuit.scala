@@ -1,22 +1,24 @@
 package core.circuit
 
 import core.circuit.Port.ConnectionType._
+import core.circuit.Port.PortType
 import core.types.ID.ID
 import core.types._
 import core.types.Signal._
 
-import scala.collection.mutable
+import scala.collection.mutable._
 import scalax.collection.GraphEdge.DiEdge
 import scalax.collection.mutable.Graph
 
 /**
   * Created by Mitch on 4/23/2017.
   */
-  class MesaCircuit extends mutable.Map[ID, Evaluable] with Evaluable {
+  class MesaCircuit extends Map[ID, Evaluable] with Evaluable {
   override val name: String = "MESACIRCUIT"
 
   var state:  CircuitState = new CircuitState()
   val graphs: CircuitGraph = new CircuitGraph()
+  private val sides: Map[Direction, ID] = Map.empty[Direction, ID]
 
   override def get(key: ID): Option[Evaluable] =     graphs.get(key)
   override def iterator: Iterator[(ID, Evaluable)] = graphs.iterator
@@ -101,8 +103,8 @@ import scalax.collection.mutable.Graph
       assert(this.num_inputs(dir) == ins(dir).length)
 
     for {
-      dir      <- Direction.values
-      circuit <- graphs.eval_on_side(dir)
+      dir     <- Direction.values
+      circuit <- sides.get(dir) flatMap graphs.get
     } circuit match {
       case in: Input => in set ins(dir)
       case _         => {}
@@ -113,39 +115,44 @@ import scalax.collection.mutable.Graph
   def evaluate(): Unit = { state = next_state(state) }
 
   def recieved_outputs(state: CircuitState): Array[Signal] = {
-    val outs: Array[Signal] = Array.fill(4)(Signal.empty(0))
-    for {
-      dir <- Direction.values
-      id  <- graphs.side(dir)
-      sig <- state.get(Side(id, Direction.LEFT))
-      if graphs.eval_on_side(dir).isInstanceOf[Option[Output]]
-    } outs(dir) = sig
+    def get_output(dir: Direction): Signal = {
+      val out: Option[Signal] = for {
+        id <- sides.get(dir)
+        e  <- graphs.get(id)
+        if e.isInstanceOf[Output]
+        sig <- state.get(Side(id, Direction.LEFT))
+      } yield sig
+      out
+    } getOrElse Signal.empty(0)
 
-    for (dir <- Direction.values)
-      assert(this.num_outputs(dir) == outs(dir).length)
-
-    outs
+    Direction.values map get_output
   }
 
   override def num_inputs(dir: Direction): Int =
-    graphs.eval_on_side(dir) map {
-      case in: Input => in.capacity
-      case _         => 0
-    } getOrElse 0
+    this.side_port(dir) match {
+      case Port(PortType.IN, size) => size
+      case _                       => 0
+    }
 
   override def num_outputs(dir: Direction): Int =
-    graphs.eval_on_side(dir) map {
-      case out: Output => out.capacity
-      case _           => 0
-    } getOrElse 0
+    this.side_port(dir) match {
+      case Port(PortType.OUT, size) => size
+      case _                        => 0
+    }
+
+  private def side_port(dir: Direction): Port = {
+    sides.get(dir) flatMap this.get map {
+      case in: Input   => Port.in(in.capacity)
+      case out: Output => Port.out(out.capacity)
+      case _           => Port.unused
+    }
+  } getOrElse Port.unused
 
   def set_side(dir: Direction, id: ID): Unit =
-    graphs.set_side(dir, id)
+    sides += dir -> id
 
-  def set_sides(sides: (Direction, ID)*): this.type = {
-    sides foreach (t => this.set_side(t._1, t._2))
-    this
-  }
+  def remove_side(dir: Direction): Unit =
+    sides -= dir
 
   // Should this be pure? Could pass in the CircuitGraph?
   def next_state(state: CircuitState): CircuitState = {

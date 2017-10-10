@@ -19,12 +19,7 @@ import scalax.collection.edge.LDiEdge
   */
 class CircuitGraph extends Map[ID, Evaluable] {
   private val subcircuits: Map[ID, Evaluable] = Map.empty[ID, Evaluable]
-  private val sides:       Map[Direction, ID] = Map.empty[Direction, ID]
   private val graph:       Graph[ID, Edge]    = Graph.empty[ID, Edge]
-
-  def side(dir: Direction): Option[ID] =       sides.get(dir)
-  def rem_side(dir: Direction): Unit =         sides -= dir
-  def set_side(dir: Direction, id: ID): Unit = sides += dir -> id
 
   override def get(key: ID): Option[Evaluable] = subcircuits.get(key)
   override def iterator: Iterator[(ID, Evaluable)] = subcircuits.iterator
@@ -38,10 +33,7 @@ class CircuitGraph extends Map[ID, Evaluable] {
 
   override def -=(key: ID): CircuitGraph.this.type = {
     subcircuits -= key
-    graph -=key
-    //for (dir <- Direction.values)
-      //this.disconnect(Side(key, dir))
-    is_side(key) map rem_side
+    graph -= key
     this
   }
 
@@ -57,20 +49,6 @@ class CircuitGraph extends Map[ID, Evaluable] {
       if edge.label == (conn._1.dir, conn._2.dir)
     } yield graph.remove(edge.asInstanceOf[Edge[ID]])
   } getOrElse false
-
-  def is_side(id: ID): Option[Direction] =
-      Direction.values.find(side(_).exists(_ == id))
-
-  def output_values: Array[Signal] = {
-    val outs = Array.fill(4)(Signal.empty(0))
-    for { dir <- Direction.values
-          io  <- eval_on_side(dir)
-          if io.isInstanceOf[Input]
-        } outs(dir) = io.asInstanceOf[Input].values
-    outs
-  }
-
-  def eval_on_side(dir: Direction): Option[Evaluable] = sides.get(dir).flatMap(this.get)
 
   def subcircuit_port(side: Side): Option[Port] = this.get(side.id).map(_.ports(side.dir))
 
