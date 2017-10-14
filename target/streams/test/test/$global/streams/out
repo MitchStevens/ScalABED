@@ -1,0 +1,40 @@
+[0m[[0mdebug[0m] [0mRunning TaskDef(test.TestCircuitGraph, org.scalatest.tools.Framework$$anon$1@6eaf82c4, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(test.TestGame, org.scalatest.tools.Framework$$anon$1@6eaf82c4, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecCoord, org.scalacheck.ScalaCheckFramework$$anon$3@802b3fd, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecPort, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(test.TestMapping, org.scalatest.tools.Framework$$anon$1@6eaf82c4, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecExpression, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecDirection, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(test.TestCircuitState, org.scalatest.tools.Framework$$anon$1@6eaf82c4, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(test.TestExpression, org.scalatest.tools.Framework$$anon$1@6eaf82c4, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecSignal, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(test.TestMesaCircuit, org.scalatest.tools.Framework$$anon$1@6eaf82c4, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecPort-0, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecExpression-0, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecDirection-2, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecDirection-0, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecDirection-1, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(check.SpecSignal-0, org.scalacheck.ScalaCheckFramework$$anon$3@1cfaedf7, false, [SuiteSelector])[0m
+[0m[[0minfo[0m] [0mScalaCheck[0m
+[0m[[0minfo[0m] [0mPassed: Total 6, Failed 0, Errors 0, Passed 6[0m
+[0m[[0minfo[0m] [0mScalaTest[0m
+[0m[[0minfo[0m] [0m[36mRun completed in 1 second, 971 milliseconds.[0m[0m
+[0m[[0minfo[0m] [0m[36mTotal number of tests run: 32[0m[0m
+[0m[[0minfo[0m] [0m[36mSuites: completed 6, aborted 0[0m[0m
+[0m[[0minfo[0m] [0m[36mTests: succeeded 30, failed 2, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0minfo[0m] [0m[31m*** 2 TESTS FAILED ***[0m[0m
+[0m[[31merror[0m] [0mFailed: Total 38, Failed 2, Errors 0, Passed 36[0m
+[0m[[0mdebug[0m] [0mPassed tests:[0m
+[0m[[0mdebug[0m] [0m	test.TestCircuitGraph[0m
+[0m[[0mdebug[0m] [0m	test.TestMapping[0m
+[0m[[0mdebug[0m] [0m	check.SpecDirection[0m
+[0m[[0mdebug[0m] [0m	test.TestCircuitState[0m
+[0m[[0mdebug[0m] [0m	check.SpecPort[0m
+[0m[[0mdebug[0m] [0m	test.TestGame[0m
+[0m[[0mdebug[0m] [0m	check.SpecSignal[0m
+[0m[[0mdebug[0m] [0m	test.TestExpression[0m
+[0m[[0mdebug[0m] [0m	check.SpecCoord[0m
+[0m[[0mdebug[0m] [0m	check.SpecExpression[0m
+[0m[[31merror[0m] [0mFailed tests:[0m
+[0m[[31merror[0m] [0m	test.TestMesaCircuit[0m
+[0m[[31merror[0m] [0m(test:[31mtest[0m) sbt.TestsFailedException: Tests unsuccessful[0m

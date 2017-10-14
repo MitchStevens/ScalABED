@@ -1,0 +1,18 @@
+#Successful Tests
+#Fri Oct 13 12:27:48 AEDT 2017
+check.SpecPort-0=1507858068177
+test.TestCircuitState=1507858067615
+test.TestMapping=1507858067731
+check.SpecDirection-2=1507858068248
+check.SpecDirection-1=1507858068332
+check.SpecDirection-0=1507858068259
+check.SpecDirection=1507858067333
+check.SpecSignal=1507858067697
+test.TestGame=1507858068758
+check.SpecSignal-0=1507858068365
+test.TestExpression=1507858067909
+check.SpecPort=1507858067187
+check.SpecExpression-0=1507858068215
+check.SpecCoord=1507858067169
+check.SpecExpression=1507858067288
+test.TestCircuitGraph=1507858067461

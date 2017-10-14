@@ -3,6 +3,7 @@ package core.circuit
 import core.circuit.Port.ConnectionType._
 import core.circuit.Port.PortType
 import core.types.ID.ID
+import core.types.Side.Side
 import core.types._
 import core.types.Signal._
 
@@ -20,6 +21,8 @@ import scalax.collection.mutable.Graph
   val graphs: CircuitGraph = new CircuitGraph()
   private val sides: Map[Direction, ID] = Map.empty[Direction, ID]
 
+  override def generate_clauses = ???
+
   override def get(key: ID): Option[Evaluable] =     graphs.get(key)
   override def iterator: Iterator[(ID, Evaluable)] = graphs.iterator
 
@@ -27,7 +30,7 @@ import scalax.collection.mutable.Graph
     assert(!kv._2.eq(this), "You added a MesaCircuit to itself you dolt!")
     graphs += kv
     for (dir <- Direction.values) {
-      val outs = kv._2.num_outputs(dir)
+      val outs = kv._2.num_inputs(dir)
       if (outs > 0)
         state += Side(kv._1, dir) -> Signal.empty(outs)
     }
@@ -62,11 +65,6 @@ import scalax.collection.mutable.Graph
         true
       case None => false
     }
-  }
-
-  def connect_all(tuples: (Side, Side)*): this.type = {
-    tuples forall this.connect
-    this
   }
 
   def disconnect(edge: (Side, Side)): Boolean = {
@@ -154,7 +152,6 @@ import scalax.collection.mutable.Graph
   def remove_side(dir: Direction): Unit =
     sides -= dir
 
-  // Should this be pure? Could pass in the CircuitGraph?
   def next_state(state: CircuitState): CircuitState = {
     val toposort_data: ToposortData[ID] = graphs.pseudo_toposort()
     for(id <- toposort_data.toposorted) {
@@ -162,14 +159,39 @@ import scalax.collection.mutable.Graph
       val inputs: Array[Signal] = state.get_state_padded(id, evaluable.num_input_array)
       val outputs = evaluable(inputs)
       state.set_state(id, outputs)
-      //println(s"id: $id, \t"+ inputs.map(_.str).mkString(", ") +"\t ~~~> "+ outputs.map(_.str).mkString(", "))
+      println(s"id: $id, \t"+ inputs.map(_.str).mkString(", ") +"\t ~~~> "+ outputs.map(_.str).mkString(", "))
     }
     state
   }
 
 }
 
+class MesaCircuitBuilder() {
+  private val mesacircuit: MesaCircuit = new MesaCircuit()
 
+  def evaluables(kvs: (ID, Evaluable)*): MesaCircuitBuilder = {
+    mesacircuit ++= kvs
+    this
+  }
+
+  def sides(s: (Direction, ID)*):  MesaCircuitBuilder = {
+    for ((dir: Direction, id: ID) <- s)
+      mesacircuit.set_side(dir, id)
+    this
+  }
+
+  def connections(conns: (Side, Side)*): MesaCircuitBuilder = {
+    for (conn <- conns)
+      mesacircuit.connect(conn)
+    this
+  }
+
+  def get(): MesaCircuit = mesacircuit
+}
+
+object MesaCircuitBuilder {
+  def apply() = new MesaCircuitBuilder()
+}
 
 
 

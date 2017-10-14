@@ -62,9 +62,8 @@ object LevelSelectPane extends HBox {
     level_details.setVisible(true)
     level_name.setText(level.name)
     level_desc.setText(level.instruction_text)
-    level_completion_info.setText("Completed with size 8\nMin size " + level.min_size)
+    level_completion_info.setText("Completed with size 8\nOptimal size " + level.optimal_size)
   }
-
   private def init_tree(): TreeView[LevelCell] =
     new TreeView[LevelCell] {
       root = new TreeItem[LevelCell] {

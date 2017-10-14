@@ -15,6 +15,8 @@ class Input(val capacity: Int) extends Mapping(Array(0, 0, 0, 0), "_,F,_,_".spli
     this.booleans
   }
 
+  override def generate_clauses: Unit = ???
+
   override def apply(ins: Array[Signal]): Array[Signal] =
     Array(Signal.empty(0), values, Signal.empty(0), Signal.empty(0))
 

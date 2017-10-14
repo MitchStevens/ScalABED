@@ -18,6 +18,8 @@ class Mapping (input_size: Array[Int], val logic: Array[Expression], override va
     this(ins.split(",") map (_.head.asDigit), Mapping.logic(outs), name)
   }
 
+  override def generate_clauses: Unit = ???
+
   override def num_inputs(dir: Direction): Int = input_size(dir)
 
   private val num_outputs_cache = logic map (_.num_outputs)

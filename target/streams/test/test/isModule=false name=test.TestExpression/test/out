@@ -1,0 +1,12 @@
+[0m[[0minfo[0m] [0m[32mTestExpression:[0m[0m
+[0m[[0minfo[0m] [0m[32mA Token[0m[0m
+[0m[[0minfo[0m] [0m[32m- must initialise without error[0m[0m
+[0m[[0minfo[0m] [0m[32m- must have a method is_num that returns true for a number of the form 0x1_ and false otherwise[0m[0m
+[0m[[0minfo[0m] [0m[32m- must have a method is_bool that returns true for inputs 0 and 1 and false otherwise[0m[0m
+[0m[[0minfo[0m] [0m[32m- must have a step_func method that works as intended[0m[0m
+[0m[[0minfo[0m] [0m[32m- must return true for the following test cases[0m[0m
+[0m[[0minfo[0m] [0m[32m- must return false for the following test cases[0m[0m
+[0m[[0minfo[0m] [0m[32m- must calculate basic boolean algebra functions[0m[0m
+[0m[[0minfo[0m] [0m[32m- must calculate the 'and' function correctly[0m[0m
+[0m[[0minfo[0m] [0m[32m- must implement the num_inputs function correctly[0m[0m
+[0m[[0minfo[0m] [0m[32m- must implement the num_outputs function correctly[0m[0m

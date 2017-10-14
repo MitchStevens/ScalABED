@@ -30,6 +30,8 @@ trait Evaluable {
     }
     apply(ins)
   }
+
+  def generate_clauses
 }
 
 object Evaluable {

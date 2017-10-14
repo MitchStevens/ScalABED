@@ -1,0 +1,11 @@
+[0m[[0minfo[0m] [0m[32mTestMesaCircuit:[0m[0m
+[0m[[0minfo[0m] [0m[32mA Function[0m[0m
+[0m[[0minfo[0m] [0m[32m- must initialise without error[0m[0m
+[0m[[0minfo[0m] [0m[32m- must add an evaluable correctly[0m[0m
+[0m[[0minfo[0m] [0m[32m- must simulate a bus correctly[0m[0m
+[0m[[0minfo[0m] [0m[32m- must simulate a not gate correctly[0m[0m
+[0m[[0minfo[0m] [0m[32m- must simulate an and gate correctly[0m[0m
+[0m[[0minfo[0m] [0m[31m- must simulate an xor gate correctly *** FAILED ***[0m[0m
+[0m[[0minfo[0m] [0m[31m  scala.Predef.refArrayOps[core.types.Signal.Signal](f.apply(core.types.Signal.apply(core.types.Token.F, core.types.Token.T))).sameElements[core.types.Signal.Signal](scala.Predef.wrapRefArray[core.types.Signal.Signal](scala.Array.apply[core.types.Signal.Signal](TestMesaCircuit.this.e, core.types.Signal.apply(core.types.Token.T), TestMesaCircuit.this.e, TestMesaCircuit.this.e)((ClassTag.apply[core.types.Signal.Signal](classOf[scala.collection.immutable.List]): scala.reflect.ClassTag[core.types.Signal.Signal])))) was false (TestMesaCircuit.scala:121)[0m[0m
+[0m[[0minfo[0m] [0m[31m- must simulate an rs latch correctly *** FAILED ***[0m[0m
+[0m[[0minfo[0m] [0m[31m  List() did not equal List(1). The signal on the RIGHT did not match. (TestMesaCircuit.scala:170)[0m[0m

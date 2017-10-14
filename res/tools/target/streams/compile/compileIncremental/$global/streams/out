@@ -1,0 +1,44 @@
+[0m[[0mdebug[0m] [0m[naha] [0m
+[0m[[0mdebug[0m] [0m[naha] Initial source changes: [0m
+[0m[[0mdebug[0m] [0m[naha] 	removed:Set()[0m
+[0m[[0mdebug[0m] [0m[naha] 	added: Set(C:\Users\mitch\IdeaProjects\DigitalSage\res\tools\XML2Latex.scala)[0m
+[0m[[0mdebug[0m] [0m[naha] 	modified: Set()[0m
+[0m[[0mdebug[0m] [0m[naha] Invalidated products: Set()[0m
+[0m[[0mdebug[0m] [0m[naha] External API changes: API Changes: Set()[0m
+[0m[[0mdebug[0m] [0m[naha] Modified binary dependencies: Set()[0m
+[0m[[0mdebug[0m] [0m[naha] Initial directly invalidated sources: Set(C:\Users\mitch\IdeaProjects\DigitalSage\res\tools\XML2Latex.scala)[0m
+[0m[[0mdebug[0m] [0m[naha] [0m
+[0m[[0mdebug[0m] [0m[naha] Sources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m[naha] 	product: Set()[0m
+[0m[[0mdebug[0m] [0m[naha] 	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m[naha] 	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(C:\Users\mitch\IdeaProjects\DigitalSage\res\tools\XML2Latex.scala)[0m
+[0m[[0mdebug[0m] [0m[naha] Initial set of included nodes: Set(C:\Users\mitch\IdeaProjects\DigitalSage\res\tools\XML2Latex.scala)[0m
+[0m[[0mdebug[0m] [0m[naha] Recompiling all 1 sources: invalidated sources (1) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 1 Scala source to C:\Users\mitch\IdeaProjects\DigitalSage\res\tools\target\scala-2.10\classes...[0m
+[0m[[0mdebug[0m] [0mGetting org.scala-sbt:compiler-interface:0.13.15:component from component compiler for Scala 2.10.6[0m
+[0m[[0minfo[0m] [0m'compiler-interface' not yet compiled for Scala 2.10.6. Compiling...[0m
+[0m[[0mdebug[0m] [0mPlain interface to Scala compiler 2.10.6  with arguments: [0m
+[0m[[0mdebug[0m] [0m	-nowarn[0m
+[0m[[0mdebug[0m] [0m	-d[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_fd7e5ab[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	C:\Program Files\Java\jre1.8.0_144\lib\resources.jar;C:\Program Files\Java\jre1.8.0_144\lib\rt.jar;C:\Program Files\Java\jre1.8.0_144\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_144\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_144\lib\jce.jar;C:\Program Files\Java\jre1.8.0_144\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_144\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_144\classes;C:\Users\mitch\.sbt\boot\scala-2.10.6\lib\scala-library.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\.sbt\boot\scala-2.10.6\org.scala-sbt\sbt\0.13.15\xsbti\interface-0.13.15.jar;C:\Users\mitch\AppData\Local\Temp\sbt_350980c3\srcs\org.scala-sbt\compiler-interface\compiler-interface-0.13.15-sources.jar;C:\Users\mitch\.sbt\boot\scala-2.10.6\lib\scala-compiler.jar;C:\Users\mitch\.sbt\boot\scala-2.10.6\lib\jansi.jar;C:\Users\mitch\.sbt\boot\scala-2.10.6\lib\jline.jar;C:\Users\mitch\.sbt\boot\scala-2.10.6\lib\scala-reflect.jar[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\API.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\Analyzer.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\Command.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\Compat.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\CompilerInterface.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\ConsoleInterface.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\DelegatingReporter.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\Dependency.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\ExtractAPI.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\ExtractUsedNames.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\GlobalHelpers.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\LocateClassFile.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\Log.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\Message.scala[0m
+[0m[[0mdebug[0m] [0m	C:\Users\mitch\AppData\Local\Temp\sbt_5b41d35d\xsbt\ScaladocInterface.scala[0m
+[0m[[0minfo[0m] [0m  Compilation completed in 16.355 s[0m

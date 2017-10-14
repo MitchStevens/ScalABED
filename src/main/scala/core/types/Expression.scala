@@ -31,10 +31,15 @@ object Expression {
     def eval(ins: Signal): Signal = {
       logic.foldLeft(Signal.empty(0))(step_func(ins))
     }
+
     //would have prefered to simply override toString as is standard, but can't override toString in implicit class
     def str: String = "(" ++ logic.map(_.str).mkString(" ") ++ ")"
-  }
 
+    def tseytin_transformation: Expression = ???
+
+    private def subclauses: List[Expression] = ???
+
+  }
 
   def token_map(c: Char): Token = (c: @switch) match {
     case 'F' => F
@@ -66,6 +71,28 @@ object Expression {
           ins(token - 0x10) :: stack
         else
           throw new Error("Got unexpected token: $n.")
-
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///

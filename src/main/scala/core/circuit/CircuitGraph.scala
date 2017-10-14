@@ -1,14 +1,16 @@
 package core.circuit
 
 import core.types.ID.ID
-import core.types.Signal.Signal
 import core.types._
-import core.circuit.Edge
+import core.types.Side.SideMethods
+import core.types.Side.Side
 
 import scala.collection.mutable._
 import scalax.collection.mutable.Graph
-import scalax.collection.GraphPredef._, scalax.collection.GraphEdge._
+import scalax.collection.GraphPredef._
+import scalax.collection.GraphEdge._
 import scalax.collection.edge.Implicits._
+import scalax.collection.edge.LBase.LEdge
 import scalax.collection.edge.LDiEdge
 
 /**
@@ -37,17 +39,16 @@ class CircuitGraph extends Map[ID, Evaluable] {
     this
   }
 
-  def connect(tuple: (Side, Side)): Boolean =
-    if (this.contains(tuple._1.id) && this.contains(tuple._2.id)) {
-      graph.add(new Edge(tuple))
+  def connect(conn: (Side, Side)): Boolean =
+    if (this.contains(conn._1.id) && this.contains(conn._2.id)) {
+      graph.add(new Edge[ID](conn))
       true
     } else false
 
   def disconnect(conn: (Side, Side)): Boolean = {
     for {
       edge: graph.EdgeT <- graph.find(new Edge(conn))
-      if edge.label == (conn._1.dir, conn._2.dir)
-    } yield graph.remove(edge.asInstanceOf[Edge[ID]])
+    } yield graph.remove(edge.toOuter)
   } getOrElse false
 
   def subcircuit_port(side: Side): Option[Port] = this.get(side.id).map(_.ports(side.dir))
@@ -83,7 +84,7 @@ object CircuitGraph {
       case None            => {
         unmarked -= id
         marked(id) = Temporary
-        for (child <- id.diSuccessors)
+        for (child <- id.diPredecessors)
           visit(child)
         marked(id) = Permanent
         toposorted += id.value
@@ -96,12 +97,15 @@ object CircuitGraph {
   }
 }
 
-class Edge[+A](s1: Side, s2: Side) extends LDiEdge[A](s1.id, s2.id) {
+class Edge[A](s1: (A, Direction), s2: (A, Direction))
+  extends DiEdge[A](s1._1, s2._1)
+  with    LEdge[A] {
 
-  def this(tuple: (Side, Side)) = this(tuple._1, tuple._2)
+  def this(t: ((A, Direction), (A, Direction))) =
+    this(t._1, t._2)
 
   override type L1 = (Direction, Direction)
-  override def label: (Direction, Direction) = (s1.dir, s2.dir)
+  override def label: L1 = (s1._2, s2._2)
 }
 
 case class ToposortData[A](toposorted: ArrayBuffer[A], critical: Set[A])
