@@ -1,0 +1,100 @@
+[
+  { "level_set":"Tutorial",
+    "levels": [
+      { "name":"Introduction to BabyTown",
+        "optimal_size":3,
+        "io": [
+          {"type":"UNUSED"},
+          {"type":"OUTPUT", "capacity":1},
+          {"type":"UNUSED"},
+          {"type":"INPUT", "capacity":1}
+        ],
+        "instructions":"Place an input on the left and an output on the right. Then connect them by using bus pieces.",
+        "tests":[
+          {"ins":[0], "outs":[0]},
+          {"ins":[1], "outs":[1]}
+        ],
+        "completion":"You did it! The easiest level in the game! Hopefully the game gets harder than this (Right?). Those pieces we were playing with a moment ago are called ‘Gates’, because they stop or allow the flow of a signal. This signal is represented by an electric blue current in ABED.",
+        "rewards":[
+          {"type":"circuit", "name":"NOT"},
+          {"type":"level", "name":"0.1"}
+        ]
+      },
+      { "name":"Is Nice?",
+        "optimal_size":3,
+        "io": [
+          {"type":"UNUSED"},
+          {"type":"OUTPUT", "capacity":1},
+          {"type":"UNUSED"},
+          {"type":"INPUT",  "capacity":1}
+        ],
+        "instructions":"We are going to test out our new ‘Not’ gate. Place the input on side 3 and the output on side 1 as before, but this time create a Not gate in the center instead of a Bus.",
+        "tests":[
+          {"ins":[0], "outs":[1]},
+          {"ins":[1], "outs":[0]}
+        ],
+        "completion":"Another success! A Not gate negates the signal coming from the input. So if the input of a Not gate is off, it will output on, and vice versa. In general, the input of a gate is on the left and the output is on the right. But as we will see, we are by no means restricted to one input/output.",
+        "rewards":[
+          {"type":"circuit", "name":"OR"},
+          {"type":"level", "name":"0.2"}
+        ]
+      },
+      {
+        "name":"My First Three-way!",
+        "optimal_size":3,
+        "io":[
+          {"type":"INPUT",  "capacity":1},
+          {"type":"OUTPUT", "capacity":1},
+          {"type":"UNUSED"},
+          {"type":"INPUT",  "capacity":1}
+        ],
+        "instructions":"Oh boy, two inputs? Create an Or gate and place inputs at 3, 0 and an output at 1. Remember to rotate the input so the signal is facing the Or gate.",
+        "tests":[
+          {"ins":[0, 0], "outs":[0]},
+          {"ins":[0, 1], "outs":[1]},
+          {"ins":[1, 0], "outs":[1]},
+          {"ins":[1, 1], "outs":[1]}
+        ],
+        "completion":"Now we’re getting somewhere! An Or gate will output a signal if one or more of its inputs is turned on, otherwise it outputs nothing. Imagine of a waiter asking “Would you like milk OR sugar in your coffee?” Gates can have as many inputs/outputs as they damn well please, with one condition: there must at least one. Obviously.",
+        "rewards":[
+
+        ]
+      }
+    ]
+  },
+  { "level_set":"Basic",
+    "levels":[]
+  },
+  { "level_set":"Advanced Gates",
+    "levels": []
+
+  },
+  { "level_set":"Mux and Demux",
+    "levels": []
+
+  },
+  { "level_set":"Binary",
+    "levels": []
+
+  },
+  { "level_set":"Bitwise Operations",
+    "levels": []
+
+  },
+  { "level_set":"Arithmetic Operation",
+    "levels": []
+
+  },
+  { "level_set":"Memory",
+    "levels": []
+
+  },
+  { "level_set":"RAM",
+    "levels": []
+
+  },
+  { "level_set":"CPU",
+    "levels": []
+
+  }
+]

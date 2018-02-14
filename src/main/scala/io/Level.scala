@@ -4,7 +4,7 @@ import cats.Monad
 import cats._
 import cats.data._
 import cats.implicits._
-import core.circuit.{Game, MesaCircuit}
+import core.circuit.{Game, MesaCircuit, Port}
 import core.types.GameTest
 import core.types.Signal.Signal
 
@@ -13,13 +13,17 @@ import core.types.Signal.Signal
   *
   * Decided to use a pure functional style for this class.
   */
-case class Level(name: String,
-                 optimal_size: Int,
-                 instruction_text: String,
-                 completion_text: String,
-                 inputs: Array[Int],
-                 outputs: Array[Int],
-                 tests: List[GameTest]) {
+case class LevelSet(name: String, levels: Seq[Level])
+
+case class Level( name: String,
+                  optimal_size: Int,
+                  instruction_text: String,
+                  completion_text: String,
+                  ports: Array[Port],
+                  tests: Seq[GameTest] ){
+
+  def inputs:  Array[Int] = ports.map(p => if (p.is_input) p.capacity else 0)
+  def outputs: Array[Int] = ports.map(p => if (p.is_output) p.capacity else 0)
 
   def is_complete(game: Game): LevelCompletion = {
     val completion_status: Either[LevelCompletion, MesaCircuit] =
@@ -30,7 +34,7 @@ case class Level(name: String,
 
     completion_status match {
       case Left(level_completion) => level_completion
-      case Right(mesa)            => is_optimal(game)
+      case Right(_)            => is_optimal(game)
     }
   }
 
@@ -56,6 +60,24 @@ case class Level(name: String,
       case 1  => SubOptimal(optimal_size, game.size)
     }
 
+  override def toString: String = {
+    val max_len = 32
+    val inst =
+      if (instruction_text.length > max_len)
+        instruction_text.substring(0, max_len)++"..."
+      else instruction_text
+    val comp =
+      if (completion_text.length > max_len)
+        completion_text.substring(0, max_len)++"..."
+      else completion_text
+
+    s"""Level: $name
+      |Optimal Size: $optimal_size
+      |Instruction Text: $inst
+      |Completion Text: $comp
+      |Ports: ${ports foreach println}
+    """.stripMargin
+  }
 }
 
 sealed trait LevelCompletion

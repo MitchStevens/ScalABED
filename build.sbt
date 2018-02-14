@@ -4,7 +4,12 @@ version := "1.0"
 
 scalaVersion := "2.12.1"
 
+scalacOptions += "-Ypartial-unification"
+
 resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases"
+
+//Functional programming utilities
+libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.1"
 
 //Testing packages
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
@@ -34,3 +39,5 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-testkit" % "2.5.3" % Test,
   "com.typesafe.akka" %% "akka-cluster-tools" % "2.5.6"
 )
+
+libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.7"

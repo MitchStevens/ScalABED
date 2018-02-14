@@ -75,6 +75,12 @@ object Coord {
       j <- 0 until n
     } yield Coord(i, j)
 
+  def over_rect(pos: Coord): Seq[Coord] =
+    for {
+      i <- 0 until pos.x
+      j <- 0 until pos.y
+    } yield Coord(i, j)
+
   def over_corner(n:Int): Seq[Coord] =
     Seq((0,0), (0,n-1), (n-1,n-1), (n-1,0))
 

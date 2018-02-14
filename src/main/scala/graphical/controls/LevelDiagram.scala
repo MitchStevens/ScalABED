@@ -28,11 +28,11 @@ class LevelDiagram(size: Double) extends Pane {
 
   def set_level(level: Level): Unit = {
     def make_label(d: Direction): Seq[Node] = {
-      val port = Port.create(level.inputs(d), level.outputs(d))
-      if (port.port_type != PortType.UNUSED) {
+      val port = level.ports(d)
+      if (port.is_unused) {
         val arrow_rot = Direction(if (port.is_output) d else d+2)
-        Seq (arrow(Direction(d), arrow_rot),
-             number(Direction(d), port.capacity)
+        Seq (arrow(d, arrow_rot),
+             number(d, port.capacity)
         )
       } else Seq.empty[Node]
     }

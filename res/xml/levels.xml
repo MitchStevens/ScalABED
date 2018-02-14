@@ -43,10 +43,10 @@ Another success! A Not gate negates the signal coming from the input. So if the 
         </level>
         <level name="My First Three-way!" min_size="3">
             <io>
-                <input>Left 1</input>
-                <input>Up 1</input>
+              <output>Right 1</output>
+              <input>Left 1</input>
+              <input>Up 1</input>
             </io>
-            <output>Right 1</output>
             <instruction_text>
 Oh boy, two inputs? Create an Or gate and place inputs at 3, 0 and an output at 1. Remember to rotate the input so the signal is facing the Or gate.
             </instruction_text>

@@ -13,7 +13,7 @@ trait Action {
   def send(): Unit =
     if (!sent) {
       Logger.add_action(this)
-      sent  = true
+      sent = true
     }
 
   def description: String = "ACTION: "

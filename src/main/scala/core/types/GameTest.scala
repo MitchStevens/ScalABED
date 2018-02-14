@@ -4,13 +4,24 @@ import core.circuit.{Game, MesaCircuit}
 import core.types.Signal.Signal
 import io.{FailedTest, LevelCompletion}
 
-trait GameTest extends (MesaCircuit => Either[LevelCompletion, MesaCircuit])
+sealed trait GameTest extends (MesaCircuit => Either[LevelCompletion, MesaCircuit]) {
 
-class SimpleGameTest(inputs: Array[Signal], outputs: Array[Signal]) extends GameTest {
+  override def equals(obj: scala.Any): Boolean = this match {
+    case simple: SimpleGameTest => simple equals obj
+  }
+
+}
+
+case class SimpleGameTest(inputs: Signal, outputs: Signal) extends GameTest {
 
   override def apply(mesa: MesaCircuit): Either[FailedTest, MesaCircuit] =
-    if (mesa(inputs) sameElements outputs)
+    if (mesa(inputs).flatten sameElements outputs)
       Right(mesa)
     else Left(FailedTest(this))
+
+  override def equals(obj: Any): Boolean = obj match {
+    case simple: SimpleGameTest => this.inputs == simple.inputs && this.outputs == simple.outputs
+    case _                      => false
+  }
 
 }

@@ -54,7 +54,7 @@ object Test extends JFXApp {
       layoutX = 25.0
       layoutY = 25.0
     }
-    diagram.set_level(Reader.LEVELS(1)(1))
+    diagram.set_level(Reader.level(1, 1).get)
     new Pane {
       prefWidth  = 200.0
       prefHeight = 200.0

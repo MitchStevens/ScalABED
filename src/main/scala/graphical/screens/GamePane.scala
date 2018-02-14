@@ -51,6 +51,8 @@ object GamePane extends Pane {
       if (!search_bar.isVisible) {
         search_bar.visible = true
         search_bar.requestFocus()
+      } else {
+        search_bar.visible = false
       }
     case _ => {}
   })

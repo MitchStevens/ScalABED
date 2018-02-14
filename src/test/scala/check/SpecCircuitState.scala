@@ -6,6 +6,6 @@ package check
 *   If a circuit is remove successfully, there will be one less circuit
 *
 * */
-class SpecCircuitState {
+object SpecCircuitState {
 
 }

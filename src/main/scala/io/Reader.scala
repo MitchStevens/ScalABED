@@ -1,7 +1,10 @@
 package io
 
 import core.circuit._
-import java.io.{File, FileInputStream}
+import java.io.{File, FileInputStream, InputStream}
+
+import JsonInstances._
+import play.api.libs.json._
 
 import scala.xml.{Elem, Node, NodeSeq}
 import scalafx.scene.image.Image
@@ -12,16 +15,29 @@ import scalafx.scene.image.Image
 object Reader {
   protected object Paths {
     private val root_path = "res/"
-    val levels   = root_path + "xml/levels.xml"
+    val levels:   String   = root_path + "xml/levels.xml"
+    val levelsj:   String  = root_path + "json/levels.json"
     val mappings = root_path + "xml/mappings.xml"
     val images   = root_path + "img"
   }
 
-  val LEVELS: Seq[Seq[Level]]        = read_levels()
+  val LEVEL_SETS: Seq[LevelSet] = {
+    val input_stream: InputStream = new FileInputStream(Paths.levelsj)
+    Json.parse(input_stream) match {
+      case array: JsArray =>
+        array.value map (_.as[LevelSet])
+      case _              =>
+        throw new Error(s"Couldn't read levelsets from ${Paths.levelsj}")
+    }
+    //println(Json.parse(input_stream).asInstanceOf[JsArray] \\ "level_set")
+  }
+
   val LEVEL_SET_NAMES: Seq[String]   = read_level_set_names()
   val MAPPINGS: Map[String, Mapping] = read_mappings()
   private val MESACIRCUITS: Map[String, MesaCircuit] = Map.empty[String, MesaCircuit]
   val IMAGES: Map[String, Image]     = read_images()
+
+  def level(i: Int, j: Int): Option[Level] = {println("cocks"); None}
 
   def evaluable(str: String): Evaluable =
     if (MAPPINGS.contains(str))
@@ -30,16 +46,7 @@ object Reader {
       throw new Error("Not yet implemented")
     else throw new Error(s"Evaluable $str was not found")
 
-  private def read_levels(): Seq[Seq[Level]] = {
-    val data: Elem = scala.xml.XML.loadFile(Paths.levels)
-    (data \ "level_set") map {
-      _ \ "level" map {
-        create_level
-      }
-    }
-  }
-
-  private def create_level(nodeseq: NodeSeq): Level  = {
+  private def create_level(nodeseq: NodeSeq): Level = ??? /* {
     def inputs(xml: NodeSeq): Array[Int] = {
       val ins :Array[Int] = Array(0, 0, 0, 0)
       for (i <- (xml \ "input") map (_.text.split(" "))){
@@ -49,7 +56,7 @@ object Reader {
       ins
     }
 
-    def outputs(xml: NodeSeq): Array[Int] = {
+    def outputs(xml: NodeSeq): Array[Int] = ??? {
       val ins :Array[Int] = Array(0, 0, 0, 0)
       for (i <- (xml \ "output") map (_.text.split(" "))){
         val index = Array("Up", "Right", "Down", "Left") indexOf i(0)
@@ -66,7 +73,7 @@ object Reader {
     val outs = outputs(nodeseq \ "io")
 
     Level(name, min_size, instruction_text, completion_text, ins, outs, Nil)
-  }
+  }*/
 
   private def read_level_set_names(): Seq[String] = {
     val data: Elem = scala.xml.XML.loadFile(Paths.levels)

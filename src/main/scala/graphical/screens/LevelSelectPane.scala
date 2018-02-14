@@ -67,9 +67,9 @@ object LevelSelectPane extends HBox {
   private def init_tree(): TreeView[LevelCell] =
     new TreeView[LevelCell] {
       root = new TreeItem[LevelCell] {
-        children = for (i <- Reader.LEVELS.indices) yield
+        children = for (i <- Reader.LEVEL_SETS.indices) yield
         new TreeItem[LevelCell] {
-          children = for (j <- Reader.LEVELS(i).indices)
+          children = for (j <- Reader.LEVEL_SETS(i).levels.indices)
             yield new TreeItem(new LevelCell(i, j))
         }
       }
@@ -85,6 +85,6 @@ object LevelSelectPane extends HBox {
 
     addEventHandler[MouseEvent](MouseEvent.MOUSE_CLICKED, _ => {})
 
-    override def toString(): String = "%d.%d. %s".format(i+1, j+1, Reader.LEVELS(i)(j).name)
+    override def toString(): String = "%d.%d. %s".format(i+1, j+1, Reader.level(i, j).get.name)
   }
 }
